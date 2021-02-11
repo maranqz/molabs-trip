@@ -4,6 +4,7 @@ LABEL maintainer="Vincent Composieux <vincent.composieux@gmail.com>"
 
 RUN apk add --no-cache \
     bash \
+    git \
     coreutils \
     php8-fpm \
     php8-ctype \

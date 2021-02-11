@@ -1,0 +1,322 @@
+openapi: "3.0.5"
+info:
+    version: 1.0.0
+    title: Trips
+    license:
+        name: GNU AGPLv3
+servers:
+    -   url: /
+security:
+  -
+paths:
+    /accounts/:
+        post:
+            summary: Create account
+            operationId: createAccount
+            tags:
+                - accounts
+            requestBody:
+                description: Data of new account
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Account'
+                    application/x-www-form-urlencoded:
+                        schema:
+                            $ref: '#/components/schemas/Account'
+
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Account"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+    /accounts/{accountId}:
+        get:
+            summary: Get account information
+            operationId: getAccount
+            tags:
+                - accounts
+            parameters:
+                -   name: accountId
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Account"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+        patch:
+            summary: Update account information
+            operationId: updateAccount
+            tags:
+                - accounts
+            parameters:
+                -   name: accountId
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                description: Updatable data of account
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Account'
+                    application/x-www-form-urlencoded:
+                        schema:
+                            $ref: '#/components/schemas/Account'
+
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Account"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+        delete:
+            summary: Delete account
+            operationId: deleteAccount
+            tags:
+                - accounts
+            parameters:
+                -   name: accountId
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+    /trips/:
+        post:
+            summary: Create trip
+            operationId: createTrip
+            tags:
+                - trips
+            requestBody:
+                description: Data of new trip
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Trip'
+                    application/x-www-form-urlencoded:
+                        schema:
+                            $ref: '#/components/schemas/Trip'
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Trip"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+    /trips/{tripId}:
+        get:
+            summary: Get trip information
+            operationId: getTrip
+            tags:
+                - trips
+            parameters:
+                -   name: tripId
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Trip"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+        patch:
+            summary: Update trip information
+            operationId: updateTrip
+            tags:
+                - trips
+            parameters:
+                -   name: tripId
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                description: Updatable data of trip
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Trip'
+                    application/x-www-form-urlencoded:
+                        schema:
+                            $ref: '#/components/schemas/Trip'
+
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Trip"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+        delete:
+            summary: Delete trip
+            operationId: deleteTrip
+            tags:
+                - trips
+            parameters:
+                -   name: tripId
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+    /countries/:
+        get:
+            summary: Get list of countries
+            operationId: getCountries
+            tags:
+                - countries
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Countries"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
+components:
+    securitySchemes:
+        BearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    schemas:
+        Account:
+            type: object
+            required:
+                - email
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                email:
+                    type: string
+                    format: email
+                password:
+                    type: string
+                    format: password
+        Trip:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                country_id:
+                    type: integer
+                    format: int32
+                created_by:
+                    type: integer
+                    format: int32
+                created_at:
+                    type: string
+                    format: date
+                finished_at:
+                    type: string
+                    format: date
+                notes:
+                    type: string
+        Country:
+            type: object
+            properties:
+                name:
+                    type: string
+                code:
+                    type: string
+                region:
+                    type: string
+        Countries:
+            type: array
+            items:
+                $ref: "#/components/schemas/Country"
+        DefaultResponse:
+            type: object
+            required:
+                - code
+                - message
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
