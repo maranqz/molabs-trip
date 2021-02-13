@@ -1,6 +1,6 @@
 <?php
 /**
- * TripBundleExtension
+ * TripExtension
  *
  * PHP version 7.1.3
  *
@@ -35,14 +35,14 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
- * TripBundleExtension Class Doc Comment
+ * TripExtension Class Doc Comment
  *
  * @category Class
  * @package  TripBundle\DependencyInjection
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class TripBundleExtension extends Extension
+class TripExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -52,6 +52,6 @@ class TripBundleExtension extends Extension
 
     public function getAlias()
     {
-        return 'open_api_server';
+        return 'trip';
     }
 }

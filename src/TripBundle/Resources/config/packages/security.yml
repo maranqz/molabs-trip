@@ -1,0 +1,4 @@
+security:
+    encoders:
+        TripBundle\Model\Account:
+            algorithm: 'auto'

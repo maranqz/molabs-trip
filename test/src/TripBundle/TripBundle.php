@@ -1,11 +1,11 @@
 <?php
 /**
- * OpenAPIServerExtension
+ * TripBundle
  *
  * PHP version 7.1.3
  *
  * @category Class
- * @package  TripBundle\DependencyInjection
+ * @package  TripBundle
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
@@ -27,31 +27,24 @@
  * Do not edit the class manually.
  */
 
-namespace TripBundle\DependencyInjection;
+namespace TripBundle;
 
-use Symfony\Component\Config\FileLocator;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use TripBundle\DependencyInjection\Compiler\TripApiPass;
 
 /**
- * OpenAPIServerExtension Class Doc Comment
+ * TripBundle Class Doc Comment
  *
  * @category Class
- * @package  TripBundle\DependencyInjection
+ * @package  TripBundle
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class OpenAPIServerExtension extends Extension
+class TripBundle extends Bundle
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function build(ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
-    }
-
-    public function getAlias()
-    {
-        return 'open_api_server';
+        $container->addCompilerPass(new TripApiPass());
     }
 }

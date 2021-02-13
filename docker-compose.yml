@@ -18,9 +18,12 @@ services:
             context: ./docker/php-fpm
             args:
                 ENABLE_PHP_XDEBUG: 1
+        environment:
+            PHP_IDE_CONFIG: serverName=CliXdebug
         ports:
             - "9000:9001"
         volumes:
+            #- dicache:/var/www/symfony/var/cache
             - ./:/var/www/symfony:cached
             - ./var/log:/var/www/symfony/var/log:cached
         depends_on: 
@@ -35,4 +38,7 @@ services:
             - php
         volumes:
             - ./logs/nginx:/var/log/nginx:cached
-            - ./symfony:/var/www/symfony:cached
+            - ./:/var/www/symfony:cached
+
+volumes:
+    dicache:

@@ -1,6 +1,6 @@
 <?php
 /**
- * OpenAPIServerApiPass
+ * TripApiPass
  *
  * PHP version 7.1.3
  *
@@ -34,14 +34,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * OpenAPIServerApiPass Class Doc Comment
+ * TripApiPass Class Doc Comment
  *
  * @category Class
  * @package  TripBundle\DependencyInjection\Compiler
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class OpenAPIServerApiPass implements CompilerPassInterface
+class TripApiPass implements CompilerPassInterface
 {
 
     /**
@@ -51,14 +51,14 @@ class OpenAPIServerApiPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container) {
         // always first check if the primary service is defined
-        if (!$container->has('open_api_server.api.api_server')) {
+        if (!$container->has('trip.api.api_server')) {
             return;
         }
 
-        $definition = $container->findDefinition('open_api_server.api.api_server');
+        $definition = $container->findDefinition('trip.api.api_server');
 
-        // find all service IDs with the open_api_server.api tag
-        $taggedServices = $container->findTaggedServiceIds('open_api_server.api');
+        // find all service IDs with the trip.api tag
+        $taggedServices = $container->findTaggedServiceIds('trip.api');
 
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $tag) {

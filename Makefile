@@ -46,15 +46,7 @@ php.bash:
 nginx.reload:
 	$(NGINX_EXEC) nginx -s reload
 
-
-gen.openapi.bash:
-	mkdir -p out
-	docker run --user "$(DOCKER_USER_RUN)" --rm \
-		-v "${PWD}/out:/local/out" \
-		-v "$(pwd)/assets/openapi.yaml:/local/openapi.yaml" \
-		openapitools/openapi-generator-cli:latest  cat /local/openapi.yaml
-
-gen.openapi:
+gen.openapi.php.symfony:
 	docker run --user "$(DOCKER_USER_RUN)" --rm \
 		-v "${PWD}/src:/local/src" \
 		-v "${PWD}/assets/openapi.yaml:/local/openapi.yaml" \
@@ -63,4 +55,14 @@ gen.openapi:
 	-o /local/src/TripBundle \
 	-i /local/openapi.yaml \
 	-p invokerPackage=TripBundle \
-	-p bundleName=TripBundle
+	-p bundleName=Trip \
+	-p bundleAlias=trip
+
+gen.openapi.mysql:
+	docker run --user "$(DOCKER_USER_RUN)" --rm \
+		-v "${PWD}/src:/local/src" \
+		-v "${PWD}/assets/openapi.yaml:/local/openapi.yaml" \
+		openapitools/openapi-generator-cli:latest generate \
+	-g mysql-schema \
+	-o /local/src/mysql.sql \
+	-i /local/openapi.yaml

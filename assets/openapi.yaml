@@ -7,7 +7,7 @@ info:
 servers:
     -   url: /
 security:
-  -
+    -   BearerAuth: [ ]
 paths:
     /accounts/:
         post:
@@ -21,7 +21,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Account'
+                            $ref: '#/components/schemas/CreateAccount'
                     application/x-www-form-urlencoded:
                         schema:
                             $ref: '#/components/schemas/Account'
@@ -64,7 +64,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DefaultResponse"
-        patch:
+        put:
             summary: Update account information
             operationId: updateAccount
             tags:
@@ -273,9 +273,16 @@ components:
                 email:
                     type: string
                     format: email
-                password:
-                    type: string
-                    format: password
+        CreateAccount:
+            allOf:
+                -   $ref: '#/components/schemas/Account'
+                -   type: object
+                    required:
+                        - password
+                    properties:
+                        password:
+                            type: string
+                            format: password
         Trip:
             type: object
             properties:

@@ -1,6 +1,6 @@
 <?php
 /**
- * TripBundleBundle
+ * TripBundle
  *
  * PHP version 7.1.3
  *
@@ -31,20 +31,20 @@ namespace TripBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use TripBundle\DependencyInjection\Compiler\TripBundleApiPass;
+use TripBundle\DependencyInjection\Compiler\TripApiPass;
 
 /**
- * TripBundleBundle Class Doc Comment
+ * TripBundle Class Doc Comment
  *
  * @category Class
  * @package  TripBundle
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class TripBundleBundle extends Bundle
+class TripBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
-        $container->addCompilerPass(new TripBundleApiPass());
+        $container->addCompilerPass(new TripApiPass());
     }
 }
