@@ -17,7 +17,6 @@ class Country
      *
      * @ORM\Column(name="code", type="string", length=3, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $code;
 
@@ -29,11 +28,16 @@ class Country
     private $name;
 
     /**
-     * @var bool|null
+     * @var string
      *
-     * @ORM\Column(name="region", type="boolean", nullable=true)
+     * @ORM\Column(name="region", type="string", length=10, nullable=false)
      */
     private $region;
+
+    public function __construct($code)
+    {
+        $this->code = $code;
+    }
 
     public function getCode(): ?string
     {
@@ -52,12 +56,12 @@ class Country
         return $this;
     }
 
-    public function getRegion(): ?bool
+    public function getRegion(): string
     {
         return $this->region;
     }
 
-    public function setRegion(?bool $region): self
+    public function setRegion(string $region): self
     {
         $this->region = $region;
 

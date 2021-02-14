@@ -65,3 +65,14 @@ gen.openapi.mysql:
 	-g mysql-schema \
 	-o /local/src/mysql.sql \
 	-i /local/openapi.yaml
+
+
+
+cc:
+	$(PHP_EXEC) bin/console cache:clear
+
+doctrine.migrations.migrate:
+	$(PHP_EXEC) bin/console doctrine:migrations:migrate
+
+doctrine.migrations.diff:
+	$(PHP_EXEC) bin/console doctrine:migrations:diff
