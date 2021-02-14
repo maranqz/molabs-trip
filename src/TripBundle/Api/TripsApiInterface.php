@@ -71,7 +71,7 @@ interface TripsApiInterface
      *
      * Delete trip
      *
-     * @param  string $tripId   (required)
+     * @param  int $tripId   (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
@@ -85,7 +85,7 @@ interface TripsApiInterface
      *
      * Get trip information
      *
-     * @param  string $tripId   (required)
+     * @param  int $tripId   (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
@@ -99,7 +99,7 @@ interface TripsApiInterface
      *
      * Update trip information
      *
-     * @param  string $tripId   (required)
+     * @param  int $tripId   (required)
      * @param  TripBundle\Model\Trip $trip  Updatable data of trip (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()

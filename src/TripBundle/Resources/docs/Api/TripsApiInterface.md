@@ -109,7 +109,7 @@ class TripsApi implements TripsApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tripId** | **string**|  |
+ **tripId** | **int**|  |
 
 ### Return type
 
@@ -161,7 +161,7 @@ class TripsApi implements TripsApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tripId** | **string**|  |
+ **tripId** | **int**|  |
 
 ### Return type
 
@@ -213,7 +213,7 @@ class TripsApi implements TripsApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tripId** | **string**|  |
+ **tripId** | **int**|  |
  **trip** | [**TripBundle\Model\Trip**](../Model/Trip.md)| Updatable data of trip |
 
 ### Return type

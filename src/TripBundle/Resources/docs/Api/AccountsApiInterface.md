@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**createAccount**](AccountsApiInterface.md#createAccount) | **POST** /accounts/ | Create account
 [**deleteAccount**](AccountsApiInterface.md#deleteAccount) | **DELETE** /accounts/{accountId} | Delete account
 [**getAccount**](AccountsApiInterface.md#getAccount) | **GET** /accounts/{accountId} | Get account information
-[**updateAccount**](AccountsApiInterface.md#updateAccount) | **PUT** /accounts/{accountId} | Update account information
+[**updateAccount**](AccountsApiInterface.md#updateAccount) | **PATCH** /accounts/{accountId} | Update account information
 
 
 ## Service Declaration
@@ -23,7 +23,7 @@ services:
 ```
 
 ## **createAccount**
-> TripBundle\Model\Account createAccount($accountUpdate)
+> TripBundle\Model\Account createAccount($accountCreate)
 
 Create account
 
@@ -44,7 +44,7 @@ class AccountsApi implements AccountsApiInterface
     /**
      * Implementation of AccountsApiInterface#createAccount
      */
-    public function createAccount(AccountUpdate $accountUpdate)
+    public function createAccount(AccountCreate $accountCreate)
     {
         // Implement the operation ...
     }
@@ -57,7 +57,7 @@ class AccountsApi implements AccountsApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accountUpdate** | [**TripBundle\Model\AccountUpdate**](../Model/AccountUpdate.md)| Data of new account |
+ **accountCreate** | [**TripBundle\Model\AccountCreate**](../Model/AccountCreate.md)| Data of new account |
 
 ### Return type
 
@@ -109,7 +109,7 @@ class AccountsApi implements AccountsApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accountId** | **string**|  |
+ **accountId** | **int**|  |
 
 ### Return type
 
@@ -161,7 +161,7 @@ class AccountsApi implements AccountsApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accountId** | **string**|  |
+ **accountId** | **int**|  |
 
 ### Return type
 
@@ -213,7 +213,7 @@ class AccountsApi implements AccountsApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accountId** | **string**|  |
+ **accountId** | **int**|  |
  **accountUpdate** | [**TripBundle\Model\AccountUpdate**](../Model/AccountUpdate.md)| Updatable data of account |
 
 ### Return type

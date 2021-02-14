@@ -49,6 +49,7 @@ services:
             - [ setSerializer, [ '@trip.service.serializer' ] ]
             - [ setValidator,  [ '@trip.service.validator' ] ]
             - [ setApiServer,  [ '@trip.api.api_server' ] ]
+            - [ setContainer,  [ '@service_container' ] ]
         tags: [ 'controller.service_arguments' ]
         autowire: true
 
@@ -58,6 +59,7 @@ services:
             - [ setSerializer, [ '@trip.service.serializer' ] ]
             - [ setValidator,  [ '@trip.service.validator' ] ]
             - [ setApiServer,  [ '@trip.api.api_server' ] ]
+            - [ setContainer,  [ '@service_container' ] ]
         tags: [ 'controller.service_arguments' ]
         autowire: true
 
@@ -67,6 +69,7 @@ services:
             - [ setSerializer, [ '@trip.service.serializer' ] ]
             - [ setValidator,  [ '@trip.service.validator' ] ]
             - [ setApiServer,  [ '@trip.api.api_server' ] ]
+            - [ setContainer,  [ '@service_container' ] ]
         tags: [ 'controller.service_arguments' ]
         autowire: true
 

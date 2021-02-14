@@ -21,7 +21,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AccountUpdate'
+                            $ref: '#/components/schemas/AccountCreate'
                     application/x-www-form-urlencoded:
                         schema:
                             $ref: '#/components/schemas/Account'
@@ -50,7 +50,7 @@ paths:
                     in: path
                     required: true
                     schema:
-                        type: string
+                        type: integer
             responses:
                 '200':
                     description: ok
@@ -64,7 +64,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DefaultResponse"
-        put:
+        patch:
             summary: Update account information
             operationId: updateAccount
             tags:
@@ -74,7 +74,7 @@ paths:
                     in: path
                     required: true
                     schema:
-                        type: string
+                        type: integer
             requestBody:
                 description: Updatable data of account
                 required: true
@@ -109,7 +109,7 @@ paths:
                     in: path
                     required: true
                     schema:
-                        type: string
+                        type: integer
             responses:
                 '200':
                     description: ok
@@ -163,7 +163,7 @@ paths:
                     in: path
                     required: true
                     schema:
-                        type: string
+                        type: integer
             responses:
                 '200':
                     description: ok
@@ -187,7 +187,7 @@ paths:
                     in: path
                     required: true
                     schema:
-                        type: string
+                        type: integer
             requestBody:
                 description: Updatable data of trip
                 required: true
@@ -222,7 +222,7 @@ paths:
                     in: path
                     required: true
                     schema:
-                        type: string
+                        type: integer
             responses:
                 '200':
                     description: ok
@@ -273,11 +273,20 @@ components:
                 email:
                     type: string
                     format: email
-        AccountUpdate:
+        AccountCreate:
             type: object
             required:
                 - email
                 - password
+            properties:
+                email:
+                    type: string
+                    format: email
+                password:
+                    type: string
+                    format: password
+        AccountUpdate:
+            type: object
             properties:
                 email:
                     type: string

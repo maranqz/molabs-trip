@@ -1,6 +1,6 @@
 <?php
 /**
- * AccountUpdate
+ * AccountCreate
  *
  * PHP version 7.1.3
  *
@@ -36,28 +36,23 @@ use TripBundle\Validator\UniqueEntity;
 use TripBundle\Entity\Account;
 
 /**
- * Class representing the AccountUpdate model.
+ * Class representing the AccountCreate model.
  *
  * @package TripBundle\Model
  * @author  OpenAPI Generator team
  *
  * TODO blocked by https://github.com/symfony/symfony/issues/22592
  * @UniqueEntity(
- *     identifierFieldNames={"id"},
  *     fields={"email"},
  *     entityClass=Account::class
  * )
  */
-class AccountUpdate
+class AccountCreate
 {
     /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @var string|null
+     * @var string
      * @SerializedName("email")
+     * @Assert\NotNull()
      * @Assert\Type("string")
      * @Assert\Email()
      * @Type("string")
@@ -65,8 +60,9 @@ class AccountUpdate
     protected $email;
 
     /**
-     * @var string|null
+     * @var string
      * @SerializedName("password")
+     * @Assert\NotNull()
      * @Assert\Type("string")
      * @Type("string")
      */
@@ -83,23 +79,9 @@ class AccountUpdate
     }
 
     /**
-     * Sets id.
-     *
-     * @param int $email
-     *
-     * @return $this
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
      * Gets email.
      *
-     * @return string|null
+     * @return string
      */
     public function getEmail()
     {
@@ -109,11 +91,11 @@ class AccountUpdate
     /**
      * Sets email.
      *
-     * @param string|null $email
+     * @param string $email
      *
      * @return $this
      */
-    public function setEmail($email = null)
+    public function setEmail($email)
     {
         $this->email = $email;
 
@@ -123,7 +105,7 @@ class AccountUpdate
     /**
      * Gets password.
      *
-     * @return string|null
+     * @return string
      */
     public function getPassword()
     {
@@ -133,11 +115,11 @@ class AccountUpdate
     /**
      * Sets password.
      *
-     * @param string|null $password
+     * @param string $password
      *
      * @return $this
      */
-    public function setPassword($password = null)
+    public function setPassword($password)
     {
         $this->password = $password;
 

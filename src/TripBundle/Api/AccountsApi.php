@@ -4,27 +4,19 @@
 namespace TripBundle\Api;
 
 
-use Symfony\Component\HttpFoundation\Response;
 use TripBundle\Entity\Account as Entity;
 use TripBundle\Manipulator\AccountManipulatorInterface;
+use TripBundle\Model\AccountCreate;
 use TripBundle\Model\AccountUpdate;
 use TripBundle\Model\Account;
-use Symfony\Component\Validator\Constraints as Assert;
-use TripBundle\Service\ValidatorInterface;
 
 class AccountsApi implements AccountsApiInterface
 {
     private AccountManipulatorInterface $manipulator;
-    private $validator;
 
     public function __construct(AccountManipulatorInterface $manipulator)
     {
         $this->manipulator = $manipulator;
-    }
-
-    public function setValidator(ValidatorInterface $validator)
-    {
-        $this->validator = $validator;
     }
 
     public function setBearerAuth($value)
@@ -32,7 +24,7 @@ class AccountsApi implements AccountsApiInterface
         // TODO: Implement setBearerAuth() method.
     }
 
-    public function createAccount(AccountUpdate $dto, &$responseCode, array &$responseHeaders)
+    public function createAccount(AccountCreate $dto, &$responseCode, array &$responseHeaders)
     {
         $account = new Entity();
         $account->setEmail($dto->getEmail());
@@ -64,14 +56,14 @@ class AccountsApi implements AccountsApiInterface
     {
         $updatableAccount = $this->manipulator->byIdOrThrowException($accountId);
 
-        $updatableAccount->setEmail($dto->getEmail());
-        $updatableAccount->setPassword($dto->getPassword());
+        if (!empty($dto->getEmail())) {
+            $updatableAccount->setEmail($dto->getEmail());
+        }
+        if (!empty($dto->getPassword())) {
+            $updatableAccount->setPlainPassword($dto->getPassword());
+        }
 
-        return $this->manipulator->update($updatableAccount);
-    }
-
-    private function validate(Entity $account)
-    {
-        return $this->validator->validate($account);
+        $this->manipulator->update($updatableAccount);
+        return Account::fromEntity($updatableAccount);
     }
 }

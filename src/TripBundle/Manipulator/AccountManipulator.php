@@ -34,22 +34,10 @@ class AccountManipulator implements AccountManipulatorInterface
 
     public function update(Account $account): Account
     {
-        if ($this->isPasswordChanged($account)) {
-            $this->preparePassword($account);
-        }
-
+        $this->preparePassword($account);
         $this->em->flush();
 
         return $account;
-    }
-
-    private function isPasswordChanged(Account $account): bool
-    {
-        $uow = $this->em->getUnitOfWork();
-        $uow->computeChangeSets();
-        $changeSet = $uow->getEntityChangeSet($account);
-
-        return isset($changeSet['password']);
     }
 
     public function delete(Account $account): bool
@@ -74,10 +62,12 @@ class AccountManipulator implements AccountManipulatorInterface
 
     private function preparePassword(Account $account)
     {
-        $account->setPassword(
-            $this->encoderFactory->getEncoder($account)->encodePassword(
-                $account->getPassword(), null
-            )
-        );
+        if (!empty($account->getPlainPassword())) {
+            $account->setPassword(
+                $this->encoderFactory->getEncoder($account)->encodePassword(
+                    $account->getPlainPassword(), null
+                )
+            );
+        }
     }
 }

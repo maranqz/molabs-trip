@@ -15,7 +15,7 @@ trip_accounts_deleteaccount:
     defaults:
         _controller: trip.controller.accounts::deleteAccountAction
     requirements:
-        accountId: '[a-z0-9]+'
+        accountId: '\d+'
 
 trip_accounts_getaccount:
     path:     /accounts/{accountId}
@@ -23,7 +23,7 @@ trip_accounts_getaccount:
     defaults:
         _controller: trip.controller.accounts::getAccountAction
     requirements:
-        accountId: '[a-z0-9]+'
+        accountId: '\d+'
 
 trip_accounts_updateaccount:
     path:     /accounts/{accountId}
@@ -31,7 +31,7 @@ trip_accounts_updateaccount:
     defaults:
         _controller: trip.controller.accounts::updateAccountAction
     requirements:
-        accountId: '[a-z0-9]+'
+        accountId: '\d+'
 
 # countries
 trip_countries_getcountries:
@@ -39,9 +39,6 @@ trip_countries_getcountries:
     methods:  [GET]
     defaults:
         _controller: trip.controller.countries::getCountriesAction
-        parameter: 1231231
-    requirements:
-        parameter: '[a-z0-9]+'
 
 # trips
 trip_trips_createtrip:
@@ -56,7 +53,7 @@ trip_trips_deletetrip:
     defaults:
         _controller: trip.controller.trips::deleteTripAction
     requirements:
-        tripId: '[a-z0-9]+'
+        tripId: '\d+'
 
 trip_trips_gettrip:
     path:     /trips/{tripId}
@@ -64,7 +61,7 @@ trip_trips_gettrip:
     defaults:
         _controller: trip.controller.trips::getTripAction
     requirements:
-        tripId: '[a-z0-9]+'
+        tripId: '\d+'
 
 trip_trips_updatetrip:
     path:     /trips/{tripId}
@@ -72,5 +69,5 @@ trip_trips_updatetrip:
     defaults:
         _controller: trip.controller.trips::updateTripAction
     requirements:
-        tripId: '[a-z0-9]+'
+        tripId: '\d+'
 

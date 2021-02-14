@@ -175,7 +175,7 @@ class TripsController extends Controller
 
         // Deserialize the input values that needs it
         try {
-            $tripId = $this->deserialize($tripId, 'string', 'string');
+            $tripId = $this->deserialize($tripId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -183,7 +183,7 @@ class TripsController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type("int");
         $response = $this->validate($tripId, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -260,7 +260,7 @@ class TripsController extends Controller
 
         // Deserialize the input values that needs it
         try {
-            $tripId = $this->deserialize($tripId, 'string', 'string');
+            $tripId = $this->deserialize($tripId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -268,7 +268,7 @@ class TripsController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type("int");
         $response = $this->validate($tripId, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -353,7 +353,7 @@ class TripsController extends Controller
 
         // Deserialize the input values that needs it
         try {
-            $tripId = $this->deserialize($tripId, 'string', 'string');
+            $tripId = $this->deserialize($tripId, 'int', 'string');
             $inputFormat = $request->getMimeType($request->getContentType());
             $trip = $this->deserialize($trip, 'TripBundle\Model\Trip', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
@@ -363,7 +363,7 @@ class TripsController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type("int");
         $response = $this->validate($tripId, $asserts);
         if ($response instanceof Response) {
             return $response;

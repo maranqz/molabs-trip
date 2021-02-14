@@ -30,6 +30,7 @@ namespace TripBundle\Api;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use TripBundle\Model\Account;
+use TripBundle\Model\AccountCreate;
 use TripBundle\Model\AccountUpdate;
 use TripBundle\Model\DefaultResponse;
 
@@ -58,21 +59,21 @@ interface AccountsApiInterface
      *
      * Create account
      *
-     * @param  TripBundle\Model\AccountUpdate $accountUpdate  Data of new account (required)
+     * @param  TripBundle\Model\AccountCreate $accountCreate  Data of new account (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return TripBundle\Model\Account
      *
      */
-    public function createAccount(AccountUpdate $accountUpdate, &$responseCode, array &$responseHeaders);
+    public function createAccount(AccountCreate $accountCreate, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation deleteAccount
      *
      * Delete account
      *
-     * @param  string $accountId   (required)
+     * @param  int $accountId   (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
@@ -86,7 +87,7 @@ interface AccountsApiInterface
      *
      * Get account information
      *
-     * @param  string $accountId   (required)
+     * @param  int $accountId   (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
@@ -100,7 +101,7 @@ interface AccountsApiInterface
      *
      * Update account information
      *
-     * @param  string $accountId   (required)
+     * @param  int $accountId   (required)
      * @param  TripBundle\Model\AccountUpdate $accountUpdate  Updatable data of account (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()

@@ -3,14 +3,12 @@
 namespace TripBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Account
  *
  * @ORM\Table(name="account", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity
- * @UniqueEntity("email")
  */
 class Account
 {
@@ -33,9 +31,15 @@ class Account
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=128, nullable=false)
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
+
 
     public function getId(): ?int
     {
@@ -66,5 +70,15 @@ class Account
         return $this;
     }
 
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
 
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+
+        return $this;
+    }
 }

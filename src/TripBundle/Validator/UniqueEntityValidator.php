@@ -12,6 +12,7 @@
 namespace TripBundle\Validator;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
@@ -179,6 +180,41 @@ class UniqueEntityValidator extends ConstraintValidator
             return;
         }
 
+        /* If a single entity matched the query criteria, which is the same as
+         * the entity being updated by validated object, the criteria is unique.
+         */
+        if (!$objectIsEntity && !empty($constraint->identifierFieldNames) && 1 === \count($result)) {
+            if (!\is_array($constraint->identifierFieldNames) && !\is_string($constraint->identifierFieldNames)) {
+                throw new UnexpectedTypeException($constraint->identifierFieldNames, 'array');
+            }
+
+            $identifierFieldNames = (array) $constraint->identifierFieldNames;
+
+            $fieldValues = $this->getFieldValues($object, $class, $identifierFieldNames);
+            if (array_values($class->getIdentifierFieldNames()) != array_values($identifierFieldNames)) {
+                throw new ConstraintDefinitionException(sprintf('The "%s" entity identifier field names should be "%s", not "%s".', $entityClass, implode(', ', $class->getIdentifierFieldNames()), implode(', ', $constraint->identifierFieldNames)));
+            }
+
+            $entityMatched = true;
+
+            foreach ($identifierFieldNames as $identifierFieldName) {
+                $field = new \ReflectionProperty($entityClass, $identifierFieldName);
+                if (!$field->isPublic()) {
+                    $field->setAccessible(true);
+                }
+
+                $propertyValue = $this->getPropertyValue($entityClass, $identifierFieldName, current($result));
+                if ($fieldValues[$identifierFieldName] !== $propertyValue) {
+                    $entityMatched = false;
+                    break;
+                }
+            }
+
+            if ($entityMatched) {
+                return;
+            }
+        }
+
         $errorPath = null !== $constraint->errorPath ? $constraint->errorPath : current($fields);
         $invalidValue = $criteria[$errorPath] ?? $criteria[current($fields)];
 
@@ -191,7 +227,7 @@ class UniqueEntityValidator extends ConstraintValidator
             ->addViolation();
     }
 
-    public function getPropertyValue($class, $name, $object)
+    protected  function getPropertyValue($class, $name, $object)
     {
         $property = new \ReflectionProperty($class, $name);
         if (!$property->isPublic()) {
@@ -199,6 +235,33 @@ class UniqueEntityValidator extends ConstraintValidator
         }
 
         return $property->getValue($object);
+    }
+
+    protected function getFieldValues($object, ClassMetadata $class, array $fields, bool $isEntity = false): array
+    {
+        if (!$isEntity) {
+            $reflectionObject = new \ReflectionObject($object);
+        }
+
+        $fieldValues = [];
+        $objectClass = \get_class($object);
+
+        foreach ($fields as $objectFieldName => $entityFieldName) {
+            if (!$class->hasField($entityFieldName) && !$class->hasAssociation($entityFieldName)) {
+                throw new ConstraintDefinitionException(sprintf('The field "%s" is not mapped by Doctrine, so it cannot be validated for uniqueness.', $entityFieldName));
+            }
+
+            $fieldName = \is_int($objectFieldName) ? $entityFieldName : $objectFieldName;
+            if (!$isEntity) {
+                if (!$reflectionObject->hasProperty($fieldName)) {
+                    throw new ConstraintDefinitionException(sprintf('The field "%s" is not a property of class "%s".', $fieldName, $objectClass));
+                }
+            }
+
+            $fieldValues[$entityFieldName] = $this->getPropertyValue($objectClass, $fieldName, $object);
+        }
+
+        return $fieldValues;
     }
 
     private function formatWithIdentifiers($em, $class, $value)

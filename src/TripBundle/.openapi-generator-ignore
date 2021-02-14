@@ -33,7 +33,11 @@ README.md
 
 DependencyInjection/TripExtension.php
 
+
+Controller/AccountsController.php
+
 Model/Account.php
+Model/AccountCreate.php
 Model/AccountUpdate.php
 Model/Country.php
 Model/Trip.php
