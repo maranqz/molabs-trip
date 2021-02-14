@@ -38,6 +38,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use TripBundle\Api\TripsApiInterface;
 use TripBundle\Model\DefaultResponse;
 use TripBundle\Model\Trip;
+use TripBundle\Model\TripCreate;
+use TripBundle\Model\TripUpdate;
 
 /**
  * TripsController Class Doc Comment
@@ -82,14 +84,14 @@ class TripsController extends Controller
         $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $trip = $request->getContent();
+        $tripCreate = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
             $inputFormat = $request->getMimeType($request->getContentType());
-            $trip = $this->deserialize($trip, 'TripBundle\Model\Trip', $inputFormat);
+            $tripCreate = $this->deserialize($tripCreate, 'TripBundle\Model\TripCreate', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -97,9 +99,9 @@ class TripsController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("TripBundle\Model\Trip");
+        $asserts[] = new Assert\Type("TripBundle\Model\TripCreate");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($trip, $asserts);
+        $response = $this->validate($tripCreate, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -114,7 +116,7 @@ class TripsController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->createTrip($trip, $responseCode, $responseHeaders);
+            $result = $handler->createTrip($tripCreate, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'unexpected error';
@@ -347,7 +349,7 @@ class TripsController extends Controller
         $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $trip = $request->getContent();
+        $tripUpdate = $request->getContent();
 
         // Use the default value if no value was provided
 
@@ -355,7 +357,7 @@ class TripsController extends Controller
         try {
             $tripId = $this->deserialize($tripId, 'int', 'string');
             $inputFormat = $request->getMimeType($request->getContentType());
-            $trip = $this->deserialize($trip, 'TripBundle\Model\Trip', $inputFormat);
+            $tripUpdate = $this->deserialize($tripUpdate, 'TripBundle\Model\TripUpdate', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -370,9 +372,9 @@ class TripsController extends Controller
         }
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("TripBundle\Model\Trip");
+        $asserts[] = new Assert\Type("TripBundle\Model\TripUpdate");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($trip, $asserts);
+        $response = $this->validate($tripUpdate, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -387,7 +389,7 @@ class TripsController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->updateTrip($tripId, $trip, $responseCode, $responseHeaders);
+            $result = $handler->updateTrip($tripId, $tripUpdate, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'unexpected error';

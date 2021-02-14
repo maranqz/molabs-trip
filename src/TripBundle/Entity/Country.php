@@ -3,6 +3,7 @@
 namespace TripBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Country
@@ -17,6 +18,7 @@ class Country
      *
      * @ORM\Column(name="code", type="string", length=3, nullable=false)
      * @ORM\Id
+     * @Serializer\Type("string")
      */
     private $code;
 

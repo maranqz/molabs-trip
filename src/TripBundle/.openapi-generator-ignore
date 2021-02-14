@@ -41,3 +41,5 @@ Model/AccountCreate.php
 Model/AccountUpdate.php
 Model/Country.php
 Model/Trip.php
+Model/TripCreate.php
+Model/TripUpdate.php

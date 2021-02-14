@@ -24,9 +24,9 @@ class Trip
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="date", nullable=false)
+     * @ORM\Column(name="started_at", type="date", nullable=false)
      */
-    private $createdAt;
+    private $startedAt;
 
     /**
      * @var \DateTime
@@ -43,38 +43,38 @@ class Trip
     private $notes;
 
     /**
-     * @var \Account
+     * @var Account
      *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=false)
      * })
      */
     private $createdBy;
 
     /**
-     * @var \Country
+     * @var Country
      *
      * @ORM\ManyToOne(targetEntity="Country")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="country_code", referencedColumnName="code")
+     *   @ORM\JoinColumn(name="country_code", referencedColumnName="code", nullable=false)
      * })
      */
-    private $countryCode;
+    private $country;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getStartedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->startedAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setStartedAt(\DateTimeInterface $startedAt): self
     {
-        $this->createdAt = $createdAt;
+        $this->startedAt = $startedAt;
 
         return $this;
     }
@@ -115,14 +115,14 @@ class Trip
         return $this;
     }
 
-    public function getCountryCode(): ?Country
+    public function getCountry(): Country
     {
-        return $this->countryCode;
+        return $this->country;
     }
 
-    public function setCountryCode(?Country $countryCode): self
+    public function setCountry(Country $country): self
     {
-        $this->countryCode = $countryCode;
+        $this->country = $country;
 
         return $this;
     }

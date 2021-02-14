@@ -18,12 +18,6 @@ services:
             - '../../Migrations/'
             - '../../Tests/'
 
-    TripBundle\Normalizer\EntityNormalizer:
-        public: false
-        autowire: true
-        autoconfigure: true
-        tags:
-            - { name: serializer.normalizer }
 
     trip.api.api_server:
         class: TripBundle\Api\ApiServer
@@ -37,6 +31,7 @@ services:
 
     trip.service.serializer:
         class: '%trip.serializer%'
+        autowire: true
 
     trip.service.validator:
         class: '%trip.validator%'

@@ -31,6 +31,8 @@ namespace TripBundle\Api;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use TripBundle\Model\DefaultResponse;
 use TripBundle\Model\Trip;
+use TripBundle\Model\TripCreate;
+use TripBundle\Model\TripUpdate;
 
 /**
  * TripsApiInterface Interface Doc Comment
@@ -57,14 +59,14 @@ interface TripsApiInterface
      *
      * Create trip
      *
-     * @param  TripBundle\Model\Trip $trip  Data of new trip (required)
+     * @param  TripBundle\Model\TripCreate $tripCreate  Data of new trip (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return TripBundle\Model\Trip
      *
      */
-    public function createTrip(Trip $trip, &$responseCode, array &$responseHeaders);
+    public function createTrip(TripCreate $tripCreate, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation deleteTrip
@@ -100,12 +102,12 @@ interface TripsApiInterface
      * Update trip information
      *
      * @param  int $tripId   (required)
-     * @param  TripBundle\Model\Trip $trip  Updatable data of trip (required)
+     * @param  TripBundle\Model\TripUpdate $tripUpdate  Updatable data of trip (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return TripBundle\Model\Trip
      *
      */
-    public function updateTrip($tripId, Trip $trip, &$responseCode, array &$responseHeaders);
+    public function updateTrip($tripId, TripUpdate $tripUpdate, &$responseCode, array &$responseHeaders);
 }

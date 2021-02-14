@@ -23,7 +23,7 @@ services:
 ```
 
 ## **createTrip**
-> TripBundle\Model\Trip createTrip($trip)
+> TripBundle\Model\Trip createTrip($tripCreate)
 
 Create trip
 
@@ -44,7 +44,7 @@ class TripsApi implements TripsApiInterface
     /**
      * Implementation of TripsApiInterface#createTrip
      */
-    public function createTrip(Trip $trip)
+    public function createTrip(TripCreate $tripCreate)
     {
         // Implement the operation ...
     }
@@ -57,7 +57,7 @@ class TripsApi implements TripsApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **trip** | [**TripBundle\Model\Trip**](../Model/Trip.md)| Data of new trip |
+ **tripCreate** | [**TripBundle\Model\TripCreate**](../Model/TripCreate.md)| Data of new trip |
 
 ### Return type
 
@@ -179,7 +179,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **updateTrip**
-> TripBundle\Model\Trip updateTrip($tripId, $trip)
+> TripBundle\Model\Trip updateTrip($tripId, $tripUpdate)
 
 Update trip information
 
@@ -200,7 +200,7 @@ class TripsApi implements TripsApiInterface
     /**
      * Implementation of TripsApiInterface#updateTrip
      */
-    public function updateTrip($tripId, Trip $trip)
+    public function updateTrip($tripId, TripUpdate $tripUpdate)
     {
         // Implement the operation ...
     }
@@ -214,7 +214,7 @@ class TripsApi implements TripsApiInterface
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tripId** | **int**|  |
- **trip** | [**TripBundle\Model\Trip**](../Model/Trip.md)| Updatable data of trip |
+ **tripUpdate** | [**TripBundle\Model\TripUpdate**](../Model/TripUpdate.md)| Updatable data of trip |
 
 ### Return type
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Trip
+ * TripUpdate
  *
  * PHP version 7.1.3
  *
@@ -32,15 +32,14 @@ namespace TripBundle\Model;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
-use TripBundle\Entity\Trip as Entity;
 
 /**
- * Class representing the Trip model.
+ * Class representing the TripUpdate model.
  *
  * @package TripBundle\Model
  * @author  OpenAPI Generator team
  */
-class Trip
+class TripUpdate
 {
     /**
      * @var int|null
@@ -51,18 +50,16 @@ class Trip
     protected $country;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      * @SerializedName("started_at")
-     * @Assert\NotNull()
      * @Assert\Date()
      * @Type("DateTime")
      */
     protected $startedAt;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      * @SerializedName("finished_at")
-     * @Assert\NotNull()
      * @Assert\Date()
      * @Assert\GreaterThanOrEqual(propertyPath="started_at")
      * @Type("DateTime")
@@ -70,31 +67,12 @@ class Trip
     protected $finishedAt;
 
     /**
-     * @var string
+     * @var string|null
      * @SerializedName("notes")
-     * @Assert\NotNull()
      * @Assert\Type("string")
      * @Type("string")
      */
     protected $notes;
-
-    /**
-     * @var int
-     * @SerializedName("id")
-     * @Assert\NotNull()
-     * @Assert\Type("int")
-     * @Type("int")
-     */
-    protected $id;
-
-    /**
-     * @var int
-     * @SerializedName("created_by")
-     * @Assert\NotNull()
-     * @Assert\Type("int")
-     * @Type("int")
-     */
-    protected $createdBy;
 
     /**
      * Constructor
@@ -106,21 +84,6 @@ class Trip
         $this->startedAt = isset($data['startedAt']) ? $data['startedAt'] : null;
         $this->finishedAt = isset($data['finishedAt']) ? $data['finishedAt'] : null;
         $this->notes = isset($data['notes']) ? $data['notes'] : null;
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        $this->createdBy = isset($data['createdBy']) ? $data['createdBy'] : null;
-    }
-
-    public static function fromEntity(Entity $trip)
-    {
-        $dto = new self();
-        $dto->setId($trip->getId())
-            ->setCountry($trip->getCountry())
-            ->setStartedAt($trip->getStartedAt())
-            ->setFinishedAt($trip->getFinishedAt())
-            ->setNotes($trip->getNotes())
-            ->setCreatedBy($trip->getCreatedBy());
-
-        return $dto;
     }
 
     /**
@@ -150,9 +113,9 @@ class Trip
     /**
      * Gets startedAt.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getStartedAt(): \DateTime
+    public function getStartedAt(): ?\DateTime
     {
         return $this->startedAt;
     }
@@ -160,11 +123,11 @@ class Trip
     /**
      * Sets startedAt.
      *
-     * @param \DateTime $startedAt
+     * @param \DateTime|null $startedAt
      *
      * @return $this
      */
-    public function setStartedAt(\DateTime $startedAt)
+    public function setStartedAt(\DateTime $startedAt = null)
     {
         $this->startedAt = $startedAt;
 
@@ -174,9 +137,9 @@ class Trip
     /**
      * Gets finishedAt.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getFinishedAt(): \DateTime
+    public function getFinishedAt(): ?\DateTime
     {
         return $this->finishedAt;
     }
@@ -184,11 +147,11 @@ class Trip
     /**
      * Sets finishedAt.
      *
-     * @param \DateTime $finishedAt
+     * @param \DateTime|null $finishedAt
      *
      * @return $this
      */
-    public function setFinishedAt(\DateTime $finishedAt)
+    public function setFinishedAt(\DateTime $finishedAt = null)
     {
         $this->finishedAt = $finishedAt;
 
@@ -198,7 +161,7 @@ class Trip
     /**
      * Gets notes.
      *
-     * @return string
+     * @return string|null
      */
     public function getNotes()
     {
@@ -208,61 +171,13 @@ class Trip
     /**
      * Sets notes.
      *
-     * @param string $notes
+     * @param string|null $notes
      *
      * @return $this
      */
-    public function setNotes($notes)
+    public function setNotes($notes = null)
     {
         $this->notes = $notes;
-
-        return $this;
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param int $id
-     *
-     * @return $this
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Gets createdBy.
-     *
-     * @return int
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Sets createdBy.
-     *
-     * @param int $createdBy
-     *
-     * @return $this
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }

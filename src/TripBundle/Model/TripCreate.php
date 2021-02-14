@@ -1,6 +1,6 @@
 <?php
 /**
- * Trip
+ * TripCreate
  *
  * PHP version 7.1.3
  *
@@ -29,24 +29,27 @@
 
 namespace TripBundle\Model;
 
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
-use TripBundle\Entity\Trip as Entity;
+use TripBundle\Entity\Country;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class representing the Trip model.
+ * Class representing the TripCreate model.
  *
  * @package TripBundle\Model
  * @author  OpenAPI Generator team
  */
-class Trip
+class TripCreate
 {
     /**
-     * @var int|null
+     * @var Country
      * @SerializedName("country")
-     * @Assert\Type("int")
-     * @Type("int")
+     * @Assert\Type(Country::class)
+     * @Type(Country::class)
+     * @ORM\ManyToOne(targetEntity="Country")
      */
     protected $country;
 
@@ -55,7 +58,7 @@ class Trip
      * @SerializedName("started_at")
      * @Assert\NotNull()
      * @Assert\Date()
-     * @Type("DateTime")
+     * @Type("DateTime<'Y-m-d'>")
      */
     protected $startedAt;
 
@@ -65,7 +68,7 @@ class Trip
      * @Assert\NotNull()
      * @Assert\Date()
      * @Assert\GreaterThanOrEqual(propertyPath="started_at")
-     * @Type("DateTime")
+     * @Type("DateTime<'Y-m-d'>")
      */
     protected $finishedAt;
 
@@ -79,24 +82,6 @@ class Trip
     protected $notes;
 
     /**
-     * @var int
-     * @SerializedName("id")
-     * @Assert\NotNull()
-     * @Assert\Type("int")
-     * @Type("int")
-     */
-    protected $id;
-
-    /**
-     * @var int
-     * @SerializedName("created_by")
-     * @Assert\NotNull()
-     * @Assert\Type("int")
-     * @Type("int")
-     */
-    protected $createdBy;
-
-    /**
      * Constructor
      * @param mixed[] $data Associated array of property values initializing the model
      */
@@ -106,27 +91,12 @@ class Trip
         $this->startedAt = isset($data['startedAt']) ? $data['startedAt'] : null;
         $this->finishedAt = isset($data['finishedAt']) ? $data['finishedAt'] : null;
         $this->notes = isset($data['notes']) ? $data['notes'] : null;
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        $this->createdBy = isset($data['createdBy']) ? $data['createdBy'] : null;
-    }
-
-    public static function fromEntity(Entity $trip)
-    {
-        $dto = new self();
-        $dto->setId($trip->getId())
-            ->setCountry($trip->getCountry())
-            ->setStartedAt($trip->getStartedAt())
-            ->setFinishedAt($trip->getFinishedAt())
-            ->setNotes($trip->getNotes())
-            ->setCreatedBy($trip->getCreatedBy());
-
-        return $dto;
     }
 
     /**
      * Gets country.
      *
-     * @return int|null
+     * @return Country
      */
     public function getCountry()
     {
@@ -136,11 +106,11 @@ class Trip
     /**
      * Sets country.
      *
-     * @param int|null $country
+     * @param Country $country
      *
      * @return $this
      */
-    public function setCountry($country = null)
+    public function setCountry(Country $country)
     {
         $this->country = $country;
 
@@ -212,57 +182,9 @@ class Trip
      *
      * @return $this
      */
-    public function setNotes($notes)
+    public function setNotes(string $notes)
     {
         $this->notes = $notes;
-
-        return $this;
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param int $id
-     *
-     * @return $this
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Gets createdBy.
-     *
-     * @return int
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Sets createdBy.
-     *
-     * @param int $createdBy
-     *
-     * @return $this
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }

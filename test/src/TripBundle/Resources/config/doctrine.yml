@@ -1,7 +1,0 @@
-doctrine:
-    orm:
-        mappings:
-            TripBundle:
-                type: annotation
-                dir: @TripBundle/Model
-                prefix: 'TripBundle\Model'

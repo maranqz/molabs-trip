@@ -4,16 +4,19 @@
 namespace TripBundle\Api;
 
 
+use TripBundle\Entity\Trip as Entity;
+use TripBundle\Manipulator\TripManipulatorInterface;
 use TripBundle\Model\Trip;
+use TripBundle\Model\TripCreate;
+use TripBundle\Model\TripUpdate;
 
 class TripsApi implements TripsApiInterface
 {
-    /**
-     * @inheritDoc
-     */
-    public function createTrip(Trip $trip, &$responseCode, array &$responseHeaders)
+    private TripManipulatorInterface $manipulator;
+
+    public function __construct(TripManipulatorInterface $manipulator)
     {
-        // TODO: Implement createTrip() method.
+        $this->manipulator = $manipulator;
     }
 
     public function setBearerAuth($value)
@@ -24,9 +27,27 @@ class TripsApi implements TripsApiInterface
     /**
      * @inheritDoc
      */
+    public function createTrip(TripCreate $dto, &$responseCode, array &$responseHeaders)
+    {
+        $trip = new Entity();
+        $trip->setStartedAt($dto->getStartedAt())
+            ->setFinishedAt($dto->getFinishedAt())
+            ->setNotes($dto->getNotes())
+            ->setCountry($dto->getCountry());
+
+        $this->manipulator->create($trip);
+
+        return Trip::fromEntity($trip);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function deleteTrip($tripId, &$responseCode, array &$responseHeaders)
     {
-        // TODO: Implement deleteTrip() method.
+        $account = $this->manipulator->byIdOrThrowException($tripId);
+
+        return $this->manipulator->delete($account);
     }
 
     /**
@@ -34,14 +55,30 @@ class TripsApi implements TripsApiInterface
      */
     public function getTrip($tripId, &$responseCode, array &$responseHeaders)
     {
-        // TODO: Implement getTrip() method.
+        return $this->manipulator->byIdOrThrowException($tripId);
     }
 
     /**
      * @inheritDoc
      */
-    public function updateTrip($tripId, Trip $trip, &$responseCode, array &$responseHeaders)
+    public function updateTrip($tripId, TripUpdate $dto, &$responseCode, array &$responseHeaders)
     {
-        // TODO: Implement updateTrip() method.
+        $updatableTrip = $this->manipulator->byIdOrThrowException($tripId);
+
+        if (!empty($dto->getCountry())) {
+            $updatableTrip->setCountry($dto->getCountry());
+        }
+        if (!empty($dto->setStartedAt())) {
+            $updatableTrip->setStartedAt($dto->getStartedAt());
+        }
+        if (!empty($dto->getFinishedAt())) {
+            $updatableTrip->setFinishedAt($dto->getFinishedAt());
+        }
+        if (!empty($dto->getNotes())) {
+            $updatableTrip->setNotes($dto->getNotes());
+        }
+
+        $this->manipulator->update($updatableTrip);
+        return Trip::fromEntity($updatableTrip);
     }
 }

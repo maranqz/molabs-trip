@@ -2,19 +2,34 @@
 
 namespace TripBundle\Service;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
+use JMS\Serializer\Construction\DoctrineObjectConstructor;
+use JMS\Serializer\Construction\UnserializeObjectConstructor;
+use JMS\Serializer\EventDispatcher\EventDispatcher;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Naming\CamelCaseNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\XmlDeserializationVisitor;
+use TripBundle\Service\JMS\CountryEventSubscriber;
 
 class JmsSerializer implements SerializerInterface
 {
     protected $serializer;
 
-    public function __construct()
+    /**
+     * TODO move to config
+     */
+    public function __construct(ManagerRegistry $managerRegistry)
     {
         $naming_strategy = new SerializedNameAnnotationStrategy(new CamelCaseNamingStrategy());
         $this->serializer = SerializerBuilder::create()
+            ->configureListeners(function (EventDispatcher $dispatcher) {
+                $dispatcher->addSubscriber(new CountryEventSubscriber());
+            })
+            ->setObjectConstructor(new DoctrineObjectConstructor(
+                $managerRegistry,
+                new UnserializeObjectConstructor()
+            ))
             ->setDeserializationVisitor('json', new StrictJsonDeserializationVisitor($naming_strategy))
             ->setDeserializationVisitor('xml', new XmlDeserializationVisitor($naming_strategy))
             ->build();
@@ -28,7 +43,7 @@ class JmsSerializer implements SerializerInterface
     public function deserialize($data, $type, $format)
     {
         if ($format == 'string') {
-            return $this->deserializeString($data, $type);           
+            return $this->deserializeString($data, $type);
         }
 
         // If we end up here, let JMS serializer handle the deserialization

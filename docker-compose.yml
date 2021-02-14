@@ -23,7 +23,7 @@ services:
         ports:
             - "9000:9001"
         volumes:
-            - dicache:/var/www/symfony/var/cache
+            #- dicache:/var/www/symfony/var/cache
             - ./:/var/www/symfony:cached
             - ./var/log:/var/www/symfony/var/log:cached
         depends_on: 

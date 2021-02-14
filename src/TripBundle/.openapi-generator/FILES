@@ -19,6 +19,8 @@ Resources/docs/Model/AccountUpdate.md
 Resources/docs/Model/Country.md
 Resources/docs/Model/DefaultResponse.md
 Resources/docs/Model/Trip.md
+Resources/docs/Model/TripCreate.md
+Resources/docs/Model/TripUpdate.md
 Service/JmsSerializer.php
 Service/SerializerInterface.php
 Service/StrictJsonDeserializationVisitor.php
