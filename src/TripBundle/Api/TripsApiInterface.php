@@ -44,6 +44,15 @@ interface TripsApiInterface
 {
 
     /**
+     * Sets authentication method BearerAuth
+     *
+     * @param string $value Value of the BearerAuth authentication method.
+     *
+     * @return void
+     */
+    public function setBearerAuth($value);
+
+    /**
      * Operation createTrip
      *
      * Create trip

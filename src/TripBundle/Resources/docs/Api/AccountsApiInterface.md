@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**createAccount**](AccountsApiInterface.md#createAccount) | **POST** /accounts/ | Create account
 [**deleteAccount**](AccountsApiInterface.md#deleteAccount) | **DELETE** /accounts/{accountId} | Delete account
 [**getAccount**](AccountsApiInterface.md#getAccount) | **GET** /accounts/{accountId} | Get account information
-[**updateAccount**](AccountsApiInterface.md#updateAccount) | **PATCH** /accounts/{accountId} | Update account information
+[**updateAccount**](AccountsApiInterface.md#updateAccount) | **PUT** /accounts/{accountId} | Update account information
 
 
 ## Service Declaration
@@ -23,7 +23,7 @@ services:
 ```
 
 ## **createAccount**
-> TripBundle\Model\Account createAccount($account)
+> TripBundle\Model\Account createAccount($accountUpdate)
 
 Create account
 
@@ -44,7 +44,7 @@ class AccountsApi implements AccountsApiInterface
     /**
      * Implementation of AccountsApiInterface#createAccount
      */
-    public function createAccount(Account $account)
+    public function createAccount(AccountUpdate $accountUpdate)
     {
         // Implement the operation ...
     }
@@ -57,7 +57,7 @@ class AccountsApi implements AccountsApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **account** | [**TripBundle\Model\Account**](../Model/Account.md)| Data of new account |
+ **accountUpdate** | [**TripBundle\Model\AccountUpdate**](../Model/AccountUpdate.md)| Data of new account |
 
 ### Return type
 
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -117,7 +117,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -169,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -179,7 +179,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **updateAccount**
-> TripBundle\Model\Account updateAccount($accountId, $account)
+> TripBundle\Model\Account updateAccount($accountId, $accountUpdate)
 
 Update account information
 
@@ -200,7 +200,7 @@ class AccountsApi implements AccountsApiInterface
     /**
      * Implementation of AccountsApiInterface#updateAccount
      */
-    public function updateAccount($accountId, Account $account)
+    public function updateAccount($accountId, AccountUpdate $accountUpdate)
     {
         // Implement the operation ...
     }
@@ -214,7 +214,7 @@ class AccountsApi implements AccountsApiInterface
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accountId** | **string**|  |
- **account** | [**TripBundle\Model\Account**](../Model/Account.md)| Updatable data of account |
+ **accountUpdate** | [**TripBundle\Model\AccountUpdate**](../Model/AccountUpdate.md)| Updatable data of account |
 
 ### Return type
 
@@ -222,7 +222,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../../README.md#BearerAuth)
 
 ### HTTP request headers
 

@@ -4,7 +4,7 @@
 namespace TripBundle\Manipulator;
 
 
-use TripBundle\Model\Account;
+use TripBundle\Entity\Account;
 
 interface AccountManipulatorInterface
 {

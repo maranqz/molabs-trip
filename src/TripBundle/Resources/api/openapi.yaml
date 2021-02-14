@@ -21,7 +21,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateAccount'
+                            $ref: '#/components/schemas/AccountUpdate'
                     application/x-www-form-urlencoded:
                         schema:
                             $ref: '#/components/schemas/Account'
@@ -81,7 +81,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Account'
+                            $ref: '#/components/schemas/AccountUpdate'
                     application/x-www-form-urlencoded:
                         schema:
                             $ref: '#/components/schemas/Account'
@@ -273,16 +273,18 @@ components:
                 email:
                     type: string
                     format: email
-        CreateAccount:
-            allOf:
-                -   $ref: '#/components/schemas/Account'
-                -   type: object
-                    required:
-                        - password
-                    properties:
-                        password:
-                            type: string
-                            format: password
+        AccountUpdate:
+            type: object
+            required:
+                - email
+                - password
+            properties:
+                email:
+                    type: string
+                    format: email
+                password:
+                    type: string
+                    format: password
         Trip:
             type: object
             properties:

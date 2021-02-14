@@ -9,16 +9,14 @@ Controller/CountriesController.php
 Controller/TripsController.php
 DependencyInjection/Compiler/TripApiPass.php
 DependencyInjection/TripExtension.php
-Model/Account.php
-Model/Country.php
 Model/DefaultResponse.php
-Model/Trip.php
 Resources/config/routing.yml
 Resources/config/services.yml
 Resources/docs/Api/AccountsApiInterface.md
 Resources/docs/Api/CountriesApiInterface.md
 Resources/docs/Api/TripsApiInterface.md
 Resources/docs/Model/Account.md
+Resources/docs/Model/AccountUpdate.md
 Resources/docs/Model/Country.md
 Resources/docs/Model/DefaultResponse.md
 Resources/docs/Model/Trip.md

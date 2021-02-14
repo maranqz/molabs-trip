@@ -62,5 +62,70 @@ class Trip
      */
     private $countryCode;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getFinishedAt(): ?\DateTimeInterface
+    {
+        return $this->finishedAt;
+    }
+
+    public function setFinishedAt(\DateTimeInterface $finishedAt): self
+    {
+        $this->finishedAt = $finishedAt;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): self
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?Account
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?Account $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getCountryCode(): ?Country
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(?Country $countryCode): self
+    {
+        $this->countryCode = $countryCode;
+
+        return $this;
+    }
+
 
 }

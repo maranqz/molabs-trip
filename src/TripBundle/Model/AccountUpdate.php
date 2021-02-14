@@ -1,6 +1,6 @@
 <?php
 /**
- * Account
+ * AccountUpdate
  *
  * PHP version 7.1.3
  *
@@ -32,24 +32,23 @@ namespace TripBundle\Model;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
-use TripBundle\Entity\Account as Entity;
+use TripBundle\Entity\Account;
+use TripBundle\Validator\UniqueEntity;
 
 /**
- * Class representing the Account model.
+ * Class representing the AccountUpdate model.
  *
  * @package TripBundle\Model
  * @author  OpenAPI Generator team
+ *
+ * TODO blocked by https://github.com/symfony/symfony/issues/22592
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     entityClass=Account::class
+ * )
  */
-class Account
+class AccountUpdate
 {
-    /**
-     * @var int|null
-     * @SerializedName("id")
-     * @Assert\Type("int")
-     * @Type("int")
-     */
-    protected $id;
-
     /**
      * @var string
      * @SerializedName("email")
@@ -60,46 +59,22 @@ class Account
     protected $email;
 
     /**
+     * @var string
+     * @SerializedName("password")
+     * @Assert\NotNull()
+     * @Assert\Type("string")
+     * @Type("string")
+     */
+    protected $password;
+
+    /**
      * Constructor
      * @param mixed[] $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
-        $this->id = isset($data['id']) ? $data['id'] : null;
         $this->email = isset($data['email']) ? $data['email'] : null;
-    }
-
-    public static function fromEntity(Entity $account)
-    {
-        $dto = new self();
-        $dto->setId($account->getId());
-        $dto->setEmail($account->getEmail());
-
-        return $dto;
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return int|null
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param int|null $id
-     *
-     * @return $this
-     */
-    public function setId($id = null)
-    {
-        $this->id = $id;
-
-        return $this;
+        $this->password = isset($data['password']) ? $data['password'] : null;
     }
 
     /**
@@ -122,6 +97,30 @@ class Account
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Gets password.
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Sets password.
+     *
+     * @param string $password
+     *
+     * @return $this
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
 
         return $this;
     }

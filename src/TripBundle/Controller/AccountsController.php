@@ -36,7 +36,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\Constraints as Assert;
 use TripBundle\Api\AccountsApiInterface;
-use TripBundle\Model\Account;
+use TripBundle\Model\AccountUpdate;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 
@@ -58,7 +58,7 @@ class AccountsController extends Controller
      *
      * @OA\RequestBody(
      *     required=true,
-     *     @Model(type=Account::class, groups={"register"}),
+     *     @Model(type=AccountUpdate::class),
      * )
      *
      * @param Request $request The Symfony request to handle.
@@ -83,16 +83,19 @@ class AccountsController extends Controller
         }
 
         // Handle authentication
+        // Authentication 'BearerAuth' required
+        // HTTP basic authentication required
+        $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $account = $request->getContent();
+        $accountUpdate = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
             $inputFormat = $request->getMimeType($request->getContentType());
-            $account = $this->deserialize($account, 'TripBundle\Model\Account', $inputFormat);
+            $accountUpdate = $this->deserialize($accountUpdate, 'TripBundle\Model\AccountUpdate', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -100,9 +103,9 @@ class AccountsController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("TripBundle\Model\Account");
+        $asserts[] = new Assert\Type("TripBundle\Model\AccountUpdate");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($account, $asserts);
+        $response = $this->validate($accountUpdate, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -111,11 +114,13 @@ class AccountsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
+            // Set authentication method 'BearerAuth'
+            $handler->setBearerAuth($securityBearerAuth);
 
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->createAccount($account, $responseCode, $responseHeaders);
+            $result = $handler->createAccount($accountUpdate, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'unexpected error';
@@ -166,6 +171,9 @@ class AccountsController extends Controller
         }
 
         // Handle authentication
+        // Authentication 'BearerAuth' required
+        // HTTP basic authentication required
+        $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
 
@@ -191,6 +199,8 @@ class AccountsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
+            // Set authentication method 'BearerAuth'
+            $handler->setBearerAuth($securityBearerAuth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -246,6 +256,9 @@ class AccountsController extends Controller
         }
 
         // Handle authentication
+        // Authentication 'BearerAuth' required
+        // HTTP basic authentication required
+        $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
 
@@ -271,6 +284,8 @@ class AccountsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
+            // Set authentication method 'BearerAuth'
+            $handler->setBearerAuth($securityBearerAuth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -333,9 +348,12 @@ class AccountsController extends Controller
         }
 
         // Handle authentication
+        // Authentication 'BearerAuth' required
+        // HTTP basic authentication required
+        $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $account = $request->getContent();
+        $accountUpdate = $request->getContent();
 
         // Use the default value if no value was provided
 
@@ -343,7 +361,7 @@ class AccountsController extends Controller
         try {
             $accountId = $this->deserialize($accountId, 'string', 'string');
             $inputFormat = $request->getMimeType($request->getContentType());
-            $account = $this->deserialize($account, 'TripBundle\Model\Account', $inputFormat);
+            $accountUpdate = $this->deserialize($accountUpdate, 'TripBundle\Model\AccountUpdate', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -358,9 +376,9 @@ class AccountsController extends Controller
         }
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("TripBundle\Model\Account");
+        $asserts[] = new Assert\Type("TripBundle\Model\AccountUpdate");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($account, $asserts);
+        $response = $this->validate($accountUpdate, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -369,11 +387,13 @@ class AccountsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
+            // Set authentication method 'BearerAuth'
+            $handler->setBearerAuth($securityBearerAuth);
 
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->updateAccount($accountId, $account, $responseCode, $responseHeaders);
+            $result = $handler->updateAccount($accountId, $accountUpdate, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'unexpected error';

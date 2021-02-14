@@ -1,2 +1,2 @@
 trip:
-  resource: '@TripBundle/Resources/config/routing.yml'
+  resource: '@TripBundle/Resources/config/routing.yaml'

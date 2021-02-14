@@ -15,6 +15,7 @@ services:
         resource: '../../'
         exclude:
             - '../../Entity/'
+            - '../../Migrations/'
             - '../../Tests/'
 
     TripBundle\Normalizer\EntityNormalizer:
@@ -69,3 +70,7 @@ services:
         tags: [ 'controller.service_arguments' ]
         autowire: true
 
+
+    nelmio_api_doc.describers.config.trip:
+        class: Nelmio\ApiDocBundle\Describer\ExternalDocDescriber
+        tags: [ { name: nelmio_api_doc.describer, priority: 1000 } ]

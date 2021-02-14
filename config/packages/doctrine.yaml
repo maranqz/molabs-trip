@@ -18,5 +18,11 @@ doctrine:
                 alias: App
             TripBundle:
                 type: annotation
-                dir: 'Model'
+                dir: ''
+                prefix: 'TripBundle\Entity'
+            # TODO Need improve
+            TripBundle\Model:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/TripBundle/Model'
                 prefix: 'TripBundle\Model'

@@ -4,21 +4,43 @@
 namespace TripBundle\Api;
 
 
+use Symfony\Component\HttpFoundation\Response;
+use TripBundle\Entity\Account as Entity;
 use TripBundle\Manipulator\AccountManipulatorInterface;
+use TripBundle\Model\AccountUpdate;
 use TripBundle\Model\Account;
+use Symfony\Component\Validator\Constraints as Assert;
+use TripBundle\Service\ValidatorInterface;
 
 class AccountsApi implements AccountsApiInterface
 {
     private AccountManipulatorInterface $manipulator;
+    private $validator;
 
     public function __construct(AccountManipulatorInterface $manipulator)
     {
         $this->manipulator = $manipulator;
     }
 
-    public function createAccount(Account $account, &$responseCode, array &$responseHeaders)
+    public function setValidator(ValidatorInterface $validator)
     {
-        return $this->manipulator->register($account);
+        $this->validator = $validator;
+    }
+
+    public function setBearerAuth($value)
+    {
+        // TODO: Implement setBearerAuth() method.
+    }
+
+    public function createAccount(AccountUpdate $dto, &$responseCode, array &$responseHeaders)
+    {
+        $account = new Entity();
+        $account->setEmail($dto->getEmail());
+        $account->setPassword($dto->getPassword());
+
+        $this->manipulator->register($account);
+
+        return Account::fromEntity($account);
     }
 
     public function deleteAccount($accountId, &$responseCode, array &$responseHeaders)
@@ -30,17 +52,26 @@ class AccountsApi implements AccountsApiInterface
 
     public function getAccount($accountId, &$responseCode, array &$responseHeaders)
     {
-        return $this->manipulator->byIdOrThrowException($accountId);
+        $entity = $this->manipulator->byIdOrThrowException($accountId);
+
+        $dto = new Account();
+        $dto->setEmail($entity->getEmail())
+            ->setId($entity->getId());
+        return $dto;
     }
 
-    public function updateAccount($accountId, Account $account, &$responseCode, array &$responseHeaders)
+    public function updateAccount($accountId, AccountUpdate $dto, &$responseCode, array &$responseHeaders)
     {
         $updatableAccount = $this->manipulator->byIdOrThrowException($accountId);
 
-        $updatableAccount->setEmail($account->getEmail());
-        $updatableAccount->setPassword($account->getPassword());
+        $updatableAccount->setEmail($dto->getEmail());
+        $updatableAccount->setPassword($dto->getPassword());
 
-        return $this->manipulator->update($account);
+        return $this->manipulator->update($updatableAccount);
     }
 
+    private function validate(Entity $account)
+    {
+        return $this->validator->validate($account);
+    }
 }

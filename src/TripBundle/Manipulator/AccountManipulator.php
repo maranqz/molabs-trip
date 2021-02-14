@@ -7,7 +7,7 @@ namespace TripBundle\Manipulator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use TripBundle\Model\Account;
+use TripBundle\Entity\Account;
 
 class AccountManipulator implements AccountManipulatorInterface
 {

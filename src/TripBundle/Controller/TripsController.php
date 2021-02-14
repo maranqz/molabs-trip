@@ -77,6 +77,9 @@ class TripsController extends Controller
         }
 
         // Handle authentication
+        // Authentication 'BearerAuth' required
+        // HTTP basic authentication required
+        $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
         $trip = $request->getContent();
@@ -105,6 +108,8 @@ class TripsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
+            // Set authentication method 'BearerAuth'
+            $handler->setBearerAuth($securityBearerAuth);
             
             // Make the call to the business logic
             $responseCode = 200;
@@ -160,6 +165,9 @@ class TripsController extends Controller
         }
 
         // Handle authentication
+        // Authentication 'BearerAuth' required
+        // HTTP basic authentication required
+        $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
 
@@ -185,6 +193,8 @@ class TripsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
+            // Set authentication method 'BearerAuth'
+            $handler->setBearerAuth($securityBearerAuth);
             
             // Make the call to the business logic
             $responseCode = 200;
@@ -240,6 +250,9 @@ class TripsController extends Controller
         }
 
         // Handle authentication
+        // Authentication 'BearerAuth' required
+        // HTTP basic authentication required
+        $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
 
@@ -265,6 +278,8 @@ class TripsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
+            // Set authentication method 'BearerAuth'
+            $handler->setBearerAuth($securityBearerAuth);
             
             // Make the call to the business logic
             $responseCode = 200;
@@ -327,6 +342,9 @@ class TripsController extends Controller
         }
 
         // Handle authentication
+        // Authentication 'BearerAuth' required
+        // HTTP basic authentication required
+        $securityBearerAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
         $trip = $request->getContent();
@@ -363,6 +381,8 @@ class TripsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
+            // Set authentication method 'BearerAuth'
+            $handler->setBearerAuth($securityBearerAuth);
             
             // Make the call to the business logic
             $responseCode = 200;

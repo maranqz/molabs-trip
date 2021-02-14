@@ -6,7 +6,7 @@ namespace TripBundle\Api;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
-use TripBundle\Model\Country;
+use TripBundle\Entity\Country;
 
 class CountriesApi implements CountriesApiInterface
 {
@@ -15,6 +15,11 @@ class CountriesApi implements CountriesApiInterface
     public function __construct(EntityManagerInterface $manager)
     {
         $this->repository = $manager->getRepository(Country::class);
+    }
+
+    public function setBearerAuth($value)
+    {
+        // TODO: Implement setBearerAuth() method.
     }
 
     /**

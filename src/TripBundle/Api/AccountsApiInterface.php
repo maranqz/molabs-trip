@@ -30,6 +30,7 @@ namespace TripBundle\Api;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use TripBundle\Model\Account;
+use TripBundle\Model\AccountUpdate;
 use TripBundle\Model\DefaultResponse;
 
 /**
@@ -44,18 +45,27 @@ interface AccountsApiInterface
 {
 
     /**
+     * Sets authentication method BearerAuth
+     *
+     * @param string $value Value of the BearerAuth authentication method.
+     *
+     * @return void
+     */
+    public function setBearerAuth($value);
+
+    /**
      * Operation createAccount
      *
      * Create account
      *
-     * @param  TripBundle\Model\Account $account  Data of new account (required)
+     * @param  TripBundle\Model\AccountUpdate $accountUpdate  Data of new account (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return TripBundle\Model\Account
      *
      */
-    public function createAccount(Account $account, &$responseCode, array &$responseHeaders);
+    public function createAccount(AccountUpdate $accountUpdate, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation deleteAccount
@@ -91,12 +101,12 @@ interface AccountsApiInterface
      * Update account information
      *
      * @param  string $accountId   (required)
-     * @param  TripBundle\Model\Account $account  Updatable data of account (required)
+     * @param  TripBundle\Model\AccountUpdate $accountUpdate  Updatable data of account (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return TripBundle\Model\Account
      *
      */
-    public function updateAccount($accountId, Account $account, &$responseCode, array &$responseHeaders);
+    public function updateAccount($accountId, AccountUpdate $accountUpdate, &$responseCode, array &$responseHeaders);
 }

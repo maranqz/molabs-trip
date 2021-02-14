@@ -49,11 +49,10 @@ nginx.reload:
 gen.openapi.php.symfony:
 	docker run --user "$(DOCKER_USER_RUN)" --rm \
 		-v "${PWD}/src:/local/src" \
-		-v "${PWD}/assets/openapi.yaml:/local/openapi.yaml" \
 		openapitools/openapi-generator-cli:latest generate \
 	-g php-symfony \
 	-o /local/src/TripBundle \
-	-i /local/openapi.yaml \
+	-i /local/src/TripBundle/Resources/api/openapi.yaml \
 	-p invokerPackage=TripBundle \
 	-p bundleName=Trip \
 	-p bundleAlias=trip

@@ -8,13 +8,17 @@ use TripBundle\Model\Trip;
 
 class TripsApi implements TripsApiInterface
 {
-
     /**
      * @inheritDoc
      */
     public function createTrip(Trip $trip, &$responseCode, array &$responseHeaders)
     {
         // TODO: Implement createTrip() method.
+    }
+
+    public function setBearerAuth($value)
+    {
+        // TODO: Implement setBearerAuth() method.
     }
 
     /**

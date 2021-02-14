@@ -22,7 +22,6 @@
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
 
-
 .coveralls.yml
 .travis.yml
 autoload.php
@@ -31,3 +30,10 @@ git_push.sh
 phpunit.xml.dist
 pom.xml
 README.md
+
+DependencyInjection/TripExtension.php
+
+Model/Account.php
+Model/AccountUpdate.php
+Model/Country.php
+Model/Trip.php

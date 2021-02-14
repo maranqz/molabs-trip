@@ -35,5 +35,34 @@ class Country
      */
     private $region;
 
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getRegion(): ?bool
+    {
+        return $this->region;
+    }
+
+    public function setRegion(?bool $region): self
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
 
 }
