@@ -29,10 +29,13 @@
 
 namespace TripBundle\Model;
 
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use TripBundle\Entity\Trip as Entity;
+use TripBundle\Entity\Country;
+use TripBundle\Entity\Account;
 
 /**
  * Class representing the Trip model.
@@ -43,10 +46,11 @@ use TripBundle\Entity\Trip as Entity;
 class Trip
 {
     /**
-     * @var int|null
+     * @var Country
+     * @Serializer\Exclude()
      * @SerializedName("country")
-     * @Assert\Type("int")
-     * @Type("int")
+     * @Assert\Type(Country::class)
+     * @Type(Country::class)
      */
     protected $country;
 
@@ -55,7 +59,7 @@ class Trip
      * @SerializedName("started_at")
      * @Assert\NotNull()
      * @Assert\Date()
-     * @Type("DateTime")
+     * @Type("DateTime<'Y-m-d'>")
      */
     protected $startedAt;
 
@@ -65,7 +69,7 @@ class Trip
      * @Assert\NotNull()
      * @Assert\Date()
      * @Assert\GreaterThanOrEqual(propertyPath="started_at")
-     * @Type("DateTime")
+     * @Type("DateTime<'Y-m-d'>")
      */
     protected $finishedAt;
 
@@ -89,10 +93,11 @@ class Trip
 
     /**
      * @var int
+     * @Serializer\Exclude()
      * @SerializedName("created_by")
      * @Assert\NotNull()
-     * @Assert\Type("int")
-     * @Type("int")
+     * @Assert\Type(Account::class)
+     * @Type(Account::class)
      */
     protected $createdBy;
 
@@ -126,7 +131,7 @@ class Trip
     /**
      * Gets country.
      *
-     * @return int|null
+     * @return Country
      */
     public function getCountry()
     {
@@ -136,15 +141,24 @@ class Trip
     /**
      * Sets country.
      *
-     * @param int|null $country
+     * @param Country $country
      *
      * @return $this
      */
-    public function setCountry($country = null)
+    public function setCountry($country)
     {
         $this->country = $country;
 
         return $this;
+    }
+
+    /**
+     * @Serializer\VirtualProperty()
+     * @SerializedName("country")
+     */
+    public function country()
+    {
+        return $this->country->getCode();
     }
 
     /**
@@ -246,7 +260,7 @@ class Trip
     /**
      * Gets createdBy.
      *
-     * @return int
+     * @return Account
      */
     public function getCreatedBy()
     {
@@ -256,7 +270,7 @@ class Trip
     /**
      * Sets createdBy.
      *
-     * @param int $createdBy
+     * @param Account $createdBy
      *
      * @return $this
      */
@@ -265,6 +279,15 @@ class Trip
         $this->createdBy = $createdBy;
 
         return $this;
+    }
+
+    /**
+     * @Serializer\VirtualProperty()
+     * @SerializedName("created_by")
+     */
+    public function createdBy()
+    {
+        return $this->getCreatedBy()->getId();
     }
 }
 

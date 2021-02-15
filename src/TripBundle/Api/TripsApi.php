@@ -4,6 +4,7 @@
 namespace TripBundle\Api;
 
 
+use Symfony\Component\Security\Core\Security;
 use TripBundle\Entity\Trip as Entity;
 use TripBundle\Manipulator\TripManipulatorInterface;
 use TripBundle\Model\Trip;
@@ -13,10 +14,12 @@ use TripBundle\Model\TripUpdate;
 class TripsApi implements TripsApiInterface
 {
     private TripManipulatorInterface $manipulator;
+    private Security $security;
 
-    public function __construct(TripManipulatorInterface $manipulator)
+    public function __construct(TripManipulatorInterface $manipulator, Security $security)
     {
         $this->manipulator = $manipulator;
+        $this->security = $security;
     }
 
     public function setBearerAuth($value)
@@ -33,7 +36,8 @@ class TripsApi implements TripsApiInterface
         $trip->setStartedAt($dto->getStartedAt())
             ->setFinishedAt($dto->getFinishedAt())
             ->setNotes($dto->getNotes())
-            ->setCountry($dto->getCountry());
+            ->setCountry($dto->getCountry())
+            ->setCreatedBy($this->security->getUser());
 
         $this->manipulator->create($trip);
 
@@ -55,7 +59,9 @@ class TripsApi implements TripsApiInterface
      */
     public function getTrip($tripId, &$responseCode, array &$responseHeaders)
     {
-        return $this->manipulator->byIdOrThrowException($tripId);
+        $trip = $this->manipulator->byIdOrThrowException($tripId);
+
+        return Trip::fromEntity($trip);
     }
 
     /**
@@ -68,7 +74,7 @@ class TripsApi implements TripsApiInterface
         if (!empty($dto->getCountry())) {
             $updatableTrip->setCountry($dto->getCountry());
         }
-        if (!empty($dto->setStartedAt())) {
+        if (!empty($dto->getStartedAt())) {
             $updatableTrip->setStartedAt($dto->getStartedAt());
         }
         if (!empty($dto->getFinishedAt())) {
@@ -79,6 +85,7 @@ class TripsApi implements TripsApiInterface
         }
 
         $this->manipulator->update($updatableTrip);
+
         return Trip::fromEntity($updatableTrip);
     }
 }

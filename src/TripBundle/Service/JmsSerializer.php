@@ -28,7 +28,8 @@ class JmsSerializer implements SerializerInterface
             })
             ->setObjectConstructor(new DoctrineObjectConstructor(
                 $managerRegistry,
-                new UnserializeObjectConstructor()
+                new UnserializeObjectConstructor(),
+                DoctrineObjectConstructor::ON_MISSING_FALLBACK
             ))
             ->setDeserializationVisitor('json', new StrictJsonDeserializationVisitor($naming_strategy))
             ->setDeserializationVisitor('xml', new XmlDeserializationVisitor($naming_strategy))

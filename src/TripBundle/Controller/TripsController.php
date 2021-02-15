@@ -31,15 +31,14 @@ namespace TripBundle\Controller;
 
 use \Exception;
 use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\Constraints as Assert;
 use TripBundle\Api\TripsApiInterface;
-use TripBundle\Model\DefaultResponse;
-use TripBundle\Model\Trip;
-use TripBundle\Model\TripCreate;
-use TripBundle\Model\TripUpdate;
+use TripBundle\Entity\Trip as Entity;
 
 /**
  * TripsController Class Doc Comment
@@ -154,6 +153,9 @@ class TripsController extends Controller
      *
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
+     *
+     * @IsGranted(subject="trip")
+     * @ParamConverter("trip", options={"id" = "tripId"}, class=Entity::class)
      */
     public function deleteTripAction(Request $request, $tripId)
     {
@@ -239,6 +241,9 @@ class TripsController extends Controller
      *
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
+     *
+     * @IsGranted(subject="trip")
+     * @ParamConverter("trip", options={"id" = "tripId"}, class=Entity::class)
      */
     public function getTripAction(Request $request, $tripId)
     {
@@ -324,6 +329,9 @@ class TripsController extends Controller
      *
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
+     *
+     * @IsGranted(subject="trip")
+     * @ParamConverter("trip", options={"id" = "tripId"}, class=Entity::class)
      */
     public function updateTripAction(Request $request, $tripId)
     {

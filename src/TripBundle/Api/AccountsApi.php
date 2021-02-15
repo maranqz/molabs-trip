@@ -44,12 +44,9 @@ class AccountsApi implements AccountsApiInterface
 
     public function getAccount($accountId, &$responseCode, array &$responseHeaders)
     {
-        $entity = $this->manipulator->byIdOrThrowException($accountId);
+        $account = $this->manipulator->byIdOrThrowException($accountId);
 
-        $dto = new Account();
-        $dto->setEmail($entity->getEmail())
-            ->setId($entity->getId());
-        return $dto;
+        return Account::fromEntity($account);
     }
 
     public function updateAccount($accountId, AccountUpdate $dto, &$responseCode, array &$responseHeaders)

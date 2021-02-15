@@ -32,6 +32,7 @@ namespace TripBundle\Model;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use TripBundle\Entity\Country;
 
 /**
  * Class representing the TripUpdate model.
@@ -42,10 +43,10 @@ use JMS\Serializer\Annotation\SerializedName;
 class TripUpdate
 {
     /**
-     * @var int|null
+     * @var Country
      * @SerializedName("country")
-     * @Assert\Type("int")
-     * @Type("int")
+     * @Assert\Type(Country::class)
+     * @Type(Country::class)
      */
     protected $country;
 
@@ -53,7 +54,7 @@ class TripUpdate
      * @var \DateTime|null
      * @SerializedName("started_at")
      * @Assert\Date()
-     * @Type("DateTime")
+     * @Type("DateTime<'Y-m-d'>")
      */
     protected $startedAt;
 
@@ -62,7 +63,7 @@ class TripUpdate
      * @SerializedName("finished_at")
      * @Assert\Date()
      * @Assert\GreaterThanOrEqual(propertyPath="started_at")
-     * @Type("DateTime")
+     * @Type("DateTime<'Y-m-d'>")
      */
     protected $finishedAt;
 
@@ -89,7 +90,7 @@ class TripUpdate
     /**
      * Gets country.
      *
-     * @return int|null
+     * @return Country|null
      */
     public function getCountry()
     {
@@ -99,7 +100,7 @@ class TripUpdate
     /**
      * Sets country.
      *
-     * @param int|null $country
+     * @param Country|null $country
      *
      * @return $this
      */

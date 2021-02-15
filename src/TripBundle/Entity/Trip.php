@@ -67,7 +67,7 @@ class Trip
         return $this->id;
     }
 
-    public function getStartedAt(): ?\DateTimeInterface
+    public function getStartedAt(): \DateTimeInterface
     {
         return $this->startedAt;
     }
@@ -79,7 +79,7 @@ class Trip
         return $this;
     }
 
-    public function getFinishedAt(): ?\DateTimeInterface
+    public function getFinishedAt(): \DateTimeInterface
     {
         return $this->finishedAt;
     }

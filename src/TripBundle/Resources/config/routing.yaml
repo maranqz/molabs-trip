@@ -70,4 +70,3 @@ trip_trips_updatetrip:
         _controller: trip.controller.trips::updateTripAction
     requirements:
         tripId: '\d+'
-

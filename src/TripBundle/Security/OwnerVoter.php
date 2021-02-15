@@ -7,7 +7,7 @@ namespace TripBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use TripBundle\Entity\Account;
-use TripBundle\Model\Trip;
+use TripBundle\Entity\Trip;
 
 class OwnerVoter extends Voter
 {
@@ -19,7 +19,7 @@ class OwnerVoter extends Voter
         ],
         [
             self::CLASS_OPT => Trip::class,
-            self::GETTER => 'createdBy',
+            self::GETTER => 'getCreatedBy',
         ]
     ];
     const CLASS_OPT = 'class';
@@ -39,12 +39,12 @@ class OwnerVoter extends Voter
         }
         $preparedClasses = [];
 
-        foreach ($this->entitiesClass as $entityClass) {
-            if (array_key_exists(self::GETTER, $entityClass) === false) {
-                $entityClass[self::GETTER] = null;
+        foreach ($entitiesClass as $class) {
+            if (array_key_exists(self::GETTER, $class) === false) {
+                $class[self::GETTER] = null;
             }
 
-            $preparedClasses[$entitiesClass[self::CLASS_OPT]] = $entityClass[self::GETTER];
+            $preparedClasses[$class[self::CLASS_OPT]] = $class[self::GETTER];
         }
 
         return $preparedClasses;
@@ -52,14 +52,14 @@ class OwnerVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return isset($this->entitiesClass[get_class($subject)]);
+        return $this->subjectIsSupported($subject);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $user = $token->getUser();
 
-        if (!$user instanceof Account || $this->subjectIsSupported($subject)) {
+        if (!$user instanceof Account || !$this->subjectIsSupported($subject)) {
             return false;
         }
 
@@ -73,11 +73,12 @@ class OwnerVoter extends Voter
 
     private function getOwner($subject)
     {
-        if (empty($this->entitiesClass)) {
+        $getter = $this->entitiesClass[get_class($subject)];
+        if (empty($getter)) {
             return $subject;
         }
 
-        return $subject->{$this->entitiesClass[$subject]};
+        return $subject->$getter();
     }
 
 }

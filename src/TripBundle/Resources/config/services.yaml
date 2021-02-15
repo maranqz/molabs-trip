@@ -17,6 +17,7 @@ services:
             - '../../Entity/'
             - '../../Migrations/'
             - '../../Tests/'
+            - '../../Resources/'
 
 
     trip.api.api_server:

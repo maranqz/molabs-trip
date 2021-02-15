@@ -31,15 +31,14 @@ namespace TripBundle\Controller;
 
 use \Exception;
 use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\Constraints as Assert;
 use TripBundle\Api\AccountsApiInterface;
-use TripBundle\Model\Account;
-use TripBundle\Model\AccountCreate;
-use TripBundle\Model\AccountUpdate;
-use TripBundle\Model\DefaultResponse;
+use TripBundle\Entity\Account as Entity;
 
 /**
  * AccountsController Class Doc Comment
@@ -154,6 +153,9 @@ class AccountsController extends Controller
      *
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
+     *
+     * @IsGranted(subject="account")
+     * @ParamConverter("account", options={"id" = "accountId"}, class=Entity::class)
      */
     public function deleteAccountAction(Request $request, $accountId)
     {
@@ -237,8 +239,8 @@ class AccountsController extends Controller
      *
      * Get account information
      *
-     * @param Request $request The Symfony request to handle.
-     * @return Response The Symfony response.
+     * @IsGranted(subject="account")
+     * @ParamConverter("account", options={"id" = "accountId"}, class=Entity::class)
      */
     public function getAccountAction(Request $request, $accountId)
     {
@@ -324,6 +326,9 @@ class AccountsController extends Controller
      *
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
+     *
+     * @IsGranted(subject="account")
+     * @ParamConverter("account", options={"id" = "accountId"}, class=Entity::class)
      */
     public function updateAccountAction(Request $request, $accountId)
     {
