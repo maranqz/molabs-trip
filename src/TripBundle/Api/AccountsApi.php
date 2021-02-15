@@ -28,7 +28,7 @@ class AccountsApi implements AccountsApiInterface
     {
         $account = new Entity();
         $account->setEmail($dto->getEmail());
-        $account->setPassword($dto->getPassword());
+        $account->setPlainPassword($dto->getPassword());
 
         $this->manipulator->register($account);
 

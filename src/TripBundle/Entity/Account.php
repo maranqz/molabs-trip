@@ -3,6 +3,7 @@
 namespace TripBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Account
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="account", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity
  */
-class Account
+class Account implements UserInterface
 {
     /**
      * @var int
@@ -80,5 +81,25 @@ class Account
         $this->plainPassword = $password;
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_TRIP'];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->getPassword();
+    }
+
+    public function eraseCredentials()
+    {
+        $this->setPlainPassword(null);
     }
 }

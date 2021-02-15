@@ -1,14 +1,22 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        # TODO move to trip bundle
+        trip_account:
+            entity:
+                class: TripBundle\Entity\Account
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: lazy
-            provider: users_in_memory
+            # TODO move to trip bundle
+            provider: trip_account
+            http_basic:
+                realm: Secured Area
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -20,7 +28,11 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - path: ^/trip/accounts/$
+          roles: IS_AUTHENTICATED_ANONYMOUSLY
+          methods: [ POST ]
+        - { path: ^/trip/, roles: ROLE_TRIP }
+
 
     # TODO need to move in bundle
     encoders:

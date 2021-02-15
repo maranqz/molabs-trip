@@ -7,9 +7,9 @@ info:
 servers:
     -   url: /
 security:
-    -   BearerAuth: [ ]
+    -   BasicAuth: [ ]
 paths:
-    /accounts/:
+    /trip/accounts/:
         post:
             summary: Create account
             operationId: createAccount
@@ -39,7 +39,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DefaultResponse"
-    /accounts/{accountId}:
+    /trip/accounts/{accountId}:
         get:
             summary: Get account information
             operationId: getAccount
@@ -123,7 +123,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DefaultResponse"
-    /trips/:
+    /trip/trips/:
         post:
             summary: Create trip
             operationId: createTrip
@@ -152,7 +152,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DefaultResponse"
-    /trips/{tripId}:
+    /trip/trips/{tripId}:
         get:
             summary: Get trip information
             operationId: getTrip
@@ -236,7 +236,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DefaultResponse"
-    /countries/:
+    /trip/countries/:
         get:
             summary: Get list of countries
             operationId: getCountries
@@ -257,10 +257,9 @@ paths:
                                 $ref: "#/components/schemas/DefaultResponse"
 components:
     securitySchemes:
-        BearerAuth:
+        BasicAuth:
             type: http
-            scheme: bearer
-            bearerFormat: JWT
+            scheme: basic
     schemas:
         Account:
             type: object

@@ -4,13 +4,13 @@
 
 # accounts
 trip_accounts_createaccount:
-    path:     /accounts/
+    path:     /trip/accounts/
     methods:  [POST]
     defaults:
         _controller: trip.controller.accounts::createAccountAction
 
 trip_accounts_deleteaccount:
-    path:     /accounts/{accountId}
+    path:     /trip/accounts/{accountId}
     methods:  [DELETE]
     defaults:
         _controller: trip.controller.accounts::deleteAccountAction
@@ -18,7 +18,7 @@ trip_accounts_deleteaccount:
         accountId: '\d+'
 
 trip_accounts_getaccount:
-    path:     /accounts/{accountId}
+    path:     /trip/accounts/{accountId}
     methods:  [GET]
     defaults:
         _controller: trip.controller.accounts::getAccountAction
@@ -26,7 +26,7 @@ trip_accounts_getaccount:
         accountId: '\d+'
 
 trip_accounts_updateaccount:
-    path:     /accounts/{accountId}
+    path:     /trip/accounts/{accountId}
     methods:  [PATCH]
     defaults:
         _controller: trip.controller.accounts::updateAccountAction
@@ -35,20 +35,20 @@ trip_accounts_updateaccount:
 
 # countries
 trip_countries_getcountries:
-    path:     /countries/
+    path:     /trip/countries/
     methods:  [GET]
     defaults:
         _controller: trip.controller.countries::getCountriesAction
 
 # trips
 trip_trips_createtrip:
-    path:     /trips/
+    path:     /trip/trips/
     methods:  [POST]
     defaults:
         _controller: trip.controller.trips::createTripAction
 
 trip_trips_deletetrip:
-    path:     /trips/{tripId}
+    path:     /trip/trips/{tripId}
     methods:  [DELETE]
     defaults:
         _controller: trip.controller.trips::deleteTripAction
@@ -56,7 +56,7 @@ trip_trips_deletetrip:
         tripId: '\d+'
 
 trip_trips_gettrip:
-    path:     /trips/{tripId}
+    path:     /trip/trips/{tripId}
     methods:  [GET]
     defaults:
         _controller: trip.controller.trips::getTripAction
@@ -64,7 +64,7 @@ trip_trips_gettrip:
         tripId: '\d+'
 
 trip_trips_updatetrip:
-    path:     /trips/{tripId}
+    path:     /trip/trips/{tripId}
     methods:  [PATCH]
     defaults:
         _controller: trip.controller.trips::updateTripAction
