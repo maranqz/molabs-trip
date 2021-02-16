@@ -83,9 +83,19 @@ class AccountUpdate
     }
 
     /**
+     * Gets id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Sets id.
      *
-     * @param int $email
+     * @param int $id
      *
      * @return $this
      */

@@ -32,14 +32,19 @@ namespace TripBundle\Model;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use TripBundle\Entity\Account;
 use TripBundle\Entity\Country;
+use TripBundle\Entity\Trip as Entity;
 use Doctrine\ORM\Mapping as ORM;
+use TripBundle\Validator\NotOverlapping;
 
 /**
  * Class representing the TripCreate model.
  *
  * @package TripBundle\Model
  * @author  OpenAPI Generator team
+ * 
+ * @NotOverlapping(fields={"createdBy"}, entityClass=Entity::class)
  */
 class TripCreate
 {
@@ -66,7 +71,7 @@ class TripCreate
      * @SerializedName("finished_at")
      * @Assert\NotNull()
      * @Assert\Date()
-     * @Assert\GreaterThanOrEqual(propertyPath="started_at")
+     * @Assert\GreaterThan(propertyPath="started_at")
      * @Type("DateTime<'Y-m-d'>")
      */
     protected $finishedAt;
@@ -79,6 +84,11 @@ class TripCreate
      * @Type("string")
      */
     protected $notes;
+
+    /**
+     * @var Account
+     */
+    protected $createdBy;
 
     /**
      * Constructor
@@ -184,6 +194,30 @@ class TripCreate
     public function setNotes(string $notes)
     {
         $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Gets createdBy.
+     *
+     * @return Account
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Sets createdBy.
+     *
+     * @param Account $createdBy
+     *
+     * @return $this
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

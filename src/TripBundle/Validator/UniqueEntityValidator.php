@@ -27,6 +27,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class UniqueEntityValidator extends ConstraintValidator
 {
+    use DTOValidatorTrait;
+
     private $registry;
 
     public function __construct(ManagerRegistry $registry)
@@ -225,43 +227,6 @@ class UniqueEntityValidator extends ConstraintValidator
             ->setCode(UniqueEntity::NOT_UNIQUE_ERROR)
             ->setCause($result)
             ->addViolation();
-    }
-
-    protected  function getPropertyValue($class, $name, $object)
-    {
-        $property = new \ReflectionProperty($class, $name);
-        if (!$property->isPublic()) {
-            $property->setAccessible(true);
-        }
-
-        return $property->getValue($object);
-    }
-
-    protected function getFieldValues($object, ClassMetadata $class, array $fields, bool $isEntity = false): array
-    {
-        if (!$isEntity) {
-            $reflectionObject = new \ReflectionObject($object);
-        }
-
-        $fieldValues = [];
-        $objectClass = \get_class($object);
-
-        foreach ($fields as $objectFieldName => $entityFieldName) {
-            if (!$class->hasField($entityFieldName) && !$class->hasAssociation($entityFieldName)) {
-                throw new ConstraintDefinitionException(sprintf('The field "%s" is not mapped by Doctrine, so it cannot be validated for uniqueness.', $entityFieldName));
-            }
-
-            $fieldName = \is_int($objectFieldName) ? $entityFieldName : $objectFieldName;
-            if (!$isEntity) {
-                if (!$reflectionObject->hasProperty($fieldName)) {
-                    throw new ConstraintDefinitionException(sprintf('The field "%s" is not a property of class "%s".', $fieldName, $objectClass));
-                }
-            }
-
-            $fieldValues[$entityFieldName] = $this->getPropertyValue($objectClass, $fieldName, $object);
-        }
-
-        return $fieldValues;
     }
 
     private function formatWithIdentifiers($em, $class, $value)

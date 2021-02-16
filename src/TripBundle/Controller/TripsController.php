@@ -36,6 +36,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints as Assert;
 use TripBundle\Api\TripsApiInterface;
 use TripBundle\Entity\Trip as Entity;
@@ -50,6 +51,12 @@ use TripBundle\Entity\Trip as Entity;
  */
 class TripsController extends Controller
 {
+    private Security $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
 
     /**
      * Operation createTrip
@@ -91,6 +98,7 @@ class TripsController extends Controller
         try {
             $inputFormat = $request->getMimeType($request->getContentType());
             $tripCreate = $this->deserialize($tripCreate, 'TripBundle\Model\TripCreate', $inputFormat);
+            $tripCreate->setCreatedBy($this->security->getUser());
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -333,7 +341,7 @@ class TripsController extends Controller
      * @IsGranted(subject="trip")
      * @ParamConverter("trip", options={"id" = "tripId"}, class=Entity::class)
      */
-    public function updateTripAction(Request $request, $tripId)
+    public function updateTripAction(Request $request, $tripId, Entity $trip)
     {
         // Make sure that the client is providing something that we can consume
         $consumes = ['application/json', 'application/x-www-form-urlencoded'];
@@ -366,6 +374,14 @@ class TripsController extends Controller
             $tripId = $this->deserialize($tripId, 'int', 'string');
             $inputFormat = $request->getMimeType($request->getContentType());
             $tripUpdate = $this->deserialize($tripUpdate, 'TripBundle\Model\TripUpdate', $inputFormat);
+            $tripUpdate->setId($tripId);
+            $tripUpdate->setCreatedBy($this->security->getUser());
+            if (empty($tripUpdate->getStartedAt())) {
+                $tripUpdate->setStartedAt($trip->getStartedAt());
+            }
+            if (empty($tripUpdate->getFinishedAt())) {
+                $tripUpdate->setFinishedAt($trip->getFinishedAt());
+            }
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }

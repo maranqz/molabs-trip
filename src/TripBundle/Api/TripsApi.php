@@ -4,7 +4,6 @@
 namespace TripBundle\Api;
 
 
-use Symfony\Component\Security\Core\Security;
 use TripBundle\Entity\Trip as Entity;
 use TripBundle\Manipulator\TripManipulatorInterface;
 use TripBundle\Model\Trip;
@@ -14,12 +13,10 @@ use TripBundle\Model\TripUpdate;
 class TripsApi implements TripsApiInterface
 {
     private TripManipulatorInterface $manipulator;
-    private Security $security;
 
-    public function __construct(TripManipulatorInterface $manipulator, Security $security)
+    public function __construct(TripManipulatorInterface $manipulator)
     {
         $this->manipulator = $manipulator;
-        $this->security = $security;
     }
 
     public function setBearerAuth($value)
@@ -37,7 +34,7 @@ class TripsApi implements TripsApiInterface
             ->setFinishedAt($dto->getFinishedAt())
             ->setNotes($dto->getNotes())
             ->setCountry($dto->getCountry())
-            ->setCreatedBy($this->security->getUser());
+            ->setCreatedBy($dto->getCreatedBy());
 
         $this->manipulator->create($trip);
 

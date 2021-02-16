@@ -33,15 +33,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use TripBundle\Entity\Country;
+use TripBundle\Entity\Trip as Entity;
+use TripBundle\Entity\Account;
+use TripBundle\Validator\NotOverlapping;
 
 /**
  * Class representing the TripUpdate model.
  *
  * @package TripBundle\Model
  * @author  OpenAPI Generator team
+ *
+ * @NotOverlapping(identifierFieldNames={"id"}, fields={"createdBy"}, entityClass=Entity::class)
  */
 class TripUpdate
 {
+    protected $id;
+
     /**
      * @var Country
      * @SerializedName("country")
@@ -62,7 +69,7 @@ class TripUpdate
      * @var \DateTime|null
      * @SerializedName("finished_at")
      * @Assert\Date()
-     * @Assert\GreaterThanOrEqual(propertyPath="started_at")
+     * @Assert\GreaterThan(propertyPath="started_at")
      * @Type("DateTime<'Y-m-d'>")
      */
     protected $finishedAt;
@@ -76,6 +83,11 @@ class TripUpdate
     protected $notes;
 
     /**
+     * @var Account
+     */
+    protected $createdBy;
+
+    /**
      * Constructor
      * @param mixed[] $data Associated array of property values initializing the model
      */
@@ -85,6 +97,30 @@ class TripUpdate
         $this->startedAt = isset($data['startedAt']) ? $data['startedAt'] : null;
         $this->finishedAt = isset($data['finishedAt']) ? $data['finishedAt'] : null;
         $this->notes = isset($data['notes']) ? $data['notes'] : null;
+    }
+
+    /**
+     * Gets id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param int $id
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -179,6 +215,30 @@ class TripUpdate
     public function setNotes($notes = null)
     {
         $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Gets createdBy.
+     *
+     * @return Account
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Sets createdBy.
+     *
+     * @param Account $createdBy
+     *
+     * @return $this
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }
