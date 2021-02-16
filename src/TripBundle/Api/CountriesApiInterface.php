@@ -44,13 +44,13 @@ interface CountriesApiInterface
 {
 
     /**
-     * Sets authentication method BearerAuth
+     * Sets authentication method BasicAuth
      *
-     * @param string $value Value of the BearerAuth authentication method.
+     * @param string $value Value of the BasicAuth authentication method.
      *
      * @return void
      */
-    public function setBearerAuth($value);
+    public function setBasicAuth($value);
 
     /**
      * Operation getCountries

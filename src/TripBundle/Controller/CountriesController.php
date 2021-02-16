@@ -30,14 +30,10 @@
 namespace TripBundle\Controller;
 
 use \Exception;
-use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Validator\Constraints as Assert;
 use TripBundle\Api\CountriesApiInterface;
-use TripBundle\Model\Country;
-use TripBundle\Model\DefaultResponse;
 
 /**
  * CountriesController Class Doc Comment
@@ -70,9 +66,9 @@ class CountriesController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'BearerAuth' required
+        // Authentication 'BasicAuth' required
         // HTTP basic authentication required
-        $securityBearerAuth = $request->headers->get('authorization');
+        $securityBasicAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
 
@@ -84,8 +80,8 @@ class CountriesController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'BearerAuth'
-            $handler->setBearerAuth($securityBearerAuth);
+            // Set authentication method 'BasicAuth'
+            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;

@@ -78,9 +78,9 @@ class AccountsController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'BearerAuth' required
+        // Authentication 'BasicAuth' required
         // HTTP basic authentication required
-        $securityBearerAuth = $request->headers->get('authorization');
+        $securityBasicAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
         $accountCreate = $request->getContent();
@@ -109,8 +109,8 @@ class AccountsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'BearerAuth'
-            $handler->setBearerAuth($securityBearerAuth);
+            // Set authentication method 'BasicAuth'
+            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;
@@ -169,9 +169,9 @@ class AccountsController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'BearerAuth' required
+        // Authentication 'BasicAuth' required
         // HTTP basic authentication required
-        $securityBearerAuth = $request->headers->get('authorization');
+        $securityBasicAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
 
@@ -197,8 +197,8 @@ class AccountsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'BearerAuth'
-            $handler->setBearerAuth($securityBearerAuth);
+            // Set authentication method 'BasicAuth'
+            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;
@@ -254,9 +254,9 @@ class AccountsController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'BearerAuth' required
+        // Authentication 'BasicAuth' required
         // HTTP basic authentication required
-        $securityBearerAuth = $request->headers->get('authorization');
+        $securityBasicAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
 
@@ -282,8 +282,8 @@ class AccountsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'BearerAuth'
-            $handler->setBearerAuth($securityBearerAuth);
+            // Set authentication method 'BasicAuth'
+            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;
@@ -349,9 +349,9 @@ class AccountsController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'BearerAuth' required
+        // Authentication 'BasicAuth' required
         // HTTP basic authentication required
-        $securityBearerAuth = $request->headers->get('authorization');
+        $securityBasicAuth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
         $accountUpdate = $request->getContent();
@@ -389,8 +389,8 @@ class AccountsController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            // Set authentication method 'BearerAuth'
-            $handler->setBearerAuth($securityBearerAuth);
+            // Set authentication method 'BasicAuth'
+            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;

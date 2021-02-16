@@ -14,8 +14,8 @@ class NotOverlapping extends Constraint
 {
     public $message = 'This value overlaps with other values.';
     public $service = 'TripBundle\Validator\NotOverlappingValidator';
-    public $startAt = 'startedAt';
-    public $finishAt = 'finishedAt';
+    public $startedAt = 'startedAt';
+    public $finishedAt = 'finishedAt';
     public $fields = [];
     public $entityClass = null;
     public $errorPath = null;

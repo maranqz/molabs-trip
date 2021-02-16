@@ -19,7 +19,7 @@ class AccountsApi implements AccountsApiInterface
         $this->manipulator = $manipulator;
     }
 
-    public function setBearerAuth($value)
+    public function setBasicAuth($value)
     {
         // TODO: Implement setBearerAuth() method.
     }

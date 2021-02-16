@@ -34,7 +34,8 @@ README.md
 DependencyInjection/TripExtension.php
 
 
-Controller/AccountsController.php
+*
+!Controller/TripsController.php
 
 Model/Account.php
 Model/AccountCreate.php

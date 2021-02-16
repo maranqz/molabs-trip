@@ -17,7 +17,7 @@ class CountriesApi implements CountriesApiInterface
         $this->repository = $manager->getRepository(Country::class);
     }
 
-    public function setBearerAuth($value)
+    public function setBasicAuth($value)
     {
         // TODO: Implement setBearerAuth() method.
     }

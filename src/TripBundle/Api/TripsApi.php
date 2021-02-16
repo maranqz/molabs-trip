@@ -4,22 +4,28 @@
 namespace TripBundle\Api;
 
 
+use Symfony\Component\Security\Core\Security;
 use TripBundle\Entity\Trip as Entity;
 use TripBundle\Manipulator\TripManipulatorInterface;
 use TripBundle\Model\Trip;
 use TripBundle\Model\TripCreate;
 use TripBundle\Model\TripUpdate;
+use TripBundle\Repository\TripRepository;
 
 class TripsApi implements TripsApiInterface
 {
     private TripManipulatorInterface $manipulator;
+    private TripRepository $repository;
+    private Security $security;
 
-    public function __construct(TripManipulatorInterface $manipulator)
+    public function __construct(TripManipulatorInterface $manipulator, TripRepository $repository, Security $security)
     {
         $this->manipulator = $manipulator;
+        $this->repository = $repository;
+        $this->security = $security;
     }
 
-    public function setBearerAuth($value)
+    public function setBasicAuth($value)
     {
         // TODO: Implement setBearerAuth() method.
     }
@@ -60,6 +66,18 @@ class TripsApi implements TripsApiInterface
 
         return Trip::fromEntity($trip);
     }
+
+
+    public function getTrips($filter = null, &$responseCode, array &$responseHeaders)
+    {
+        return $this->repository->findByFilter(
+            $filter->getCountry(),
+            $filter->getStartedAt(),
+            $filter->getFinishedAt(),
+            $this->security->getUser()
+        );
+    }
+
 
     /**
      * @inheritDoc

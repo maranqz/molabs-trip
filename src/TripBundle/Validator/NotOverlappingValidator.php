@@ -51,7 +51,7 @@ class NotOverlappingValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint->errorPath, 'string or null');
         }
 
-        if (empty($constraint->startAt) || empty($constraint->finishAt)) {
+        if (empty($constraint->startedAt) || empty($constraint->finishedAt)) {
             throw new ConstraintDefinitionException('startedAt and finishedAt should be set.');
         }
 
@@ -77,6 +77,14 @@ class NotOverlappingValidator extends ConstraintValidator
 
         $class = $em->getClassMetadata($entityClass);
 
+        $startedAtValue = $this->getFieldValue($class, $constraint->startedAt, $object);
+        $finishedAtValue = $this->getFieldValue($class, $constraint->finishedAt, $object);
+
+        if (empty($startedAtValue) || empty($finishedAtValue)) {
+            throw new \InvalidArgumentException(sprintf('"%s" and "%s" should be set', $constraint->startedAt,
+                $constraint->finishedAt));
+        }
+
         $criteria = new Criteria();
         $fieldsCriteria = [];
         foreach ($fields as $field) {
@@ -89,22 +97,19 @@ class NotOverlappingValidator extends ConstraintValidator
             $criteria->andWhere($criteria->expr()->andX(...$fieldsCriteria));
         }
 
-        $startedAtValue = $this->getFieldValue($class, $constraint->startAt, $object);
-        $finishedAtValue = $this->getFieldValue($class, $constraint->finishAt, $object);
-
         $criteria->andWhere(
             $criteria->expr()->orX(
                 $criteria->expr()->andX(
-                    $criteria->expr()->gte($constraint->startAt, $startedAtValue),
-                    $criteria->expr()->lte($constraint->finishAt, $startedAtValue),
+                    $criteria->expr()->lte($constraint->startedAt, $startedAtValue),
+                    $criteria->expr()->gte($constraint->finishedAt, $startedAtValue),
                 ),
                 $criteria->expr()->andX(
-                    $criteria->expr()->gte($constraint->startAt, $finishedAtValue),
-                    $criteria->expr()->lte($constraint->finishAt, $finishedAtValue),
+                    $criteria->expr()->lte($constraint->startedAt, $finishedAtValue),
+                    $criteria->expr()->gte($constraint->finishedAt, $finishedAtValue),
                 ),
                 $criteria->expr()->andX(
-                    $criteria->expr()->gte($constraint->startAt, $startedAtValue),
-                    $criteria->expr()->lte($constraint->finishAt, $finishedAtValue),
+                    $criteria->expr()->gte($constraint->startedAt, $startedAtValue),
+                    $criteria->expr()->lte($constraint->finishedAt, $finishedAtValue),
                 ),
             ))
             ->setMaxResults(2);
@@ -179,7 +184,7 @@ class NotOverlappingValidator extends ConstraintValidator
             }
         }
 
-        $errorPath = null !== $constraint->errorPath ? $constraint->errorPath : $constraint->startAt;
+        $errorPath = null !== $constraint->errorPath ? $constraint->errorPath : $constraint->startedAt;
 
         $this->context->buildViolation($constraint->message)
             ->atPath($errorPath)

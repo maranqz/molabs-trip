@@ -6,6 +6,7 @@ namespace TripBundle\Service\JMS;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreDeserializeEvent;
+use TripBundle\Model\Filter;
 use TripBundle\Model\Trip;
 use TripBundle\Model\TripCreate;
 use TripBundle\Model\TripUpdate;
@@ -20,7 +21,7 @@ class CountryEventSubscriber implements EventSubscriberInterface
         ];
         $subscribers = [];
 
-        foreach ([TripCreate::class, TripUpdate::class, Trip::class] as $class) {
+        foreach ([TripCreate::class, TripUpdate::class, Trip::class, Filter::class] as $class) {
             $subscribers[] = $subscribe + ['class' => $class];
         }
 

@@ -152,6 +152,40 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/DefaultResponse"
+        get:
+            summary: Get trips
+            operationId: getTrips
+            tags:
+                - trips
+            parameters:
+                -   in: query
+                    name: filter
+                    explode: true
+                    schema:
+                        type: object
+                        properties:
+                            started_at:
+                                type: date
+                            finished_at:
+                                type: date
+                                format: date
+                            country:
+                                type: string
+            responses:
+                '200':
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Trip"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DefaultResponse"
     /trip/trips/{tripId}:
         get:
             summary: Get trip information

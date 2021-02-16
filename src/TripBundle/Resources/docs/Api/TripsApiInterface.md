@@ -4,10 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createTrip**](TripsApiInterface.md#createTrip) | **POST** /trips/ | Create trip
-[**deleteTrip**](TripsApiInterface.md#deleteTrip) | **DELETE** /trips/{tripId} | Delete trip
-[**getTrip**](TripsApiInterface.md#getTrip) | **GET** /trips/{tripId} | Get trip information
-[**updateTrip**](TripsApiInterface.md#updateTrip) | **PATCH** /trips/{tripId} | Update trip information
+[**createTrip**](TripsApiInterface.md#createTrip) | **POST** /trip/trips/ | Create trip
+[**deleteTrip**](TripsApiInterface.md#deleteTrip) | **DELETE** /trip/trips/{tripId} | Delete trip
+[**getTrip**](TripsApiInterface.md#getTrip) | **GET** /trip/trips/{tripId} | Get trip information
+[**getTrips**](TripsApiInterface.md#getTrips) | **GET** /trip/trips/ | Get trips
+[**updateTrip**](TripsApiInterface.md#updateTrip) | **PATCH** /trip/trips/{tripId} | Update trip information
 
 
 ## Service Declaration
@@ -65,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[BearerAuth](../../README.md#BearerAuth)
+[BasicAuth](../../README.md#BasicAuth)
 
 ### HTTP request headers
 
@@ -117,7 +118,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[BearerAuth](../../README.md#BearerAuth)
+[BasicAuth](../../README.md#BasicAuth)
 
 ### HTTP request headers
 
@@ -169,7 +170,61 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[BearerAuth](../../README.md#BearerAuth)
+[BasicAuth](../../README.md#BasicAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+## **getTrips**
+> TripBundle\Model\Trip getTrips($startedAt, $finishedAt, $country)
+
+Get trips
+
+### Example Implementation
+```php
+<?php
+// src/Acme/MyBundle/Api/TripsApiInterface.php
+
+namespace Acme\MyBundle\Api;
+
+use TripBundle\Api\TripsApiInterface;
+
+class TripsApi implements TripsApiInterface
+{
+
+    // ...
+
+    /**
+     * Implementation of TripsApiInterface#getTrips
+     */
+    public function getTrips(\DateTime $startedAt = null, \DateTime $finishedAt = null, $country = null)
+    {
+        // Implement the operation ...
+    }
+
+    // ...
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **startedAt** | [**\DateTime**](../Model/.md)|  | [optional]
+ **finishedAt** | [**\DateTime**](../Model/.md)|  | [optional]
+ **country** | **string**|  | [optional]
+
+### Return type
+
+[**TripBundle\Model\Trip**](../Model/Trip.md)
+
+### Authorization
+
+[BasicAuth](../../README.md#BasicAuth)
 
 ### HTTP request headers
 
@@ -222,7 +277,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[BearerAuth](../../README.md#BearerAuth)
+[BasicAuth](../../README.md#BasicAuth)
 
 ### HTTP request headers
 

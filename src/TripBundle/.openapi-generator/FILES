@@ -1,13 +1,14 @@
-.gitignore
 Api/AccountsApiInterface.php
 Api/ApiServer.php
 Api/CountriesApiInterface.php
 Api/TripsApiInterface.php
+Controller/AccountsController.php
 Controller/Controller.php
 Controller/CountriesController.php
 Controller/TripsController.php
 DependencyInjection/Compiler/TripApiPass.php
 Model/DefaultResponse.php
+Model/TripAllOf.php
 Resources/config/routing.yml
 Resources/config/services.yml
 Resources/docs/Api/AccountsApiInterface.md
@@ -19,6 +20,7 @@ Resources/docs/Model/AccountUpdate.md
 Resources/docs/Model/Country.md
 Resources/docs/Model/DefaultResponse.md
 Resources/docs/Model/Trip.md
+Resources/docs/Model/TripAllOf.md
 Resources/docs/Model/TripCreate.md
 Resources/docs/Model/TripUpdate.md
 Service/JmsSerializer.php
@@ -29,6 +31,7 @@ Service/TypeMismatchException.php
 Service/ValidatorInterface.php
 Tests/AppKernel.php
 Tests/Controller/ControllerTest.php
+Tests/Model/TripAllOfTest.php
 Tests/test_config.yml
 TripBundle.php
 composer.json

@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getCountries**](CountriesApiInterface.md#getCountries) | **GET** /countries/ | Get list of countries
+[**getCountries**](CountriesApiInterface.md#getCountries) | **GET** /trip/countries/ | Get list of countries
 
 
 ## Service Declaration
@@ -59,7 +59,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[BearerAuth](../../README.md#BearerAuth)
+[BasicAuth](../../README.md#BasicAuth)
 
 ### HTTP request headers
 

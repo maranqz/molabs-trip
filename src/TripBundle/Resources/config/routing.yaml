@@ -63,6 +63,12 @@ trip_trips_gettrip:
     requirements:
         tripId: '\d+'
 
+trip_trips_gettrips:
+    path:     /trip/trips/
+    methods:  [GET]
+    defaults:
+        _controller: trip.controller.trips:getTripsAction
+
 trip_trips_updatetrip:
     path:     /trip/trips/{tripId}
     methods:  [PATCH]

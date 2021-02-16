@@ -3,12 +3,18 @@
 namespace TripBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use TripBundle\Repository\TripRepository;
 
 /**
  * Trip
  *
- * @ORM\Table(name="trip", indexes={@ORM\Index(name="country_code", columns={"country_code"}), @ORM\Index(name="created_by", columns={"created_by"})})
- * @ORM\Entity
+ * @ORM\Table(name="trip", indexes={
+ *     @ORM\Index(name="country_code", columns={"country_code"}),
+ *     @ORM\Index(name="created_by", columns={"created_by"}),
+ *     @ORM\Index(columns={"started_at"}),
+ *     @ORM\Index(columns={"finished_at"})
+ * })
+ * @ORM\Entity(repositoryClass=TripRepository::class)
  */
 class Trip
 {

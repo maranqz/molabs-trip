@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createAccount**](AccountsApiInterface.md#createAccount) | **POST** /accounts/ | Create account
-[**deleteAccount**](AccountsApiInterface.md#deleteAccount) | **DELETE** /accounts/{accountId} | Delete account
-[**getAccount**](AccountsApiInterface.md#getAccount) | **GET** /accounts/{accountId} | Get account information
-[**updateAccount**](AccountsApiInterface.md#updateAccount) | **PATCH** /accounts/{accountId} | Update account information
+[**createAccount**](AccountsApiInterface.md#createAccount) | **POST** /trip/accounts/ | Create account
+[**deleteAccount**](AccountsApiInterface.md#deleteAccount) | **DELETE** /trip/accounts/{accountId} | Delete account
+[**getAccount**](AccountsApiInterface.md#getAccount) | **GET** /trip/accounts/{accountId} | Get account information
+[**updateAccount**](AccountsApiInterface.md#updateAccount) | **PATCH** /trip/accounts/{accountId} | Update account information
 
 
 ## Service Declaration
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[BearerAuth](../../README.md#BearerAuth)
+[BasicAuth](../../README.md#BasicAuth)
 
 ### HTTP request headers
 
@@ -117,7 +117,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[BearerAuth](../../README.md#BearerAuth)
+[BasicAuth](../../README.md#BasicAuth)
 
 ### HTTP request headers
 
@@ -169,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[BearerAuth](../../README.md#BearerAuth)
+[BasicAuth](../../README.md#BasicAuth)
 
 ### HTTP request headers
 
@@ -222,7 +222,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[BearerAuth](../../README.md#BearerAuth)
+[BasicAuth](../../README.md#BasicAuth)
 
 ### HTTP request headers
 

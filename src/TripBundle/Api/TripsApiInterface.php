@@ -28,9 +28,8 @@
 
 namespace TripBundle\Api;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use TripBundle\Model\DefaultResponse;
-use TripBundle\Model\Trip;
+use TripBundle\Model\Date;
+use TripBundle\Model\Filter;
 use TripBundle\Model\TripCreate;
 use TripBundle\Model\TripUpdate;
 
@@ -46,13 +45,13 @@ interface TripsApiInterface
 {
 
     /**
-     * Sets authentication method BearerAuth
+     * Sets authentication method BasicAuth
      *
-     * @param string $value Value of the BearerAuth authentication method.
+     * @param string $value Value of the BasicAuth authentication method.
      *
      * @return void
      */
-    public function setBearerAuth($value);
+    public function setBasicAuth($value);
 
     /**
      * Operation createTrip
@@ -95,6 +94,20 @@ interface TripsApiInterface
      *
      */
     public function getTrip($tripId, &$responseCode, array &$responseHeaders);
+
+    /**
+     * Operation getTrips
+     *
+     * Get trips
+     *
+     * @param  Filter $filter   (optional)
+     * @param  integer $responseCode     The HTTP response code to return
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return TripBundle\Model\Trip[]
+     *
+     */
+    public function getTrips($filter = null, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation updateTrip

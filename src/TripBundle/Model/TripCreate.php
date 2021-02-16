@@ -29,6 +29,8 @@
 
 namespace TripBundle\Model;
 
+use JMS\Serializer\Annotation as Serializer;
+use TripBundle\Validator\EntityExist;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
@@ -43,7 +45,7 @@ use TripBundle\Validator\NotOverlapping;
  *
  * @package TripBundle\Model
  * @author  OpenAPI Generator team
- * 
+ *
  * @NotOverlapping(fields={"createdBy"}, entityClass=Entity::class)
  */
 class TripCreate
@@ -54,6 +56,7 @@ class TripCreate
      * @Assert\Type(Country::class)
      * @Type(Country::class)
      * @ORM\ManyToOne(targetEntity="Country")
+     * @EntityExist(entityClass=Country::class)
      */
     protected $country;
 
@@ -87,6 +90,8 @@ class TripCreate
 
     /**
      * @var Account
+     *
+     * @Serializer\Exclude()
      */
     protected $createdBy;
 
