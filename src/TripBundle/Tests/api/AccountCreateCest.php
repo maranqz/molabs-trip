@@ -1,11 +1,11 @@
 <?php
 
+use Codeception\Util\HttpCode;
 use Doctrine\ORM\EntityManagerInterface;
 use Helper\Api;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Helper\Validator;
 use Codeception\Example;
-use Symfony\Component\Validator\Constraints\NotNull;
-use Symfony\Component\Validator\Constraints\Email;
+use TripBundle\Entity\Account;
 
 class AccountCreateCest
 {
@@ -15,7 +15,7 @@ class AccountCreateCest
     }
 
     /**
-     * @dataProvider userProvider
+     * @dataProvider createUserProvider
      */
     public function create(ApiTester $I, Example $test)
     {
@@ -35,19 +35,15 @@ class AccountCreateCest
         $I->seeResponseContainsJson($expected);
     }
 
-    protected function userProvider()
+    protected function createUserProvider()
     {
-        $notBlank = new NotBlank();
-        $notNull = new NotNull();
-        $email = new Email();
-
         return [
             [
                 'send' => [
                     'email' => Api::USER_FIRST,
                     'password' => Api::PASSWORD_FIRST
                 ],
-                'code' => Api::CODE_OK,
+                'code' => HttpCode::OK,
                 'expected' => [
                     'email' => Api::USER_FIRST,
                     'id' => true,
@@ -58,7 +54,7 @@ class AccountCreateCest
                     'email' => Api::USER_SECOND,
                     'password' => Api::PASSWORD_SECOND,
                 ],
-                'code' => Api::CODE_OK,
+                'code' => HttpCode::OK,
                 'expected' => [
                     'email' => Api::USER_SECOND,
                     'id' => true,
@@ -72,7 +68,7 @@ class AccountCreateCest
                 ],
                 'code' => Api::CODE_VALIDATION,
                 'expected' => [
-                    'password' => $notBlank->message,
+                    'password' => Validator::NotBlank()->message,
                 ]
             ],
             [
@@ -83,7 +79,7 @@ class AccountCreateCest
                 ],
                 'code' => Api::CODE_VALIDATION,
                 'expected' => [
-                    'email' => $email->message,
+                    'email' => Validator::Email()->message,
                 ]
             ],
             [
@@ -94,7 +90,7 @@ class AccountCreateCest
                 ],
                 'code' => Api::CODE_VALIDATION,
                 'expected' => [
-                    'email' => $notBlank->message,
+                    'email' => Validator::NotBlank()->message,
                 ]
             ],
             [
@@ -104,14 +100,47 @@ class AccountCreateCest
                 ],
                 'code' => Api::CODE_VALIDATION,
                 'expected' => [
-                    'email' => $notNull->message,
+                    'email' => Validator::NotNull()->message,
                 ]
             ]
         ];
     }
 
-    // tests
-    public function tryToTest(ApiTester $I)
+    public function createExistUser(ApiTester $I)
     {
+        $user = new Account();
+        $user->setEmail(Api::USER_FIRST);
+        $user->setPassword(Api::PASSWORD_FIRST);
+
+        $I->persistEntity($user);
+        $I->flushToDatabase();
+
+        $I->sendPost(API::PREFIX . '/accounts/', [
+            'email' => $user->getEmail(),
+            'password' => $user->getPassword(),
+        ]);
+
+        $I->seeResponseCodeIs(Api::CODE_VALIDATION);
+        $I->seeResponseIsJson([
+            'email' => Validator::UniqueEntity()->message,
+        ]);
+    }
+
+    public function passwordIsHashed(ApiTester $I)
+    {
+        $password = Api::PASSWORD_FIRST;
+        $I->sendPost(API::PREFIX . '/accounts/', [
+            'email' => Api::USER_FIRST,
+            'password' => $password,
+        ]);
+
+        /** @var EntityManagerInterface $em */
+        $em = $I->grabService('doctrine');
+
+        /** @var Account $account */
+        $account = $em->getRepository(Account::class)
+            ->find($em->getConnection()->lastInsertId());
+
+        $I->assertNotEquals($password, $account->getPassword());
     }
 }

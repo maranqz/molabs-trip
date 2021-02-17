@@ -26,6 +26,7 @@ test.init: test.init.db
 
 test.init.db:
 	$(PHP_EXEC) bin/console doctrine:database:create --if-not-exists --no-interaction -e test
+	$(PHP_EXEC) bin/console doctrine:migrations:migrate --no-interaction -e test
 
 ## DOCKER-COMPOSE
 up:

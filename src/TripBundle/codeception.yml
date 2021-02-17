@@ -1,3 +1,4 @@
+bootstrap: bootstrap.php
 paths:
     tests: Tests
     output: Tests/_output
