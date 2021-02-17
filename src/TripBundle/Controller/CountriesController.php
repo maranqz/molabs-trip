@@ -79,9 +79,6 @@ class CountriesController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;

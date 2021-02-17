@@ -43,16 +43,6 @@ use TripBundle\Model\TripUpdate;
  */
 interface TripsApiInterface
 {
-
-    /**
-     * Sets authentication method BasicAuth
-     *
-     * @param string $value Value of the BasicAuth authentication method.
-     *
-     * @return void
-     */
-    public function setBasicAuth($value);
-
     /**
      * Operation createTrip
      *

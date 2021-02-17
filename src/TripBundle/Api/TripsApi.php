@@ -25,11 +25,6 @@ class TripsApi implements TripsApiInterface
         $this->security = $security;
     }
 
-    public function setBasicAuth($value)
-    {
-        // TODO: Implement setBearerAuth() method.
-    }
-
     /**
      * @inheritDoc
      */

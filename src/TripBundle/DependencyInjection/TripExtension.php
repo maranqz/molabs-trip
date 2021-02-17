@@ -32,6 +32,7 @@ namespace TripBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Yaml\Yaml;
 
@@ -43,7 +44,7 @@ use Symfony\Component\Yaml\Yaml;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class TripExtension extends Extension
+class TripExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -52,6 +53,16 @@ class TripExtension extends Extension
 
         $documentation = Yaml::parseFile(__DIR__ . '/../Resources/api/openapi.yaml');
         $container->getDefinition('nelmio_api_doc.describers.config.trip')->setArgument(0, $documentation);
+    }
+
+    public function prepend(ContainerBuilder $container): void{
+        $doctrineConfig = $container->getExtensionConfig('doctrine_migrations');
+        $container->prependExtensionConfig('doctrine_migrations', [
+            'migrations_paths' => \array_merge(\array_pop($doctrineConfig)['migrations_paths'] ?? [], [
+                'TripBundle\Migrations' => '@TripBundle/Migrations',
+            ]),
+        ]);
+        $doctrineConfig = $container->getExtensionConfig('doctrine_migrations');
     }
 
     public function getAlias()

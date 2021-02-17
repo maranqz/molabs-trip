@@ -1,2 +1,10 @@
 trip:
-  resource: '@TripBundle/Resources/config/routing.yaml'
+    resource: '@TripBundle/Resources/config/routing.yaml'
+    prefix: /trip
+
+redirect_to_doc:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: /api/doc
+        permanent: true

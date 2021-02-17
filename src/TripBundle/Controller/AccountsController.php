@@ -92,7 +92,7 @@ class AccountsController extends Controller
             $inputFormat = $request->getMimeType($request->getContentType());
             $accountCreate = $this->deserialize($accountCreate, 'TripBundle\Model\AccountCreate', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
+            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
         }
 
         // Validate the input values
@@ -100,7 +100,7 @@ class AccountsController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("TripBundle\Model\AccountCreate");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($accountCreate, $asserts);
+        $response = $this->validate($accountCreate, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -108,9 +108,6 @@ class AccountsController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;
@@ -181,14 +178,14 @@ class AccountsController extends Controller
         try {
             $accountId = $this->deserialize($accountId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
+            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
         }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("int");
-        $response = $this->validate($accountId, $asserts);
+        $response = $this->validate($accountId, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -196,9 +193,6 @@ class AccountsController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;
@@ -266,14 +260,14 @@ class AccountsController extends Controller
         try {
             $accountId = $this->deserialize($accountId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
+            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
         }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("int");
-        $response = $this->validate($accountId, $asserts);
+        $response = $this->validate($accountId, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -281,9 +275,6 @@ class AccountsController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;
@@ -365,14 +356,14 @@ class AccountsController extends Controller
             $accountUpdate = $this->deserialize($accountUpdate, 'TripBundle\Model\AccountUpdate', $inputFormat);
             $accountUpdate->setId($accountId);
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
+            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
         }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("int");
-        $response = $this->validate($accountId, $asserts);
+        $response = $this->validate($accountId, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -380,7 +371,7 @@ class AccountsController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("TripBundle\Model\AccountUpdate");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($accountUpdate, $asserts);
+        $response = $this->validate($accountUpdate, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -388,9 +379,6 @@ class AccountsController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
             
             // Make the call to the business logic
             $responseCode = 200;

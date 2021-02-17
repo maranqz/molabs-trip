@@ -165,9 +165,10 @@ paths:
                         type: object
                         properties:
                             started_at:
-                                type: date
+                                type: string
+                                format: date
                             finished_at:
-                                type: date
+                                type: string
                                 format: date
                             country:
                                 type: string

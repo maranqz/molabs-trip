@@ -84,6 +84,7 @@ class TripUpdate
      * @var string|null
      * @SerializedName("notes")
      * @Assert\Type("string")
+     * @Assert\Length(max="4096")
      * @Type("string")
      */
     protected $notes;

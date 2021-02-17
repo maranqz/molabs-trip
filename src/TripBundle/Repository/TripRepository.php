@@ -6,7 +6,6 @@ namespace TripBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\DBAL\Logging\EchoSQLLogger;
 use Doctrine\Persistence\ManagerRegistry;
 use TripBundle\Entity\Account;
 use TripBundle\Entity\Country;

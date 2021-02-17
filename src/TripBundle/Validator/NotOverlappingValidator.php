@@ -101,10 +101,10 @@ class NotOverlappingValidator extends ConstraintValidator
             $criteria->expr()->orX(
                 $criteria->expr()->andX(
                     $criteria->expr()->lte($constraint->startedAt, $startedAtValue),
-                    $criteria->expr()->gte($constraint->finishedAt, $startedAtValue),
+                    $criteria->expr()->gt($constraint->finishedAt, $startedAtValue),
                 ),
                 $criteria->expr()->andX(
-                    $criteria->expr()->lte($constraint->startedAt, $finishedAtValue),
+                    $criteria->expr()->lt($constraint->startedAt, $finishedAtValue),
                     $criteria->expr()->gte($constraint->finishedAt, $finishedAtValue),
                 ),
                 $criteria->expr()->andX(

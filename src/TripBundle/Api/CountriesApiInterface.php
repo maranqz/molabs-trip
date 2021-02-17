@@ -42,16 +42,6 @@ use TripBundle\Model\DefaultResponse;
  */
 interface CountriesApiInterface
 {
-
-    /**
-     * Sets authentication method BasicAuth
-     *
-     * @param string $value Value of the BasicAuth authentication method.
-     *
-     * @return void
-     */
-    public function setBasicAuth($value);
-
     /**
      * Operation getCountries
      *

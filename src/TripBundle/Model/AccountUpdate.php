@@ -41,7 +41,7 @@ use TripBundle\Entity\Account;
  * @package TripBundle\Model
  * @author  OpenAPI Generator team
  *
- * TODO blocked by https://github.com/symfony/symfony/issues/22592
+ * TODO delete after by https://github.com/symfony/symfony/issues/22592
  * @UniqueEntity(
  *     identifierFieldNames={"id"},
  *     fields={"email"},
@@ -59,6 +59,7 @@ class AccountUpdate
      * @var string|null
      * @SerializedName("email")
      * @Assert\Type("string")
+     * @Assert\NotBlank(allowNull=true)
      * @Assert\Email()
      * @Type("string")
      */
@@ -68,6 +69,7 @@ class AccountUpdate
      * @var string|null
      * @SerializedName("password")
      * @Assert\Type("string")
+     * @Assert\NotBlank(allowNull=true)
      * @Type("string")
      */
     protected $password;

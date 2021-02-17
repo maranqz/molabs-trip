@@ -19,11 +19,6 @@ class AccountsApi implements AccountsApiInterface
         $this->manipulator = $manipulator;
     }
 
-    public function setBasicAuth($value)
-    {
-        // TODO: Implement setBearerAuth() method.
-    }
-
     public function createAccount(AccountCreate $dto, &$responseCode, array &$responseHeaders)
     {
         $account = new Entity();

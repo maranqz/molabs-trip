@@ -1,7 +1,6 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # TODO move to trip bundle
         trip_account:
             entity:
                 class: TripBundle\Entity\Account
@@ -12,7 +11,6 @@ security:
             security: false
         main:
             anonymous: lazy
-            # TODO move to trip bundle
             provider: trip_account
             http_basic:
                 realm: Secured Area
@@ -34,8 +32,6 @@ security:
         -   path: ^/trip/
             roles: ROLE_TRIP
 
-
-    # TODO need to move in bundle
     encoders:
         TripBundle\Entity\Account:
             algorithm: 'auto'

@@ -41,7 +41,7 @@ use TripBundle\Entity\Account;
  * @package TripBundle\Model
  * @author  OpenAPI Generator team
  *
- * TODO blocked by https://github.com/symfony/symfony/issues/22592
+ * TODO delete after by https://github.com/symfony/symfony/issues/22592
  * @UniqueEntity(
  *     fields={"email"},
  *     entityClass=Account::class
@@ -53,6 +53,7 @@ class AccountCreate
      * @var string
      * @SerializedName("email")
      * @Assert\NotNull()
+     * @Assert\NotBlank(allowNull=true)
      * @Assert\Type("string")
      * @Assert\Email()
      * @Type("string")
@@ -62,7 +63,7 @@ class AccountCreate
     /**
      * @var string
      * @SerializedName("password")
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
      * @Assert\Type("string")
      * @Type("string")
      */

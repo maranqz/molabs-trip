@@ -13,13 +13,19 @@ NGINX_SERVICE = nginx
 NGINX_EXEC = $(DC_EXEC) $(NGINX_SERVICE)
 
 
-init: env.init up composer.install
+init: env.init up composer.install doctrine.migrations.migrate countries.sync
 
 env.init:
 	cp -f .env .env.local
 
 composer.install:
 	$(PHP_EXEC) composer i -n
+
+test.init: test.init.db
+	$(PHP_EXEC) ln -s /var/www/symfony/vendor/bin/codecept /usr/bin/codecept
+
+test.init.db:
+	$(PHP_EXEC) bin/console doctrine:database:create --if-not-exists --no-interaction -e test
 
 ## DOCKER-COMPOSE
 up:
@@ -67,12 +73,19 @@ gen.openapi.mysql:
 	-i /local/openapi.yaml
 
 
+countries.sync:
+	$(PHP_EXEC) bin/console trip:countries:sync || exit 0
 
 cc:
 	$(PHP_EXEC) bin/console cache:clear
 
+db.init: doctrine.database.create doctrine.migrations.migrate
+
+doctrine.database.create:
+	$(PHP_EXEC) bin/console doctrine:database:create --no-interaction --if-not-exists
+
 doctrine.migrations.migrate:
-	$(PHP_EXEC) bin/console doctrine:migrations:migrate
+	$(PHP_EXEC) bin/console doctrine:migrations:migrate --no-interaction
 
 doctrine.migrations.diff:
 	$(PHP_EXEC) bin/console doctrine:migrations:diff

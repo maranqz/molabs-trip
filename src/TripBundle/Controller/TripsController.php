@@ -29,6 +29,7 @@
 
 namespace TripBundle\Controller;
 
+use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use \Exception;
@@ -58,10 +59,12 @@ class TripsController extends Controller
     private Security $security;
     private ObjectRepository $countryRepository;
 
-    public function __construct(Security $security, EntityManagerInterface $em)
+    public function __construct(Security $security, EntityManagerInterface $em, Reader $reader)
     {
         $this->security = $security;
         $this->countryRepository = $em->getRepository(Country::class);
+
+        parent::__construct($reader);
     }
 
     /**
@@ -106,7 +109,7 @@ class TripsController extends Controller
             $tripCreate = $this->deserialize($tripCreate, 'TripBundle\Model\TripCreate', $inputFormat);
             $tripCreate->setCreatedBy($this->security->getUser());
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
+            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
         }
 
         // Validate the input values
@@ -114,7 +117,7 @@ class TripsController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("TripBundle\Model\TripCreate");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($tripCreate, $asserts);
+        $response = $this->validate($tripCreate, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -122,9 +125,6 @@ class TripsController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -195,14 +195,14 @@ class TripsController extends Controller
         try {
             $tripId = $this->deserialize($tripId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
+            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
         }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("int");
-        $response = $this->validate($tripId, $asserts);
+        $response = $this->validate($tripId, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -210,9 +210,6 @@ class TripsController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -283,14 +280,14 @@ class TripsController extends Controller
         try {
             $tripId = $this->deserialize($tripId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
+            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
         }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("int");
-        $response = $this->validate($tripId, $asserts);
+        $response = $this->validate($tripId, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -298,9 +295,6 @@ class TripsController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -349,7 +343,7 @@ class TripsController extends Controller
         // Figure out what data format to return to the client
         $produces = ['application/json'];
         // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $clientAccepts = $request->headers->has('Accept') ? $request->headers->get('Accept') : '*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
         if ($responseFormat === null) {
             return new Response('', 406);
@@ -373,14 +367,14 @@ class TripsController extends Controller
                 'country' => $request->query->get('country'),
             ]), Filter::class, 'application/json');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
+            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
         }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\Type(Filter::class);
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($filter, $asserts);
+        $response = $this->validate($filter, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -388,9 +382,6 @@ class TripsController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
 
             // Make the call to the business logic
             $responseCode = 200;
@@ -411,7 +402,7 @@ class TripsController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                $result !== null ? $this->serialize($result, $responseFormat) : '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -479,14 +470,14 @@ class TripsController extends Controller
                 $tripUpdate->setFinishedAt($trip->getFinishedAt());
             }
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
+            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
         }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("int");
-        $response = $this->validate($tripId, $asserts);
+        $response = $this->validate($tripId, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -494,7 +485,7 @@ class TripsController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("TripBundle\Model\TripUpdate");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($tripUpdate, $asserts);
+        $response = $this->validate($tripUpdate, $asserts, $responseFormat);
         if ($response instanceof Response) {
             return $response;
         }
@@ -502,9 +493,6 @@ class TripsController extends Controller
 
         try {
             $handler = $this->getApiHandler();
-
-            // Set authentication method 'BasicAuth'
-            $handler->setBasicAuth($securityBasicAuth);
 
             // Make the call to the business logic
             $responseCode = 200;

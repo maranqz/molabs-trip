@@ -53,7 +53,7 @@ class Trip
      *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $createdBy;

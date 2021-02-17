@@ -13,3 +13,7 @@
 # Bonus:
 - Documentation
 - Unit-Tests
+
+## Need to
+
+* Fix delete unfounded user

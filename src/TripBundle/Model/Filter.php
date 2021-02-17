@@ -56,6 +56,7 @@ class Filter
      * @var \DateTime|null
      * @SerializedName("finished_at")
      * @Assert\Date()
+     * @Assert\GreaterThan(propertyPath="started_at")
      * @Type("DateTime<'Y-m-d'>")
      */
     protected $finishedAt;

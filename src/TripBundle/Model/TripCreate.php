@@ -84,6 +84,7 @@ class TripCreate
      * @SerializedName("notes")
      * @Assert\NotNull()
      * @Assert\Type("string")
+     * @Assert\Length(max="4096")
      * @Type("string")
      */
     protected $notes;
