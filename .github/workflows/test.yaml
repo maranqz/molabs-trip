@@ -16,9 +16,9 @@ jobs:
                 image: mysql:8
                 env:
                     MYSQL_ROOT_PASSWORD: root
-                    MYSQL_DATABASE: symfony
+                    MYSQL_DATABASE: symfony_test
                 ports:
-                    - 3306
+                    - 3306:3306
                 options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         strategy:
             matrix:
@@ -43,19 +43,6 @@ jobs:
                     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
                     restore-keys: ${{ runner.os }}-composer-
             -   name: Install dependencies
-                run: composer install --prefer-dist --dev
+                run: composer install --prefer-dist
             -   name: Full test
                 run: make test
-                env:
-                    DATABASE_URL: mysql://root:root@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
-            -   name: Upload coverage to Codecov
-                env:
-                    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-                if: ${{ env.CODECOV_TOKEN != null }} && ${{ matrix.os == env.OS_CODE_COVERAGE }} && ${{ matrix.php-version == env.PHP_VERSION_CODECOVERAGE }}
-                uses: codecov/codecov-action@v1
-                with:
-                    token: ${{ secrets.CODECOV_TOKEN }}
-                    file: src/TripBundle/Tests/_output/coverage.xml
-                    fail_ci_if_error: true
-                    path_to_write_report: ./codecov_report.txt
-                    verbose: true

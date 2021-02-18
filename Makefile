@@ -43,8 +43,8 @@ test.docker.run:
 test.docker.init: test.docker.init.db
 	$(PHP_EXEC) ln -s /var/www/symfony/vendor/bin/codecept /usr/bin/codecept
 
-TEST_DB_CREATE = bin/console doctrine:database:create --if-not-exists --no-interaction -e test
-TEST_DB_MIGRATE = bin/console doctrine:migrations:migrate --no-interaction -e test
+TEST_DB_CREATE = bin/console doctrine:database:create --if-not-exists --no-interaction -e test -v
+TEST_DB_MIGRATE = bin/console doctrine:migrations:migrate --no-interaction -e test -v
 test.init.db:
 	$(TEST_DB_CREATE)
 	$(TEST_DB_MIGRATE)
