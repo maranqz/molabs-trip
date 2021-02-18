@@ -1,3 +1,14 @@
+# How to run
+
+Domain: symfony.localhost
+
+Docker
+`make init`
+
+Tests
+`make test`
+In docker - `make test.docker`
+
 # The requirements for the test project are:
 
 - Write an REST API (using any Symfony version) for tracking trips to different countries in Europe and Asia
@@ -13,7 +24,3 @@
 # Bonus:
 - Documentation
 - Unit-Tests
-
-## Need to
-
-* Fix delete unfounded user

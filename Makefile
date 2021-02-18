@@ -13,10 +13,11 @@ NGINX_SERVICE = nginx
 NGINX_EXEC = $(DC_EXEC) $(NGINX_SERVICE)
 
 
-init: env.init up composer.install doctrine.migrations.migrate countries.sync
+init: env.init upd composer.install doctrine.migrations.migrate countries.sync
 
 env.init:
 	cp -f .env .env.local
+	sed -i 's/db_user:db_password@127.0.0.1:3306\/db_name?serverVersion=5.7/root:root@db:3306\/symfony/' .env.local
 
 composer.install:
 	$(PHP_EXEC) composer i -n
