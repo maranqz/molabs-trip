@@ -25,7 +25,8 @@ test: test.build test.init.db test.run
 test.docker: test.docker.build test.docker.init.db test.docker.run
 
 
-TEST_BUILD = cd src/TripBundle && codecept build
+CODECEPTION_RUN = ../../vendor/bin/codecept
+TEST_BUILD = cd src/TripBundle && $(CODECEPTION_RUN) build
 
 test.build:
 	$(TEST_BUILD)
@@ -33,7 +34,7 @@ test.docker.build:
 	$(PHP_EXEC) bash -c "$(TEST_BUILD)"
 
 TEST_RUN = cd src/TripBundle && \
-           	php -d xdebug.mode=coverage /usr/bin/codecept run --coverage-xml
+           	php -d xdebug.mode=coverage $(CODECEPTION_RUN) run --coverage-xml
 test.run:
 	$(TEST_RUN)
 test.docker.run:
@@ -113,3 +114,6 @@ doctrine.migrations.migrate:
 
 doctrine.migrations.diff:
 	$(PHP_EXEC) bin/console doctrine:migrations:diff
+
+act.run:
+	act $(ARGS)
