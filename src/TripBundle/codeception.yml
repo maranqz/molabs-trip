@@ -1,5 +1,9 @@
 namespace: TripBundle\Tests
 bootstrap: bootstrap.php
+coverage:
+    enabled: true
+    include:
+        - ./*
 paths:
     tests: Tests
     output: Tests/_output

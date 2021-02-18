@@ -21,15 +21,35 @@ env.init:
 composer.install:
 	$(PHP_EXEC) composer i -n
 
-test.run:
-	$(PHP_EXEC) bash -c "cd src/TripBundle && codecept run"
+test: test.build test.init.db test.run
+test.docker: test.docker.build test.docker.init.db test.docker.run
 
-test.init: test.init.db
+
+TEST_BUILD = cd src/TripBundle && codecept build
+
+test.build:
+	$(TEST_BUILD)
+test.docker.build:
+	$(PHP_EXEC) bash -c "$(TEST_BUILD)"
+
+TEST_RUN = cd src/TripBundle && \
+           	php -d xdebug.mode=coverage /usr/bin/codecept run --coverage-xml
+test.run:
+	$(TEST_RUN)
+test.docker.run:
+	$(PHP_EXEC) bash -c "$(TEST_RUN)"
+
+test.docker.init: test.docker.init.db
 	$(PHP_EXEC) ln -s /var/www/symfony/vendor/bin/codecept /usr/bin/codecept
 
+TEST_DB_CREATE = bin/console doctrine:database:create --if-not-exists --no-interaction -e test
+TEST_DB_MIGRATE = bin/console doctrine:migrations:migrate --no-interaction -e test
 test.init.db:
-	$(PHP_EXEC) bin/console doctrine:database:create --if-not-exists --no-interaction -e test
-	$(PHP_EXEC) bin/console doctrine:migrations:migrate --no-interaction -e test
+	$(TEST_DB_CREATE)
+	$(TEST_DB_MIGRATE)
+test.docker.init.db:
+	$(PHP_EXEC) $(TEST_DB_CREATE)
+	$(PHP_EXEC) $(TEST_DB_MIGRATE)
 
 ## DOCKER-COMPOSE
 up:

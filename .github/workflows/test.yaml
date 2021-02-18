@@ -1,0 +1,51 @@
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+name: Test
+env:
+    PHP_VERSION_CODECOVERAGE: 7.4.x
+    OS_CODE_COVERAGE: ubuntu-latest
+jobs:
+    test:
+        strategy:
+            matrix:
+                php-version:
+                    - 7.4
+                    - 8.0
+                os:
+                    - ubuntu-latest
+        runs-on: ${{ matrix.os }}
+        steps:
+            -   name: Install PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php-version }}
+            -   name: Checkout code
+                uses: actions/checkout@v2
+            -   name: Get composer cache directory
+                id: composer-cache
+                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+            -   uses: actions/cache@v2
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: ${{ runner.os }}-composer-
+            -   name: Install dependencies
+                run: composer install --prefer-dist
+            -   name: Full test
+                run: make test
+            -   name: Upload coverage to Codecov
+                env:
+                    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+                if: ${{ env.CODECOV_TOKEN != null }} && ${{ matrix.os == env.OS_CODE_COVERAGE }} && ${{ matrix.php-version == env.PHP_VERSION_CODECOVERAGE }}
+                uses: codecov/codecov-action@v1
+                with:
+                    token: ${{ secrets.CODECOV_TOKEN }}
+                    file: src/TripBundle/Tests/_output/coverage.xml
+                    fail_ci_if_error: true
+                    path_to_write_report: ./codecov_report.txt
+                    verbose: true
