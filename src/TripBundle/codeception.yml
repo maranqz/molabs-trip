@@ -1,3 +1,4 @@
+namespace: TripBundle\Tests
 bootstrap: bootstrap.php
 paths:
     tests: Tests

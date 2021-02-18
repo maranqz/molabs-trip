@@ -129,6 +129,14 @@ class Trip
     }
 
     /**
+     * @Serializer\PreSerialize()
+     */
+    public function PreSerialize()
+    {
+        $this->notes = $this->notes ?? '';
+    }
+
+    /**
      * Gets country.
      *
      * @return Country

@@ -1,5 +1,6 @@
 <?php
 
+namespace TripBundle\Tests;
 
 use Codeception\Events;
 use Codeception\Extension;

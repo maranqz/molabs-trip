@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use TripBundle\Entity\Account;
 use TripBundle\Entity\Country;
 use TripBundle\Entity\Trip;
+use TripBundle\Model\Trip as Model;
 
 class TripRepository extends ServiceEntityRepository
 {
@@ -36,6 +37,6 @@ class TripRepository extends ServiceEntityRepository
             $criteria->andWhere($criteria->expr()->lte('finishedAt', $finishedAt));
         }
 
-        return $this->matching($criteria)->getValues();
+        return array_map([Model::class, 'fromEntity'], $this->matching($criteria)->getValues());
     }
 }

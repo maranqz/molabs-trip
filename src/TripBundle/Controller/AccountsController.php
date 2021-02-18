@@ -92,7 +92,10 @@ class AccountsController extends Controller
             $inputFormat = $request->getMimeType($request->getContentType());
             $accountCreate = $this->deserialize($accountCreate, 'TripBundle\Model\AccountCreate', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
+            return $this->createBadRequestResponse(
+                $this->serialize(new DefaultResponse(['message' => $exception->getMessage()]), $responseFormat),
+                $responseFormat
+            );
         }
 
         // Validate the input values
@@ -178,7 +181,10 @@ class AccountsController extends Controller
         try {
             $accountId = $this->deserialize($accountId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
+            return $this->createBadRequestResponse(
+                $this->serialize(new DefaultResponse(['message' => $exception->getMessage()]), $responseFormat),
+                $responseFormat
+            );
         }
 
         // Validate the input values
@@ -260,7 +266,10 @@ class AccountsController extends Controller
         try {
             $accountId = $this->deserialize($accountId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
+            return $this->createBadRequestResponse(
+                $this->serialize(new DefaultResponse(['message' => $exception->getMessage()]), $responseFormat),
+                $responseFormat
+            );
         }
 
         // Validate the input values
@@ -356,7 +365,10 @@ class AccountsController extends Controller
             $accountUpdate = $this->deserialize($accountUpdate, 'TripBundle\Model\AccountUpdate', $inputFormat);
             $accountUpdate->setId($accountId);
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
+            return $this->createBadRequestResponse(
+                $this->serialize(new DefaultResponse(['message' => $exception->getMessage()]), $responseFormat),
+                $responseFormat
+            );
         }
 
         // Validate the input values

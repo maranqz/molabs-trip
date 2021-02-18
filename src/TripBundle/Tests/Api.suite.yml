@@ -13,6 +13,6 @@ modules:
                 app_path: '../'
                 environment: 'test'
         - Asserts
-        - \Helper\Api
-        - \Helper\Fixtures
+        - TripBundle\Tests\Helper\Api
+        - TripBundle\Tests\Helper\Fixtures
 

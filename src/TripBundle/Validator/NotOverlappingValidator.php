@@ -81,8 +81,7 @@ class NotOverlappingValidator extends ConstraintValidator
         $finishedAtValue = $this->getFieldValue($class, $constraint->finishedAt, $object);
 
         if (empty($startedAtValue) || empty($finishedAtValue)) {
-            throw new \InvalidArgumentException(sprintf('"%s" and "%s" should be set', $constraint->startedAt,
-                $constraint->finishedAt));
+            return;
         }
 
         $criteria = new Criteria();

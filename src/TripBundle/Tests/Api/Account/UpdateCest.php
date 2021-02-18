@@ -1,11 +1,14 @@
 <?php
 
-use Codeception\Util\HttpCode;
-use Helper\Api;
-use Codeception\Example;
-use Helper\Validator;
+namespace Api\Account;
 
-class AccountUpdateCest
+use Codeception\Util\HttpCode;
+use TripBundle\Tests\Helper\Api;
+use Codeception\Example;
+use TripBundle\Tests\Helper\Validator;
+use TripBundle\Tests\ApiTester;
+
+class UpdateCest
 {
     public function _before(ApiTester $I)
     {
@@ -16,7 +19,7 @@ class AccountUpdateCest
     {
         $account = $I->getAccount();
 
-        $I->sendPatch(sprintf(API::PREFIX . '/accounts/%s', $account->getId()), [
+        $I->sendPatch(sprintf(API::ACCOUNT . '%s', $account->getId()), [
             'email' => Api::USER_SECOND,
         ]);
 
@@ -24,7 +27,7 @@ class AccountUpdateCest
     }
 
     /**
-     * @dataProvider updateUserProvider
+     * @dataProvider updateAccountProvider
      */
     public function update(ApiTester $I, Example $test)
     {
@@ -36,7 +39,7 @@ class AccountUpdateCest
             $new['email'] = $account->getEmail();
         }
 
-        $I->sendPatch(sprintf(API::PREFIX . '/accounts/%s', $account->getId()), $new);
+        $I->sendPatch(sprintf(API::ACCOUNT . '%s', $account->getId()), $new);
 
         $I->seeResponseCodeIs($test['code']);
         $I->seeResponseIsJson();
@@ -52,7 +55,7 @@ class AccountUpdateCest
         $I->seeResponseContainsJson($expected);
     }
 
-    protected function updateUserProvider()
+    protected function updateAccountProvider()
     {
         return [
             [

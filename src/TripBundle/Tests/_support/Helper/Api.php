@@ -1,6 +1,6 @@
 <?php
 
-namespace Helper;
+namespace TripBundle\Tests\Helper;
 
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
@@ -11,6 +11,10 @@ use Codeception\Util\HttpCode;
 class Api extends \Codeception\Module
 {
     const PREFIX = '/trip';
+    const ACCOUNT = self::PREFIX . '/accounts/';
+    const TRIP = self::PREFIX .'/trips/';
+
+    const DATE_FORMAT = 'Y-m-d';
 
     const CODE_VALIDATION = HttpCode::BAD_REQUEST;
 

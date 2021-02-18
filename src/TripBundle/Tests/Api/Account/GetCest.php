@@ -1,12 +1,14 @@
 <?php
 
-use _fixtures\AccountFixtures;
+namespace TripBundle\Tests\Api\Account;
+
 use _fixtures\FackerTrait;
 use Codeception\Util\HttpCode;
-use Helper\Api;
+use TripBundle\Tests\Helper\Api;
 use Codeception\Example;
+use TripBundle\Tests\ApiTester;
 
-class AccountGetCest
+class GetCest
 {
     use FackerTrait;
 
@@ -16,7 +18,7 @@ class AccountGetCest
     }
 
     /**
-     * @dataProvider getUserProvider
+     * @dataProvider getAccountProvider
      */
     public function get(ApiTester $I, Example $test)
     {
@@ -32,7 +34,7 @@ class AccountGetCest
             $I->amHttpAuthenticated($account->getEmail(), $account->getPlainPassword());
         }
 
-        $I->sendGet(sprintf(API::PREFIX . '/accounts/%s', $accountId));
+        $I->sendGet(sprintf(API::ACCOUNT . '%s', $accountId));
 
         $I->seeResponseCodeIs($test['code']);
         if ($test['code'] === HttpCode::OK) {
@@ -44,7 +46,7 @@ class AccountGetCest
         }
     }
 
-    protected function getUserProvider()
+    protected function getAccountProvider()
     {
         return [
             [

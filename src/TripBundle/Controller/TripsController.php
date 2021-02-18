@@ -44,6 +44,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use TripBundle\Api\TripsApiInterface;
 use TripBundle\Entity\Country;
 use TripBundle\Entity\Trip as Entity;
+use TripBundle\Model\DefaultResponse;
 use TripBundle\Model\Filter;
 
 /**
@@ -109,7 +110,10 @@ class TripsController extends Controller
             $tripCreate = $this->deserialize($tripCreate, 'TripBundle\Model\TripCreate', $inputFormat);
             $tripCreate->setCreatedBy($this->security->getUser());
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
+            return $this->createBadRequestResponse(
+                $this->serialize(new DefaultResponse(['message' => $exception->getMessage()]), $responseFormat),
+                $responseFormat
+            );
         }
 
         // Validate the input values
@@ -195,7 +199,10 @@ class TripsController extends Controller
         try {
             $tripId = $this->deserialize($tripId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
+            return $this->createBadRequestResponse(
+                $this->serialize(new DefaultResponse(['message' => $exception->getMessage()]), $responseFormat),
+                $responseFormat
+            );
         }
 
         // Validate the input values
@@ -280,7 +287,10 @@ class TripsController extends Controller
         try {
             $tripId = $this->deserialize($tripId, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
+            return $this->createBadRequestResponse(
+                $this->serialize(new DefaultResponse(['message' => $exception->getMessage()]), $responseFormat),
+                $responseFormat
+            );
         }
 
         // Validate the input values
@@ -367,7 +377,10 @@ class TripsController extends Controller
                 'country' => $request->query->get('country'),
             ]), Filter::class, 'application/json');
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
+            return $this->createBadRequestResponse(
+                $this->serialize(new DefaultResponse(['message' => $exception->getMessage()]), $responseFormat),
+                $responseFormat
+            );
         }
 
         // Validate the input values
@@ -470,7 +483,10 @@ class TripsController extends Controller
                 $tripUpdate->setFinishedAt($trip->getFinishedAt());
             }
         } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage(), $responseFormat);
+            return $this->createBadRequestResponse(
+                $this->serialize(new DefaultResponse(['message' => $exception->getMessage()]), $responseFormat),
+                $responseFormat
+            );
         }
 
         // Validate the input values

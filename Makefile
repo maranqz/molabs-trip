@@ -21,6 +21,9 @@ env.init:
 composer.install:
 	$(PHP_EXEC) composer i -n
 
+test.run:
+	$(PHP_EXEC) bash -c "cd src/TripBundle && codecept run"
+
 test.init: test.init.db
 	$(PHP_EXEC) ln -s /var/www/symfony/vendor/bin/codecept /usr/bin/codecept
 

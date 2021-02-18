@@ -84,6 +84,7 @@ class TripUpdate
      * @var string|null
      * @SerializedName("notes")
      * @Assert\Type("string")
+     * @Assert\NotBlank(allowNull=true)
      * @Assert\Length(max="4096")
      * @Type("string")
      */
@@ -106,6 +107,19 @@ class TripUpdate
         $this->startedAt = isset($data['startedAt']) ? $data['startedAt'] : null;
         $this->finishedAt = isset($data['finishedAt']) ? $data['finishedAt'] : null;
         $this->notes = isset($data['notes']) ? $data['notes'] : null;
+    }
+
+    /**
+     * @Serializer\PostDeserialize()
+     */
+    public function postDeserialize()
+    {
+        if ($this->startedAt instanceof \DateTimeInterface) {
+            $this->startedAt->setTime(0, 0, 0, 0);
+        }
+        if ($this->finishedAt instanceof \DateTimeInterface) {
+            $this->finishedAt->setTime(0, 0, 0, 0);
+        }
     }
 
     /**

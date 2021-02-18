@@ -55,6 +55,7 @@ class TripCreate
      * @SerializedName("country")
      * @Assert\Type(Country::class)
      * @Type(Country::class)
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Country")
      * @EntityExist(entityClass=Country::class)
      */
@@ -82,7 +83,7 @@ class TripCreate
     /**
      * @var string
      * @SerializedName("notes")
-     * @Assert\NotNull()
+     * @Assert\NotBlank(allowNull=true)
      * @Assert\Type("string")
      * @Assert\Length(max="4096")
      * @Type("string")
@@ -106,6 +107,19 @@ class TripCreate
         $this->startedAt = isset($data['startedAt']) ? $data['startedAt'] : null;
         $this->finishedAt = isset($data['finishedAt']) ? $data['finishedAt'] : null;
         $this->notes = isset($data['notes']) ? $data['notes'] : null;
+    }
+
+    /**
+     * @Serializer\PostDeserialize()
+     */
+    public function postDeserialize()
+    {
+        if ($this->startedAt instanceof \DateTimeInterface) {
+            $this->startedAt->setTime(0, 0, 0, 0);
+        }
+        if ($this->finishedAt instanceof \DateTimeInterface) {
+            $this->finishedAt->setTime(0, 0, 0, 0);
+        }
     }
 
     /**

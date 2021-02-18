@@ -1,12 +1,14 @@
 <?php
 
-use _fixtures\AccountFixtures;
+namespace Api\Account;
+
 use _fixtures\FackerTrait;
 use Codeception\Util\HttpCode;
-use Helper\Api;
+use TripBundle\Tests\Helper\Api;
 use Codeception\Example;
+use TripBundle\Tests\ApiTester;
 
-class AccountDeleteCest
+class DeleteCest
 {
     use FackerTrait;
 
@@ -18,7 +20,7 @@ class AccountDeleteCest
     /**
      * TODO add to check deleting of related trips
      *
-     * @dataProvider deleteUserProvider
+     * @dataProvider deleteAccountProvider
      */
     public function delete(ApiTester $I, Example $test)
     {
@@ -34,7 +36,7 @@ class AccountDeleteCest
             $I->amHttpAuthenticated($account->getEmail(), $account->getPlainPassword());
         }
 
-        $I->sendDelete(sprintf(API::PREFIX . '/accounts/%s', $accountId));
+        $I->sendDelete(sprintf(API::ACCOUNT . '%s', $accountId));
 
         $I->seeResponseCodeIs($test['code']);
         if ($test['code'] === HttpCode::OK) {
@@ -43,7 +45,7 @@ class AccountDeleteCest
         }
     }
 
-    protected function deleteUserProvider()
+    protected function deleteAccountProvider()
     {
         return [
             [

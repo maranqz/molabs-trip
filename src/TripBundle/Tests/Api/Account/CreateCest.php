@@ -1,13 +1,16 @@
 <?php
 
+namespace TripBundle\Tests\Api\Account;
+
 use Codeception\Util\HttpCode;
 use Doctrine\ORM\EntityManagerInterface;
-use Helper\Api;
-use Helper\Validator;
+use TripBundle\Tests\ApiTester;
+use TripBundle\Tests\Helper\Api;
+use TripBundle\Tests\Helper\Validator;
 use Codeception\Example;
 use TripBundle\Entity\Account;
 
-class AccountCreateCest
+class CreateCest
 {
     public function _before(ApiTester $I)
     {
@@ -15,11 +18,11 @@ class AccountCreateCest
     }
 
     /**
-     * @dataProvider createUserProvider
+     * @dataProvider createAccountProvider
      */
     public function create(ApiTester $I, Example $test)
     {
-        $I->sendPost(API::PREFIX . '/accounts/', $test['send']);
+        $I->sendPost(API::ACCOUNT, $test['send']);
 
         $I->seeResponseCodeIs($test['code']);
         $I->seeResponseIsJson();
@@ -35,7 +38,7 @@ class AccountCreateCest
         $I->seeResponseContainsJson($expected);
     }
 
-    protected function createUserProvider()
+    protected function createAccountProvider()
     {
         return [
             [
@@ -115,7 +118,7 @@ class AccountCreateCest
         $I->persistEntity($user);
         $I->flushToDatabase();
 
-        $I->sendPost(API::PREFIX . '/accounts/', [
+        $I->sendPost(API::ACCOUNT, [
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
         ]);
@@ -129,7 +132,7 @@ class AccountCreateCest
     public function passwordIsHashed(ApiTester $I)
     {
         $password = Api::PASSWORD_FIRST;
-        $I->sendPost(API::PREFIX . '/accounts/', [
+        $I->sendPost(API::ACCOUNT, [
             'email' => Api::USER_FIRST,
             'password' => $password,
         ]);

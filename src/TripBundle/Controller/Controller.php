@@ -81,17 +81,18 @@ class Controller extends AbstractController
      *
      * @param string $message A message
      * @param string|null $responseFormat A response format
+     * @param int $code A response code
      *
      * @return Response
      */
-    public function createBadRequestResponse($message = 'Bad Request.', $responseFormat = null)
+    public function createBadRequestResponse($message = 'Bad Request.', $responseFormat = 'application/json', $code = 400)
     {
         $headers = [];
         if (isset($responseFormat)) {
             $headers ['Content-Type'] = $responseFormat;
         }
 
-        return new Response($message, 400, $headers);
+        return new Response($message, $code, $headers);
     }
 
     /**
