@@ -27,7 +27,7 @@ paths:
                             $ref: '#/components/schemas/Account'
 
             responses:
-                '200':
+                '201':
                     description: ok
                     content:
                         application/json:
@@ -111,12 +111,8 @@ paths:
                     schema:
                         type: integer
             responses:
-                '200':
+                '204':
                     description: ok
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/DefaultResponse"
                 default:
                     description: unexpected error
                     content:
@@ -140,7 +136,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/Trip'
             responses:
-                '200':
+                '201':
                     description: ok
                     content:
                         application/json:
@@ -259,12 +255,8 @@ paths:
                     schema:
                         type: integer
             responses:
-                '200':
+                '204':
                     description: ok
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/DefaultResponse"
                 default:
                     description: unexpected error
                     content:

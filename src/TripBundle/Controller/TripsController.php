@@ -131,7 +131,7 @@ class TripsController extends Controller
             $handler = $this->getApiHandler();
 
             // Make the call to the business logic
-            $responseCode = 200;
+            $responseCode = 201;
             $responseHeaders = [];
             $result = $handler->createTrip($tripCreate, $responseCode, $responseHeaders);
 
@@ -140,7 +140,7 @@ class TripsController extends Controller
 
             // Find a more specific message, if available
             switch ($responseCode) {
-                case 200:
+                case 201:
                     $message = 'ok';
                     break;
                 case 0:

@@ -19,4 +19,4 @@ extensions:
 modules:
     Cli: ~
 params:
-    - ../../.env.test
+    - ../../.env.test.local

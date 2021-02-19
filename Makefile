@@ -22,9 +22,11 @@ env.init:
 composer.install:
 	$(PHP_EXEC) composer i -n
 
-test: test.build test.init.db test.run
-test.docker: test.docker.build test.docker.init.db test.docker.run
+test: test.env test.build test.init.db test.run
+test.docker: test.env test.docker.build test.docker.init.db test.docker.run
 
+test.env:
+	cp .env.test .env.test.local || exit 0
 
 CODECEPTION_RUN = ../../vendor/bin/codecept
 TEST_BUILD = cd src/TripBundle && $(CODECEPTION_RUN) build

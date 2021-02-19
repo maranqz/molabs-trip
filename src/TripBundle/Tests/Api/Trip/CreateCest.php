@@ -85,7 +85,7 @@ class CreateCest
                     'started_at' => $date1Str,
                     'finished_at' => $date2Str,
                 ],
-                'code' => HttpCode::OK,
+                'code' => HttpCode::CREATED,
                 'expected' => [
                     'id' => true,
                     'country' => true,
@@ -103,7 +103,7 @@ class CreateCest
                     'finished_at' => $date2Str,
                     'notes' => 'notes',
                 ],
-                'code' => HttpCode::OK,
+                'code' => HttpCode::CREATED,
                 'expected' => [
                     'id' => true,
                     'country' => true,

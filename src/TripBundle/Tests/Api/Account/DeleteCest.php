@@ -51,7 +51,7 @@ class DeleteCest
             [
                 'authorized' => true,
                 'account_id' => true,
-                'code' => HttpCode::OK,
+                'code' => HttpCode::NO_CONTENT,
             ],
             [
                 'name' => 'not authorized',

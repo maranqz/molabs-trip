@@ -46,7 +46,7 @@ class CreateCest
                     'email' => Api::USER_FIRST,
                     'password' => Api::PASSWORD_FIRST
                 ],
-                'code' => HttpCode::OK,
+                'code' => HttpCode::CREATED,
                 'expected' => [
                     'email' => Api::USER_FIRST,
                     'id' => true,
@@ -57,7 +57,7 @@ class CreateCest
                     'email' => Api::USER_SECOND,
                     'password' => Api::PASSWORD_SECOND,
                 ],
-                'code' => HttpCode::OK,
+                'code' => HttpCode::CREATED,
                 'expected' => [
                     'email' => Api::USER_SECOND,
                     'id' => true,

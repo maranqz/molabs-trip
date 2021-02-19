@@ -113,7 +113,7 @@ class AccountsController extends Controller
             $handler = $this->getApiHandler();
             
             // Make the call to the business logic
-            $responseCode = 200;
+            $responseCode = 201;
             $responseHeaders = [];
             $result = $handler->createAccount($accountCreate, $responseCode, $responseHeaders);
 
@@ -122,7 +122,7 @@ class AccountsController extends Controller
 
             // Find a more specific message, if available
             switch ($responseCode) {
-                case 200:
+                case 201:
                     $message = 'ok';
                     break;
                 case 0:
@@ -201,7 +201,7 @@ class AccountsController extends Controller
             $handler = $this->getApiHandler();
             
             // Make the call to the business logic
-            $responseCode = 200;
+            $responseCode = 204;
             $responseHeaders = [];
             $result = $handler->deleteAccount($accountId, $responseCode, $responseHeaders);
 
@@ -210,7 +210,7 @@ class AccountsController extends Controller
 
             // Find a more specific message, if available
             switch ($responseCode) {
-                case 200:
+                case 204:
                     $message = 'ok';
                     break;
                 case 0:
