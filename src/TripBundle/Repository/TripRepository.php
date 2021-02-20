@@ -1,17 +1,17 @@
 <?php
 
-
 namespace TripBundle\Repository;
 
-
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Persistence\ManagerRegistry;
-use TripBundle\Entity\Account;
-use TripBundle\Entity\Country;
 use TripBundle\Entity\Trip;
-use TripBundle\Model\Trip as Model;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @method Trip|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Trip|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Trip[]    findAll()
+ * @method Trip[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class TripRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -19,24 +19,32 @@ class TripRepository extends ServiceEntityRepository
         parent::__construct($registry, Trip::class);
     }
 
-    public function findByFilter(?Country $country, ?\DateTime $startedAt, ?\DateTime $finishedAt, Account $account)
+    // /**
+    //  * @return Trip[] Returns an array of Trip objects
+    //  */
+    /*
+    public function findByExampleField($value)
     {
-        $criteria = Criteria::create();
-        $criteria->andWhere($criteria->expr()->eq('createdBy', $account))
-            ->orderBy(['startedAt' => 'ASC']);
-
-        if (isset($country)) {
-            $criteria->andWhere($criteria->expr()->eq('country', $country));
-        }
-
-        if (isset($startedAt)) {
-            $criteria->andWhere($criteria->expr()->gte('startedAt', $startedAt));
-        }
-
-        if (isset($finishedAt)) {
-            $criteria->andWhere($criteria->expr()->lte('finishedAt', $finishedAt));
-        }
-
-        return array_map([Model::class, 'fromEntity'], $this->matching($criteria)->getValues());
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('t.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
     }
+    */
+
+    /*
+    public function findOneBySomeField($value): ?Trip
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
 }

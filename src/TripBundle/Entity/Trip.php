@@ -2,75 +2,84 @@
 
 namespace TripBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 use TripBundle\Repository\TripRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Trip
- *
- * @ORM\Table(name="trip", indexes={
- *     @ORM\Index(name="country_code", columns={"country_code"}),
- *     @ORM\Index(name="created_by", columns={"created_by"}),
- *     @ORM\Index(columns={"started_at"}),
- *     @ORM\Index(columns={"finished_at"})
- * })
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=TripRepository::class)
  */
 class Trip
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="started_at", type="date", nullable=false)
-     */
-    private $startedAt;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="finished_at", type="date", nullable=false)
-     */
-    private $finishedAt;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="notes", type="text", length=65535, nullable=true)
-     */
-    private $notes;
-
-    /**
-     * @var Account
-     *
-     * @ORM\ManyToOne(targetEntity="Account")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
+     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="trips")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $createdBy;
 
     /**
-     * @var Country
-     *
-     * @ORM\ManyToOne(targetEntity="Country")
+     * @ORM\ManyToOne(targetEntity=Country::class)
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="country_code", referencedColumnName="code", nullable=false)
      * })
      */
     private $country;
 
+    /**
+     * @ORM\Column(type="date", nullable=false)
+     */
+    private $startedAt;
+
+    /**
+     * @ORM\Column(type="date", nullable=false)
+     */
+    private $finishedAt;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $notes;
+
+    public function __construct(Account $createdBy)
+    {
+        $this->createdBy = $createdBy;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCreatedBy(): ?Account
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?Account $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
+
+        return $this;
     }
 
     public function getStartedAt(): \DateTimeInterface
@@ -85,7 +94,7 @@ class Trip
         return $this;
     }
 
-    public function getFinishedAt(): \DateTimeInterface
+    public function getFinishedAt(): ?\DateTimeInterface
     {
         return $this->finishedAt;
     }
@@ -108,30 +117,4 @@ class Trip
 
         return $this;
     }
-
-    public function getCreatedBy(): ?Account
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?Account $createdBy): self
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    public function getCountry(): Country
-    {
-        return $this->country;
-    }
-
-    public function setCountry(Country $country): self
-    {
-        $this->country = $country;
-
-        return $this;
-    }
-
-
 }

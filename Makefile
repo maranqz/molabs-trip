@@ -13,7 +13,7 @@ NGINX_SERVICE = nginx
 NGINX_EXEC = $(DC_EXEC) $(NGINX_SERVICE)
 
 
-init: env.init upd composer.install doctrine.migrations.migrate countries.sync
+init: env.init upd composer.install db.init countries.sync
 
 env.init:
 	cp -f .env .env.local
@@ -117,6 +117,3 @@ doctrine.migrations.migrate:
 
 doctrine.migrations.diff:
 	$(PHP_EXEC) bin/console doctrine:migrations:diff
-
-act.run:
-	act $(ARGS)

@@ -1,49 +1,36 @@
 {
     "type": "project",
     "license": "proprietary",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.1.3",
+        "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "ext-json": "*",
+        "api-platform/core": "^2.6",
         "composer/package-versions-deprecated": "1.11.99.1",
+        "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
-        "doctrine/orm": "2.7.*",
-        "doctrine/persistence": "^1.3.3",
-        "guzzlehttp/guzzle": "^6.0",
-        "jms/serializer": "^1.14",
-        "jms/serializer-bundle": "^2.0",
-        "nelmio/api-doc-bundle": "^4.1",
-        "sensio/framework-extra-bundle": "^6.0",
-        "symfony/asset": "^4.0",
-        "symfony/console": "^4.0",
-        "symfony/dotenv": "^4.0",
+        "doctrine/orm": "^2.8",
+        "guzzlehttp/guzzle": "^7.0",
+        "nelmio/cors-bundle": "^2.1",
+        "phpdocumentor/reflection-docblock": "^5.2",
+        "symfony/asset": "5.2.*",
+        "symfony/console": "5.2.*",
+        "symfony/dotenv": "5.2.*",
+        "symfony/expression-language": "5.2.*",
         "symfony/flex": "^1.3.1",
-        "symfony/framework-bundle": "^4.0",
-        "symfony/proxy-manager-bridge": "^4.0",
-        "symfony/security-bundle": "^4.0",
-        "symfony/security-core": "^4.0",
-        "symfony/twig-bundle": "^4.0",
-        "symfony/validator": "^4.0",
-        "symfony/yaml": "^4.0",
-        "twig/twig": "^2.0"
-    },
-    "require-dev": {
-        "codeception/codeception": "^4.1",
-        "codeception/module-asserts": "^1.3",
-        "codeception/module-cli": "^1.1",
-        "codeception/module-db": "^1.1",
-        "codeception/module-doctrine2": "^1.1",
-        "codeception/module-rest": "^1.2",
-        "codeception/module-symfony": "^1.6",
-        "codeception/module-webdriver": "^1.2",
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "fakerphp/faker": "^1.13",
-        "squizlabs/php_codesniffer": "*",
-        "symfony/maker-bundle": "^1.29"
+        "symfony/framework-bundle": "5.2.*",
+        "symfony/property-access": "5.2.*",
+        "symfony/property-info": "5.2.*",
+        "symfony/proxy-manager-bridge": "5.2.*",
+        "symfony/security-bundle": "5.2.*",
+        "symfony/security-core": "5.2.*",
+        "symfony/serializer": "5.2.*",
+        "symfony/twig-bundle": "5.2.*",
+        "symfony/validator": "5.2.*",
+        "symfony/yaml": "5.2.*"
     },
     "config": {
         "optimize-autoloader": true,
@@ -87,7 +74,11 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^4.0"
+            "require": "5.2.*"
         }
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.29",
+        "symfony/web-profiler-bundle": "5.2.*"
     }
 }

@@ -1,7 +1,13 @@
 security:
+    encoders:
+        TripBundle\Entity\Account:
+            algorithm: auto
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        trip_account:
+        # used to reload user from session & other features (e.g. switch_user)
+        # TODO move to bundle
+        trip_account_provider:
             entity:
                 class: TripBundle\Entity\Account
                 property: email
@@ -10,11 +16,13 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
-            provider: trip_account
-            http_basic:
-                realm: Secured Area
+            anonymous: true
+            lazy: true
 
+            # TODO move to trip
+            http_basic:
+                provider: trip_account_provider
+                realm: Secured Area
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -26,12 +34,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        -   path: ^/trip/accounts/$
-            roles: IS_AUTHENTICATED_ANONYMOUSLY
-            methods: [ POST ]
-        -   path: ^/trip/
-            roles: ROLE_TRIP
-
-    encoders:
-        TripBundle\Entity\Account:
-            algorithm: 'auto'
+        # - { path: ^/profile, roles: ROLE_USER }

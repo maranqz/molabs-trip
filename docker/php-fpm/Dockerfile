@@ -3,55 +3,62 @@ FROM alpine:3.13
 LABEL maintainer="Vincent Composieux <vincent.composieux@gmail.com>"
 
 RUN apk add --no-cache \
-    bash \
+    bash-completion \
     git \
     coreutils \
-    php7-fpm \
-    php7-ctype \
-    php7-curl \
-    php7-dom \
-    php7-gd \
-    php7-iconv \
-    php7-json \
-    php7-intl \
-    php7-fileinfo\
-    php7-mbstring \
-    php7-opcache \
-    php7-openssl \
-    php7-pdo \
-    php7-pdo_mysql \
-    php7-mysqli \
-    php7-xml \
-    php7-zlib \
-    php7-phar \
-    php7-tokenizer \
-    php7-session \
-    php7-simplexml \
-    php7-zip \
-    php7-xmlwriter \
-    php7-pecl-apcu \
+    php8-fpm \
+    php8-ctype \
+    php8-curl \
+    php8-dom \
+    php8-gd \
+    php8-iconv \
+    php8-json \
+    php8-intl \
+    php8-fileinfo\
+    php8-mbstring \
+    php8-opcache \
+    php8-openssl \
+    php8-pdo \
+    php8-pdo_mysql \
+    php8-mysqli \
+    php8-xml \
+    php8-zlib \
+    php8-phar \
+    php8-tokenizer \
+    php8-session \
+    php8-simplexml \
+    php8-zip \
+    php8-xmlwriter \
+    php8-pecl-apcu \
     make \
     curl
 
-# Allow to enable php7-xdebug
+# Allow to enable php8-xdebug
 ARG ENABLE_PHP_XDEBUG
 RUN if [[ "$ENABLE_PHP_XDEBUG" == "1" ]]; then \
-        apk add --no-cache php7-pecl-xdebug; \
+        apk add --no-cache php8-pecl-xdebug; \
     fi
 
 RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
-    && php7 composer-setup.php && rm composer-setup.php* \
+    && php8 composer-setup.php && rm composer-setup.php* \
     && chmod +x composer.phar && mv composer.phar /usr/bin/composer \
-    && ln -s /usr/bin/php7 /usr/local/bin/php
+    && ln -s /usr/bin/php8 /usr/local/bin/php
 
-COPY symfony.ini /etc/php7/conf.d/
-COPY symfony.ini /etc/php7/cli/conf.d/
-COPY xdebug.ini  /etc/php7/conf.d/
+RUN echo "source /etc/profile.d/bash_completion.sh" > ~/.bashrc
 
-COPY symfony.pool.conf /etc/php7/php-fpm.d/
+RUN composer global require bamarni/symfony-console-autocomplete \
+    && echo 'export PATH="$PATH:~/.composer/vendor/bin/"' >> ~/.bashrc \
+    && echo 'eval "$(symfony-autocomplete --shell=bash)"' >> ~/.bashrc
+
+
+COPY symfony.ini /etc/php8/conf.d/
+COPY symfony.ini /etc/php8/cli/conf.d/
+COPY xdebug.ini  /etc/php8/conf.d/
+
+COPY symfony.pool.conf /etc/php8/php-fpm.d/
 
 WORKDIR /var/www/symfony
 
-CMD ["php-fpm7", "-F"]
+CMD ["php-fpm8", "-F"]
 
 EXPOSE 9001

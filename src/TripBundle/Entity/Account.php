@@ -2,45 +2,89 @@
 
 namespace TripBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
+use TripBundle\Repository\AccountRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Account
- *
- * @ORM\Table(name="account", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
- * @ORM\Entity
+ * @ApiResource(
+ *     security="is_granted('ROLE_USER')",
+ *     normalizationContext={"groups"={"account:read"}},
+ *     denormalizationContext={"groups"={"account:write"}},
+ *     collectionOperations={"post"={
+ *          "security"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
+ *          "validation_groups"={"Default", "account:create"}
+ *     }},
+ *     itemOperations={
+ *          "get"={"security"=Account::GRANTED},
+ *          "put"={"security"=Account::GRANTED},
+ *          "delete"={"security"=Account::GRANTED}
+ *     }
+ * )
+ * @UniqueEntity(fields={"username"})
+ * @UniqueEntity(fields={"email"})
+ * @ORM\Entity(repositoryClass=AccountRepository::class)
  */
 class Account implements UserInterface
 {
+    const GRANTED = "is_granted('ROLE_USER') and object == user";
+
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @Groups({"account:read", "account:write"})
+     * @Assert\Email()
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @Groups({"account:read", "account:write"})
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
     private $password;
 
     /**
-     * @var string
+     * @Groups("account:write")
+     * @SerializedName("password")
+     * @Assert\NotBlank(groups={"account:create"})
      */
     private $plainPassword;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Trip::class, mappedBy="createdBy")
+     */
+    private $trips;
+
+    public function __construct()
+    {
+        $this->trips = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -59,9 +103,49 @@ class Account implements UserInterface
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
     {
-        return $this->password;
+        return (string) $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_TRIP';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -71,35 +155,65 @@ class Account implements UserInterface
         return $this;
     }
 
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
-    public function setPlainPassword($password)
+    public function setPlainPassword(string $plainPassword): self
     {
-        $this->plainPassword = $password;
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
 
-    public function getRoles()
-    {
-        return ['ROLE_TRIP'];
-    }
-
-    public function getSalt()
-    {
-        return null;
-    }
-
-    public function getUsername()
-    {
-        return $this->getPassword();
-    }
-
+    /**
+     * @see UserInterface
+     */
     public function eraseCredentials()
     {
-        $this->setPlainPassword(null);
+        // If you store any temporary, sensitive data on the user, clear it here
+        $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Trip[]
+     */
+    public function getTrips(): Collection
+    {
+        return $this->trips;
+    }
+
+    public function addTrips(Trip $trips): self
+    {
+        if (!$this->trips->contains($trips)) {
+            $this->trips[] = $trips;
+            $trips->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrips(Trip $trips): self
+    {
+        if ($this->trips->removeElement($trips)) {
+            // set the owning side to null (unless already changed)
+            if ($trips->getCreatedBy() === $this) {
+                $trips->setCreatedBy(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -26,7 +26,7 @@ services:
             - dicache:/var/www/symfony/var/cache
             - ./:/var/www/symfony:cached
             - ./var/log:/var/www/symfony/var/log:cached
-        depends_on: 
+        depends_on:
             - db
 
     nginx:
@@ -34,7 +34,7 @@ services:
         build: ./docker/nginx
         ports:
             - "80:80"
-        depends_on: 
+        depends_on:
             - php
         volumes:
             - ./logs/nginx:/var/log/nginx:cached

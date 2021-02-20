@@ -2,37 +2,40 @@
 
 namespace TripBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use TripBundle\Repository\CountryRepository;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
+use ApiPlatform\Core\Action\NotFoundAction;
 
 /**
- * Country
- *
- * @ORM\Table(name="country")
- * @ORM\Entity
+ * @ApiResource(
+ *     itemOperations={"get": {
+ *      "controller": NotFoundAction::class,
+ *      "read": false,
+ *      "output": false,
+ *      "openapi_context": {
+ *          "summary": "Used for IRI"
+ *      },
+ *     }},
+ *     collectionOperations={"get"}
+ * )
+ * @ORM\Entity(repositoryClass=CountryRepository::class)
  */
 class Country
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="code", type="string", length=3, nullable=false)
+     * @ORM\Column(type="string", length=3)
      * @ORM\Id
-     * @Serializer\Type("string")
      */
     private $code;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="region", type="string", length=10, nullable=false)
+     * @ORM\Column(type="string", length=10)
      */
     private $region;
 
@@ -44,6 +47,13 @@ class Country
     public function getCode(): ?string
     {
         return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -58,7 +68,7 @@ class Country
         return $this;
     }
 
-    public function getRegion(): string
+    public function getRegion(): ?string
     {
         return $this->region;
     }
@@ -69,6 +79,4 @@ class Country
 
         return $this;
     }
-
-
 }
