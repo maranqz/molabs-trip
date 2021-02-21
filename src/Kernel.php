@@ -6,9 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
 class Kernel extends BaseKernel
 {
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_TRIP = 'ROLE_TRIP';
+    const IS_TRIP_ROLE = "is_granted('" . self::ROLE_TRIP . "')";
+    const IS_ANONYMOUSLY = "is_granted('" . AuthenticatedVoter::IS_AUTHENTICATED_ANONYMOUSLY . "')";
+
     use MicroKernelTrait;
 
     protected function configureContainer(ContainerConfigurator $container): void

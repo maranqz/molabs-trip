@@ -1,15 +1,15 @@
 security:
     encoders:
-        TripBundle\Entity\Account:
+        App\Entity\Account:
             algorithm: auto
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         # TODO move to bundle
-        trip_account_provider:
+        app_account_provider:
             entity:
-                class: TripBundle\Entity\Account
+                class: App\Entity\Account
                 property: email
     firewalls:
         dev:
@@ -21,7 +21,7 @@ security:
 
             # TODO move to trip
             http_basic:
-                provider: trip_account_provider
+                provider: app_account_provider
                 realm: Secured Area
 
             # activate different ways to authenticate
