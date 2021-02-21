@@ -6,9 +6,11 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use TripBundle\Repository\CountryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Action\NotFoundAction;
+use TripBundle\TripBundle;
 
 /**
  * @ApiResource(
+ *     security=TripBundle::IS_TRIP_ROLE,
  *     itemOperations={"get": {
  *      "controller": NotFoundAction::class,
  *      "read": false,

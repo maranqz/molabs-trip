@@ -16,5 +16,9 @@
         <service id="TripBundle\OpenApi\OpenApiFactory" decorates="api_platform.openapi.factory">
         </service>
 
+        <service id="TripBundle\Doctrine\TripSetCreatedByListener">
+            <tag>doctrine.orm.entity_listener</tag>
+        </service>
+
     </services>
 </container>
