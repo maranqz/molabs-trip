@@ -36,4 +36,10 @@ final class Version20210221194037 extends AbstractMigration
         $this->addSql('DROP TABLE country');
         $this->addSql('DROP TABLE trip');
     }
+
+    // TODO remove after https://github.com/doctrine/migrations/issues/1104
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

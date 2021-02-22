@@ -32,7 +32,6 @@ TEST_RUN = php -d xdebug.mode=coverage bin/phpunit tests/Api/ --coverage-text
 test.run:
 	$(TEST_RUN)
 test.docker.run:
-	echo `pwd` && exit 1
 	$(PHP_EXEC) bash -c "$(TEST_RUN)"
 
 test.docker.init: test.docker.init.db

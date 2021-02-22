@@ -10,9 +10,6 @@ on:
             # TODO remove before merge
             - api-platform
 name: Test
-env:
-    PHP_VERSION_CODECOVERAGE: 7.4.x
-    OS_CODE_COVERAGE: ubuntu-latest
 jobs:
     test:
         services:
@@ -27,7 +24,6 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - 7.4
                     - 8.0
                 os:
                     - ubuntu-latest
