@@ -2,13 +2,9 @@ on:
     push:
         branches:
             - main
-            # TODO remove before merge
-            - api-platform
     pull_request:
         branches:
             - main
-            # TODO remove before merge
-            - api-platform
 name: Test
 jobs:
     test:

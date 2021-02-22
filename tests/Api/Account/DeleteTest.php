@@ -15,8 +15,6 @@ class DeleteTest extends ApiTestCase
     use ResetDatabase;
 
     /**
-     * TODO add to check deleting of related trips.
-     *
      * @dataProvider deleteAccountProvider
      */
     public function testDelete($authorized, $sameAccount, $code)
