@@ -1,15 +1,13 @@
 <?php
 
-
 namespace App\TestsFunctional\Api;
-
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\Account;
 use App\Tests\Factory\AccountFactory;
+use App\Tests\Helper\Api;
 use App\Tests\Helper\Validator;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Helper\Api;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
 class UpdateTest extends ApiTestCase
@@ -22,8 +20,8 @@ class UpdateTest extends ApiTestCase
         $account = AccountFactory::new()->create()->object();
 
         $client = self::createClient();
-        $client->request('PUT', sprintf(API::ACCOUNT . '/%s', $account->getId()), [
-            'json' => ['email' => AccountFactory::USER_SECOND]
+        $client->request('PUT', sprintf(API::ACCOUNT.'/%s', $account->getId()), [
+            'json' => ['email' => AccountFactory::USER_SECOND],
         ]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
@@ -43,14 +41,14 @@ class UpdateTest extends ApiTestCase
             $send['email'] = $account->getEmail();
         }
 
-        $client->request('PUT', sprintf(API::ACCOUNT . '/%s', $account->getId()), [
+        $client->request('PUT', sprintf(API::ACCOUNT.'/%s', $account->getId()), [
             'json' => $send,
         ]);
 
         $this->assertResponseStatusCodeSame($code);
 
         if (($expected['@id'] ?? false) === true) {
-            $expected['@id'] = Api::ACCOUNT . '/' . $account->getId();
+            $expected['@id'] = Api::ACCOUNT.'/'.$account->getId();
         }
         if (($expected['email'] ?? false) === true) {
             $expected['email'] = $account->getEmail();
@@ -66,71 +64,71 @@ class UpdateTest extends ApiTestCase
     {
         return [
             [
-                'send'     => [
-                    'email'    => AccountFactory::USER_FIRST,
-                    'password' => AccountFactory::DEFAULT_PASSWORD
+                'send' => [
+                    'email' => AccountFactory::USER_FIRST,
+                    'password' => AccountFactory::DEFAULT_PASSWORD,
                 ],
-                'code'     => Response::HTTP_OK,
+                'code' => Response::HTTP_OK,
                 'expected' => [
-                    '@id'      => true,
-                    'email'    => AccountFactory::USER_FIRST,
+                    '@id' => true,
+                    'email' => AccountFactory::USER_FIRST,
                     'username' => true,
-                ]
+                ],
             ],
             'save with same email' => [
-                'send'     => [
+                'send' => [
                     'email' => true,
                 ],
-                'code'     => Response::HTTP_OK,
+                'code' => Response::HTTP_OK,
                 'expected' => [
-                    '@id'      => true,
-                    'email'    => true,
+                    '@id' => true,
+                    'email' => true,
                     'username' => true,
-                ]
+                ],
             ],
-            'empty'                => [
-                'send'     => [],
-                'code'     => Response::HTTP_OK,
+            'empty' => [
+                'send' => [],
+                'code' => Response::HTTP_OK,
                 'expected' => [
-                    '@id'      => true,
-                    'email'    => true,
+                    '@id' => true,
+                    'email' => true,
                     'username' => true,
-                ]
+                ],
             ],
-            'blank password'       => [
-                'send'     => [
+            'blank password' => [
+                'send' => [
                     'password' => '',
                 ],
-                'code'     => Response::HTTP_OK,
+                'code' => Response::HTTP_OK,
                 'expected' => [
-                    '@id'      => true,
-                    'email'    => true,
+                    '@id' => true,
+                    'email' => true,
                     'username' => true,
-                ]
+                ],
             ],
-            'blank'                => [
-                'send'     => [
-                    'email'    => '',
+            'blank' => [
+                'send' => [
+                    'email' => '',
                     'username' => '',
                 ],
-                'code'     => Api::CODE_VALIDATION,
+                'code' => Api::CODE_VALIDATION,
                 'expected' => [
                     'violations' => [
                         ['propertyPath' => 'email', 'message' => Validator::NotBlank()->message],
                         ['propertyPath' => 'username', 'message' => Validator::NotBlank()->message],
-                    ]
-                ]
+                    ],
+                ],
             ],
-            'invalid email'        => [
-                'send'     => [
+            'invalid email' => [
+                'send' => [
                     'email' => AccountFactory::INVALID_EMAIL,
                 ],
-                'code'     => Api::CODE_VALIDATION,
+                'code' => Api::CODE_VALIDATION,
                 'expected' => [
                     'violations' => [
                         ['propertyPath' => 'email', 'message' => Validator::Email()->message],
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }

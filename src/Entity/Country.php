@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Kernel;
 use App\Repository\CountryRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Action\NotFoundAction;
-use App\Kernel;
 
 /**
  * @ApiResource(

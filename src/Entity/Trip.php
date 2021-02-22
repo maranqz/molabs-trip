@@ -6,15 +6,15 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use App\Doctrine\TripSetCreatedByListener;
+use App\Kernel;
+use App\Repository\TripRepository;
+use App\Validator\NotOverlapping;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\TripRepository;
-use Doctrine\ORM\Mapping as ORM;
-use App\Doctrine\TripSetCreatedByListener;
-use App\Validator\NotOverlapping;
-use App\Kernel;
 
 /**
  * @ApiResource(
@@ -39,7 +39,7 @@ use App\Kernel;
  */
 class Trip
 {
-    const GRANTED = Kernel::IS_TRIP_ROLE . " and object.getCreatedBy() == user";
+    const GRANTED = Kernel::IS_TRIP_ROLE.' and object.getCreatedBy() == user';
 
     /**
      * @ORM\Id
@@ -134,7 +134,7 @@ class Trip
 
     public function setStartedAt(\DateTimeInterface $startedAt): self
     {
-        $this->startedAt = $startedAt->setTime(0,0,0);
+        $this->startedAt = $startedAt->setTime(0, 0, 0);
 
         return $this;
     }
@@ -146,7 +146,7 @@ class Trip
 
     public function setFinishedAt(\DateTimeInterface $finishedAt): self
     {
-        $this->finishedAt = $finishedAt->setTime(0,0,0);
+        $this->finishedAt = $finishedAt->setTime(0, 0, 0);
 
         return $this;
     }

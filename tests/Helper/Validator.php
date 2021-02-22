@@ -1,15 +1,13 @@
 <?php
 
-
 namespace App\Tests\Helper;
 
-
+use App\Validator\NotOverlapping;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
-use App\Validator\NotOverlapping;
 
 class Validator
 {

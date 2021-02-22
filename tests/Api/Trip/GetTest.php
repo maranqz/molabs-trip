@@ -23,8 +23,8 @@ class GetTest extends ApiTestCase
     public function testGet($tripId, $code, $authorized = true)
     {
         $client = self::createClient();
-        $trip   = TripFactory::new()->create();
-        if ($tripId === true) {
+        $trip = TripFactory::new()->create();
+        if (true === $tripId) {
             $tripId = $trip->getId();
         } else {
             $tripId = TripFactory::new()->create()->getId();
@@ -34,16 +34,16 @@ class GetTest extends ApiTestCase
             $client = Api::logIn($client, $trip->getCreatedBy());
         }
 
-        $client->request('GET', sprintf(API::TRIP . '/%s', $tripId));
+        $client->request('GET', sprintf(API::TRIP.'/%s', $tripId));
 
         $this->assertResponseStatusCodeSame($code);
-        if ($code === Response::HTTP_OK) {
+        if (Response::HTTP_OK === $code) {
             $this->assertJsonContains([
-                'country'    => sprintf(API::COUNTRY . '/%s', $trip->getCountry()->getCode()),
-                'startedAt'  => $trip->getStartedAt()->format(Api::DATE_FORMAT),
+                'country' => sprintf(API::COUNTRY.'/%s', $trip->getCountry()->getCode()),
+                'startedAt' => $trip->getStartedAt()->format(Api::DATE_FORMAT),
                 'finishedAt' => $trip->getFinishedAt()->format(Api::DATE_FORMAT),
-                'notes'      => $trip->getNotes(),
-                '@id'        => sprintf(API::TRIP . '/%s', $tripId),
+                'notes' => $trip->getNotes(),
+                '@id' => sprintf(API::TRIP.'/%s', $tripId),
             ]);
         }
     }
@@ -53,16 +53,16 @@ class GetTest extends ApiTestCase
         return [
             [
                 'trip_id' => true,
-                'code'    => Response::HTTP_OK,
+                'code' => Response::HTTP_OK,
             ],
             'not authorized' => [
-                'trip_id'    => true,
-                'code'       => Response::HTTP_UNAUTHORIZED,
+                'trip_id' => true,
+                'code' => Response::HTTP_UNAUTHORIZED,
                 'authorized' => false,
             ],
-            'not own'        => [
+            'not own' => [
                 'trip_id' => false,
-                'code'    => Response::HTTP_NOT_FOUND,
+                'code' => Response::HTTP_NOT_FOUND,
             ],
         ];
     }
@@ -91,80 +91,80 @@ class GetTest extends ApiTestCase
         $client->request('GET', API::TRIP, ['query' => $filter]);
 
         $this->assertResponseStatusCodeSame($code);
-        if ($code === Response::HTTP_OK) {
+        if (Response::HTTP_OK === $code) {
             $this->assertJsonContains(['hydra:totalItems' => $expectedCount]);
         }
     }
 
     public function getTripsProvider()
     {
-        $date1    = (new \DateTimeImmutable())->setTime(0, 0, 0, 0);
-        $date2    = $date1->add(new \DateInterval('P1D'));
+        $date1 = (new \DateTimeImmutable())->setTime(0, 0, 0, 0);
+        $date2 = $date1->add(new \DateInterval('P1D'));
         $date2Str = $date2->format(Api::DATE_FORMAT);
-        $date3    = $date2->add(new \DateInterval('P1D'));
+        $date3 = $date2->add(new \DateInterval('P1D'));
         $date3Str = $date3->format(Api::DATE_FORMAT);
-        $date4    = $date3->add(new \DateInterval('P1D'));
+        $date4 = $date3->add(new \DateInterval('P1D'));
 
         $tripsWithData = [
             [
-                'startedAt'  => $date1,
+                'startedAt' => $date1,
                 'finishedAt' => $date2,
             ],
             [
-                'startedAt'  => $date3,
+                'startedAt' => $date3,
                 'finishedAt' => $date4,
             ],
         ];
 
         return [
             [
-                'trips'          => array_fill(0, 3, []),
-                'code'           => Response::HTTP_OK,
+                'trips' => array_fill(0, 3, []),
+                'code' => Response::HTTP_OK,
                 'expected_count' => 3,
             ],
             [
-                'trips'          => [],
-                'code'           => Response::HTTP_UNAUTHORIZED,
+                'trips' => [],
+                'code' => Response::HTTP_UNAUTHORIZED,
                 'expected_count' => false,
-                'filter'         => [],
-                'authorized'     => false,
+                'filter' => [],
+                'authorized' => false,
             ],
             'different country' => [
-                'trips'          => [
+                'trips' => [
                     [
                         'country' => CountryFactory::new([
-                            'code'   => 'one',
-                            'name'   => 'one',
-                            'region' => 'region'
-                        ])
+                            'code' => 'one',
+                            'name' => 'one',
+                            'region' => 'region',
+                        ]),
                     ],
                     [
                         'country' => CountryFactory::new([
-                            'code'   => 'two',
-                            'name'   => 'two',
-                            'region' => 'region'
-                        ])
+                            'code' => 'two',
+                            'name' => 'two',
+                            'region' => 'region',
+                        ]),
                     ],
                 ],
-                'code'           => Response::HTTP_OK,
+                'code' => Response::HTTP_OK,
                 'expected_count' => 1,
-                'filter'         => [
+                'filter' => [
                     'country' => 'one',
                 ],
             ],
-            'started_at'        => [
-                'trips'          => $tripsWithData,
-                'code'           => Response::HTTP_OK,
+            'started_at' => [
+                'trips' => $tripsWithData,
+                'code' => Response::HTTP_OK,
                 'expected_count' => 1,
-                'filter'         => [
+                'filter' => [
                     'startedAt[after]' => $date3Str,
                 ],
             ],
-            'finished_at'       => [
-                'trips'          => $tripsWithData,
-                'code'           => Response::HTTP_OK,
+            'finished_at' => [
+                'trips' => $tripsWithData,
+                'code' => Response::HTTP_OK,
                 'expected_count' => 1,
-                'filter'         => [
+                'filter' => [
                     'finishedAt[before]' => $date2Str,
                 ],
             ],

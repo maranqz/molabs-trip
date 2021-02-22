@@ -2,8 +2,8 @@
 
 namespace App\Doctrine;
 
-use Symfony\Component\Security\Core\Security;
 use App\Entity\Trip;
+use Symfony\Component\Security\Core\Security;
 
 class TripSetCreatedByListener
 {

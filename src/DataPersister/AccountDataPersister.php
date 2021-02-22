@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\DataPersister;
-
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
+use App\Entity\Account;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
-use App\Entity\Account;
 
 class AccountDataPersister implements ContextAwareDataPersisterInterface
 {

@@ -1,14 +1,13 @@
 <?php
 
-
 namespace App\Validator;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class NotOverlappingValidator extends ConstraintValidator
 {
@@ -21,7 +20,6 @@ class NotOverlappingValidator extends ConstraintValidator
 
     /**
      * NotOverlappingValidator constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -30,7 +28,6 @@ class NotOverlappingValidator extends ConstraintValidator
 
     /**
      * @param object $object
-     * @param Constraint $constraint
      *
      * @throws UnexpectedTypeException
      * @throws ConstraintDefinitionException
@@ -38,14 +35,14 @@ class NotOverlappingValidator extends ConstraintValidator
     public function validate($object, Constraint $constraint)
     {
         if (!$constraint instanceof NotOverlapping) {
-            throw new UnexpectedTypeException($constraint, __NAMESPACE__ . '\NotOverlapping');
+            throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\NotOverlapping');
         }
 
         if (!\is_array($constraint->fields) && !\is_string($constraint->fields)) {
             throw new UnexpectedTypeException($constraint->fields, 'array');
         }
 
-        $fields = (array)$constraint->fields;
+        $fields = (array) $constraint->fields;
 
         if (!is_null($constraint->errorPath) && !is_string($constraint->errorPath)) {
             throw new UnexpectedTypeException($constraint->errorPath, 'string or null');
@@ -69,10 +66,7 @@ class NotOverlappingValidator extends ConstraintValidator
         $em = $this->registry->getManagerForClass($entityClass);
 
         if (!$em) {
-            throw new ConstraintDefinitionException(
-                sprintf('Unable to find the object manager associated with an entity of class "%s".',
-                    $entityClass
-                ));
+            throw new ConstraintDefinitionException(sprintf('Unable to find the object manager associated with an entity of class "%s".', $entityClass));
         }
 
         $class = $em->getClassMetadata($entityClass);
@@ -154,13 +148,11 @@ class NotOverlappingValidator extends ConstraintValidator
                 throw new UnexpectedTypeException($constraint->identifierFieldNames, 'array');
             }
 
-            $identifierFieldNames = (array)$constraint->identifierFieldNames;
+            $identifierFieldNames = (array) $constraint->identifierFieldNames;
 
             $fieldValues = $this->getFieldValues($object, $class, $identifierFieldNames);
             if (array_values($class->getIdentifierFieldNames()) != array_values($identifierFieldNames)) {
-                throw new ConstraintDefinitionException(sprintf('The "%s" entity identifier field names should be "%s", not "%s".',
-                    $entityClass, implode(', ', $class->getIdentifierFieldNames()),
-                    implode(', ', $constraint->identifierFieldNames)));
+                throw new ConstraintDefinitionException(sprintf('The "%s" entity identifier field names should be "%s", not "%s".', $entityClass, implode(', ', $class->getIdentifierFieldNames()), implode(', ', $constraint->identifierFieldNames)));
             }
 
             $entityMatched = true;
@@ -193,8 +185,7 @@ class NotOverlappingValidator extends ConstraintValidator
     protected function getFieldValue($class, $fieldName, $object)
     {
         if (!$class->hasField($fieldName) && !$class->hasAssociation($fieldName)) {
-            throw new ConstraintDefinitionException(sprintf('The field "%s" is not mapped by Doctrine, so it cannot be validated for uniqueness.',
-                $fieldName));
+            throw new ConstraintDefinitionException(sprintf('The field "%s" is not mapped by Doctrine, so it cannot be validated for uniqueness.', $fieldName));
         }
 
         return $this->getPropertyValue(get_class($object), $fieldName, $object);

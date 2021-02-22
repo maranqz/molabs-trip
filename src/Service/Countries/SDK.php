@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service\Countries;
-
 
 use GuzzleHttp\Client;
 
@@ -19,8 +17,10 @@ class SDK
         ]);
     }
 
-    public function countries(){
+    public function countries()
+    {
         $response = $this->client->get('/rest/v2/all?fields=name;alpha3Code;region');
+
         return json_decode($response->getBody()->getContents(), true);
     }
 }

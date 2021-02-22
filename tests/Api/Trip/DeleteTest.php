@@ -20,7 +20,7 @@ class DeleteTest extends ApiTestCase
         $client = self::createClient();
 
         $trip = TripFactory::new()->create();
-        if ($tripId === true) {
+        if (true === $tripId) {
             $tripId = $trip->getId();
         } else {
             $tripId = TripFactory::new()->create()->getId();
@@ -30,7 +30,7 @@ class DeleteTest extends ApiTestCase
             $client = Api::logIn($client, $trip->getCreatedBy());
         }
 
-        $client->request('DELETE', sprintf(Api::TRIP . '/%s', $tripId));
+        $client->request('DELETE', sprintf(Api::TRIP.'/%s', $tripId));
 
         $this->assertResponseStatusCodeSame($code);
     }
@@ -40,18 +40,18 @@ class DeleteTest extends ApiTestCase
         return [
             [
                 'authorized' => true,
-                'tripId'     => true,
-                'code'       => Response::HTTP_NO_CONTENT,
+                'tripId' => true,
+                'code' => Response::HTTP_NO_CONTENT,
             ],
             'not authorized' => [
                 'authorized' => false,
-                'tripId'     => true,
-                'code'       => Response::HTTP_UNAUTHORIZED,
+                'tripId' => true,
+                'code' => Response::HTTP_UNAUTHORIZED,
             ],
-            'not own'        => [
+            'not own' => [
                 'authorized' => true,
-                'tripId'     => false,
-                'code'       => Response::HTTP_NOT_FOUND,
+                'tripId' => false,
+                'code' => Response::HTTP_NOT_FOUND,
             ],
         ];
     }

@@ -1,16 +1,14 @@
 <?php
 
-
 namespace App\ApiPlatform;
-
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use App\Entity\Trip;
 use App\Kernel;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Security;
-use App\Entity\Trip;
 
 class OwnerExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {

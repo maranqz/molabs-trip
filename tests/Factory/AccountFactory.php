@@ -4,19 +4,19 @@ namespace App\Tests\Factory;
 
 use App\Entity\Account;
 use App\Repository\AccountRepository;
-use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
+use Zenstruck\Foundry\RepositoryProxy;
 
 /**
- * @method static Account|Proxy createOne(array $attributes = [])
- * @method static Account[]|Proxy[] createMany(int $number, $attributes = [])
- * @method static Account|Proxy findOrCreate(array $attributes)
- * @method static Account|Proxy random(array $attributes = [])
- * @method static Account|Proxy randomOrCreate(array $attributes = [])
- * @method static Account[]|Proxy[] randomSet(int $number, array $attributes = [])
- * @method static Account[]|Proxy[] randomRange(int $min, int $max, array $attributes = [])
- * @method static AccountRepository|RepositoryProxy repository()
+ * @method static        Account|Proxy createOne(array $attributes = [])
+ * @method static        Account[]|Proxy[] createMany(int $number, $attributes = [])
+ * @method static        Account|Proxy findOrCreate(array $attributes)
+ * @method static        Account|Proxy random(array $attributes = [])
+ * @method static        Account|Proxy randomOrCreate(array $attributes = [])
+ * @method static        Account[]|Proxy[] randomSet(int $number, array $attributes = [])
+ * @method static        Account[]|Proxy[] randomRange(int $min, int $max, array $attributes = [])
+ * @method static        AccountRepository|RepositoryProxy repository()
  * @method Account|Proxy create($attributes = [])
  */
 final class AccountFactory extends ModelFactory
@@ -30,7 +30,7 @@ final class AccountFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'email'    => self::faker()->email,
+            'email' => self::faker()->email,
             'username' => self::faker()->userName,
             // hashed version of "test"
             // php bin/console security:encode-password --env=test

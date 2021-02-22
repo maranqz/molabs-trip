@@ -3,16 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Kernel;
 use App\Repository\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use App\Kernel;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -35,7 +35,7 @@ use App\Kernel;
  */
 class Account implements UserInterface
 {
-    const GRANTED = Kernel::IS_TRIP_ROLE . " and object == user";
+    const GRANTED = Kernel::IS_TRIP_ROLE.' and object == user';
 
     /**
      * @ORM\Id
@@ -111,7 +111,7 @@ class Account implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string)$this->username;
+        return (string) $this->username;
     }
 
     public function setUsername(string $username): self
@@ -146,7 +146,7 @@ class Account implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string)$this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -198,7 +198,7 @@ class Account implements UserInterface
 
     public function addTrips(Trip $trips): self
     {
-        if ( ! $this->trips->contains($trips)) {
+        if (!$this->trips->contains($trips)) {
             $this->trips[] = $trips;
             $trips->setCreatedBy($this);
         }

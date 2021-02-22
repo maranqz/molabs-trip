@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Validator;
-
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
@@ -20,15 +18,13 @@ trait DTOValidatorTrait
 
         foreach ($fields as $objectFieldName => $entityFieldName) {
             if (!$class->hasField($entityFieldName) && !$class->hasAssociation($entityFieldName)) {
-                throw new ConstraintDefinitionException(sprintf('The field "%s" is not mapped by Doctrine, so it cannot be validated for uniqueness.',
-                    $entityFieldName));
+                throw new ConstraintDefinitionException(sprintf('The field "%s" is not mapped by Doctrine, so it cannot be validated for uniqueness.', $entityFieldName));
             }
 
             $fieldName = \is_int($objectFieldName) ? $entityFieldName : $objectFieldName;
             if (!$isEntity) {
                 if (!$reflectionObject->hasProperty($fieldName)) {
-                    throw new ConstraintDefinitionException(sprintf('The field "%s" is not a property of class "%s".',
-                        $fieldName, $objectClass));
+                    throw new ConstraintDefinitionException(sprintf('The field "%s" is not a property of class "%s".', $fieldName, $objectClass));
                 }
             }
 

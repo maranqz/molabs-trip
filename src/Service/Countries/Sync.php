@@ -1,11 +1,9 @@
 <?php
 
-
 namespace App\Service\Countries;
 
-
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Country;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Sync
 {
@@ -26,7 +24,7 @@ class Sync
             throw new \Exception('Table countries should be empty');
         }
 
-        $this->em->transactional(function() {
+        $this->em->transactional(function () {
             foreach ($this->sdk->countries() as $index => $countryData) {
                 $country = new Country($countryData['alpha3Code']);
                 $country->setName($countryData['name']);
@@ -34,7 +32,7 @@ class Sync
 
                 $this->em->persist($country);
 
-                if ($index % $this->portion == 0) {
+                if (0 == $index % $this->portion) {
                     $this->em->flush();
                 }
             }

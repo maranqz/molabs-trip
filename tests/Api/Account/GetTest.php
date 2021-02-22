@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\TestsFunctional\Api;
-
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\Account;
 use App\Tests\Factory\AccountFactory;
-use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Helper\Api;
+use Symfony\Component\HttpFoundation\Response;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
 class GetTest extends ApiTestCase
@@ -24,7 +22,7 @@ class GetTest extends ApiTestCase
 
         /** @var Account $account */
         $account = AccountFactory::new()->create()->object();
-        if ($accountId === true) {
+        if (true === $accountId) {
             $accountId = $account->getId();
         } else {
             $accountId = AccountFactory::new()->create()->getId();
@@ -34,13 +32,13 @@ class GetTest extends ApiTestCase
             $client = Api::logIn(self::createClient(), $account);
         }
 
-        $client->request('GET', sprintf(API::ACCOUNT . '/%s', $accountId));
+        $client->request('GET', sprintf(API::ACCOUNT.'/%s', $accountId));
 
         $this->assertResponseStatusCodeSame($code);
-        if ($code === Response::HTTP_OK) {
+        if (Response::HTTP_OK === $code) {
             $this->assertJsonContains([
                 'email' => $account->getEmail(),
-                '@id'   => sprintf(API::ACCOUNT . '/%s', $accountId),
+                '@id' => sprintf(API::ACCOUNT.'/%s', $accountId),
             ]);
         }
     }
@@ -51,17 +49,17 @@ class GetTest extends ApiTestCase
             [
                 'authorized' => true,
                 'accountId' => true,
-                'code'       => Response::HTTP_OK,
+                'code' => Response::HTTP_OK,
             ],
             'not authorized' => [
                 'authorized' => false,
                 'accountId' => true,
-                'code'       => Response::HTTP_UNAUTHORIZED,
+                'code' => Response::HTTP_UNAUTHORIZED,
             ],
-            'not own'        => [
+            'not own' => [
                 'authorized' => true,
                 'accountId' => false,
-                'code'       => Response::HTTP_FORBIDDEN,
+                'code' => Response::HTTP_FORBIDDEN,
             ],
         ];
     }

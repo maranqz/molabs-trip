@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Tests\Helper;
-
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use App\Entity\Account;
@@ -12,9 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 class Api
 {
     const PREFIX = '/api';
-    const ACCOUNT = self::PREFIX . '/accounts';
-    const TRIP = self::PREFIX . '/trips';
-    const COUNTRY = self::PREFIX . '/countries';
+    const ACCOUNT = self::PREFIX.'/accounts';
+    const TRIP = self::PREFIX.'/trips';
+    const COUNTRY = self::PREFIX.'/countries';
 
     const DATE_FORMAT = 'Y-m-d';
 

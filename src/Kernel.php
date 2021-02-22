@@ -10,12 +10,12 @@ use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
 class Kernel extends BaseKernel
 {
+    use MicroKernelTrait;
+
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_TRIP = 'ROLE_TRIP';
-    const IS_TRIP_ROLE = "is_granted('" . self::ROLE_TRIP . "')";
-    const IS_ANONYMOUSLY = "is_granted('" . AuthenticatedVoter::IS_AUTHENTICATED_ANONYMOUSLY . "')";
-
-    use MicroKernelTrait;
+    const IS_TRIP_ROLE = "is_granted('".self::ROLE_TRIP."')";
+    const IS_ANONYMOUSLY = "is_granted('".AuthenticatedVoter::IS_AUTHENTICATED_ANONYMOUSLY."')";
 
     protected function configureContainer(ContainerConfigurator $container): void
     {
