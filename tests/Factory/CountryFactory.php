@@ -21,26 +21,21 @@ use Zenstruck\Foundry\Proxy;
  */
 final class CountryFactory extends ModelFactory
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        // TODO inject services if required (https://github.com/zenstruck/foundry#factories-as-services)
-    }
 
     protected function getDefaults(): array
     {
         return [
-            // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
+            'code'   => self::faker()->regexify('[A-Z]{3}'),
+            'name'   => self::faker()->country,
+            'region' => self::faker()->regexify('[A-Z]{10}'),
         ];
     }
 
     protected function initialize(): self
     {
         // see https://github.com/zenstruck/foundry#initialization
-        return $this
-            // ->afterInstantiate(function(Country $country) {})
-        ;
+        return $this// ->afterInstantiate(function(Country $country) {})
+            ;
     }
 
     protected static function getClass(): string

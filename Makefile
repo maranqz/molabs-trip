@@ -22,21 +22,17 @@ env.init:
 composer.install:
 	$(PHP_EXEC) composer i -n
 
-test: test.env test.build test.init.db test.run
-test.docker: test.env test.docker.build test.docker.init.db test.docker.run
+test: test.env test.init.db test.run
+test.docker: test.env test.docker.init.db test.docker.run
 
 test.env:
 	cp .env.test .env.test.local || exit 0
 
-test.build:
-	$(TEST_BUILD)
-test.docker.build:
-	$(PHP_EXEC) bash -c "$(TEST_BUILD)"
-
-TEST_RUN = php -d xdebug.mode=coverage $(CODECEPTION_RUN) run --coverage-xml
+TEST_RUN = php -d xdebug.mode=coverage bin/phpunit tests/Api/ --coverage-text
 test.run:
 	$(TEST_RUN)
 test.docker.run:
+	echo `pwd` && exit 1
 	$(PHP_EXEC) bash -c "$(TEST_RUN)"
 
 test.docker.init: test.docker.init.db

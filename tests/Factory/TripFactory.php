@@ -21,26 +21,25 @@ use Zenstruck\Foundry\Proxy;
  */
 final class TripFactory extends ModelFactory
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        // TODO inject services if required (https://github.com/zenstruck/foundry#factories-as-services)
-    }
-
     protected function getDefaults(): array
     {
+        $startedAt  = self::faker()->dateTimeBetween('-30 years', '-1 year');
+        $finishedAt = clone $startedAt;
+        $finishedAt->add(new \DateInterval('P1D'));
+
         return [
-            // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
+            'createdBy'  => AccountFactory::new(),
+            'country'    => CountryFactory::new(),
+            'startedAt'  => $startedAt,
+            'finishedAt' => $finishedAt,
         ];
     }
 
     protected function initialize(): self
     {
         // see https://github.com/zenstruck/foundry#initialization
-        return $this
-            // ->afterInstantiate(function(Trip $trip) {})
-        ;
+        return $this// ->afterInstantiate(function(Trip $trip) {})
+            ;
     }
 
     protected static function getClass(): string

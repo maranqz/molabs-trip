@@ -13,7 +13,8 @@ class Api
 {
     const PREFIX = '/api';
     const ACCOUNT = self::PREFIX . '/accounts';
-    const TRIP = self::PREFIX . '/trips/';
+    const TRIP = self::PREFIX . '/trips';
+    const COUNTRY = self::PREFIX . '/countries';
 
     const DATE_FORMAT = 'Y-m-d';
 

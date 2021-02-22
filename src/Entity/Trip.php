@@ -18,8 +18,8 @@ use App\Kernel;
 
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={"trip:read"}},
- *     denormalizationContext={"groups"={"trip:write"}},
+ *     normalizationContext={"groups"={"trip:read"}, "datetime_format"="Y-m-d"},
+ *     denormalizationContext={"groups"={"trip:write"}, "datetime_format"="Y-m-d"},
  *     collectionOperations={
  *          "get"={"security"=Kernel::IS_TRIP_ROLE},
  *          "post"={"security"=Kernel::IS_TRIP_ROLE}
@@ -134,19 +134,19 @@ class Trip
 
     public function setStartedAt(\DateTimeInterface $startedAt): self
     {
-        $this->startedAt = $startedAt;
+        $this->startedAt = $startedAt->setTime(0,0,0);
 
         return $this;
     }
 
-    public function getFinishedAt(): ?\DateTimeInterface
+    public function getFinishedAt(): \DateTimeInterface
     {
         return $this->finishedAt;
     }
 
     public function setFinishedAt(\DateTimeInterface $finishedAt): self
     {
-        $this->finishedAt = $finishedAt;
+        $this->finishedAt = $finishedAt->setTime(0,0,0);
 
         return $this;
     }

@@ -7,6 +7,8 @@ namespace App\TestsFunctional\Api;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\Account;
 use App\Tests\Factory\AccountFactory;
+use App\Tests\Factory\TripFactory;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Helper\Api;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -20,15 +22,15 @@ class DeleteTest extends ApiTestCase
      *
      * @dataProvider deleteAccountProvider
      */
-    public function testDelete($authorized, $accountId, $code)
+    public function testDelete($authorized, $sameAccount, $code)
     {
         $client = self::createClient();
 
+        $trip = TripFactory::new()->create();
         /** @var Account $account */
-        $account = AccountFactory::new()->create()->object();
-        if ($accountId === true) {
-            $accountId = $account->getId();
-        } else {
+        $account   = $trip->getCreatedBy();
+        $accountId = $account->getId();
+        if ( ! $sameAccount) {
             $accountId = AccountFactory::new()->create()->getId();
         }
 
@@ -39,25 +41,30 @@ class DeleteTest extends ApiTestCase
         $client->request('DELETE', sprintf(API::ACCOUNT . '/%s', $accountId));
 
         $this->assertResponseStatusCodeSame($code);
+
+        if ($authorized && $sameAccount) {
+            AccountFactory::repository()->assertNotExists(['id' => $accountId]);
+            TripFactory::repository()->assertNotExists(['id' => $trip->getId()]);
+        }
     }
 
     public function deleteAccountProvider()
     {
         return [
             [
-                'authorized' => true,
-                'accountId' => true,
-                'code' => Response::HTTP_NO_CONTENT,
+                'authorized'  => true,
+                'sameAccount' => true,
+                'code'        => Response::HTTP_NO_CONTENT,
             ],
             'not authorized' => [
-                'authorized' => false,
-                'accountId' => true,
-                'code' => Response::HTTP_UNAUTHORIZED,
+                'authorized'  => false,
+                'sameAccount' => true,
+                'code'        => Response::HTTP_UNAUTHORIZED,
             ],
-            'not own' => [
-                'authorized' => true,
-                'accountId' => false,
-                'code' => Response::HTTP_FORBIDDEN,
+            'not own'        => [
+                'authorized'  => true,
+                'sameAccount' => false,
+                'code'        => Response::HTTP_FORBIDDEN,
             ],
         ];
     }
