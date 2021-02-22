@@ -13,7 +13,7 @@ NGINX_SERVICE = nginx
 NGINX_EXEC = $(DC_EXEC) $(NGINX_SERVICE)
 
 
-init: env.init upd composer.install doctrine.migrations.migrate countries.sync
+init: env.init upd composer.install db.init countries.sync
 
 env.init:
 	cp -f .env .env.local
@@ -22,22 +22,13 @@ env.init:
 composer.install:
 	$(PHP_EXEC) composer i -n
 
-test: test.env test.build test.init.db test.run
-test.docker: test.env test.docker.build test.docker.init.db test.docker.run
+test: test.env test.init.db test.run
+test.docker: test.env test.docker.init.db test.docker.run
 
 test.env:
 	cp .env.test .env.test.local || exit 0
 
-CODECEPTION_RUN = ../../vendor/bin/codecept
-TEST_BUILD = cd src/TripBundle && $(CODECEPTION_RUN) build
-
-test.build:
-	$(TEST_BUILD)
-test.docker.build:
-	$(PHP_EXEC) bash -c "$(TEST_BUILD)"
-
-TEST_RUN = cd src/TripBundle && \
-           	php -d xdebug.mode=coverage $(CODECEPTION_RUN) run --coverage-xml
+TEST_RUN = php -d xdebug.mode=coverage bin/phpunit tests/Api/ --coverage-text
 test.run:
 	$(TEST_RUN)
 test.docker.run:
@@ -80,27 +71,6 @@ php.bash:
 nginx.reload:
 	$(NGINX_EXEC) nginx -s reload
 
-gen.openapi.php.symfony:
-	docker run --user "$(DOCKER_USER_RUN)" --rm \
-		-v "${PWD}/src:/local/src" \
-		openapitools/openapi-generator-cli:latest generate \
-	-g php-symfony \
-	-o /local/src/TripBundle \
-	-i /local/src/TripBundle/Resources/api/openapi.yaml \
-	-p invokerPackage=TripBundle \
-	-p bundleName=Trip \
-	-p bundleAlias=trip
-
-gen.openapi.mysql:
-	docker run --user "$(DOCKER_USER_RUN)" --rm \
-		-v "${PWD}/src:/local/src" \
-		-v "${PWD}/assets/openapi.yaml:/local/openapi.yaml" \
-		openapitools/openapi-generator-cli:latest generate \
-	-g mysql-schema \
-	-o /local/src/mysql.sql \
-	-i /local/openapi.yaml
-
-
 countries.sync:
 	$(PHP_EXEC) bin/console trip:countries:sync || exit 0
 
@@ -117,6 +87,3 @@ doctrine.migrations.migrate:
 
 doctrine.migrations.diff:
 	$(PHP_EXEC) bin/console doctrine:migrations:diff
-
-act.run:
-	act $(ARGS)

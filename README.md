@@ -24,7 +24,3 @@ In docker - `make test.docker`
 # Bonus:
 - Documentation
 - Unit-Tests
-
-
-# TODO
-* Migrate to api-platform
