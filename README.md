@@ -2,11 +2,13 @@
 
 Domain: symfony.localhost
 
-Docker
+## Docker
 `make init`
 
-Tests
+## To run tests
+
 `make test`
+
 In docker - `make test.docker`
 
 # The requirements for the test project are:
