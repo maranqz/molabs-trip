@@ -13,6 +13,7 @@ use App\Kernel;
 use App\Repository\TripRepository;
 use App\Validator\NotOverlapping;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,6 +35,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(PropertyFilter::class)
  * @ApiFilter(DateFilter::class, properties={"startedAt", "finishedAt"})
  * @ORM\Entity(repositoryClass=TripRepository::class)
+ * @ORM\Table(indexes={
+ *     @Index(columns={"started_at"}),
+ *     @Index(columns={"finished_at"})
+ * })
  * @ORM\EntityListeners({TripSetCreatedByListener::class})
  * @NotOverlapping()
  */
