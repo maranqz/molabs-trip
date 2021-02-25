@@ -10,10 +10,10 @@ class SDK
 
     private $client;
 
-    public function __construct($host = null)
+    public function __construct($host = self::HOST)
     {
         $this->client = new Client([
-            'base_uri' => $host ?? self::HOST,
+            'base_uri' => $host,
         ]);
     }
 

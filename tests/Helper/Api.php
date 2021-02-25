@@ -21,7 +21,7 @@ class Api
     public static function logIn(Client $client, Account $account, $password = AccountFactory::DEFAULT_PASSWORD)
     {
         $browser = $client->getKernelBrowser();
-        $browser->setServerParameter('PHP_AUTH_USER', $account->getEmail());
+        $browser->setServerParameter('PHP_AUTH_USER', $account->getUsername());
         $browser->setServerParameter('PHP_AUTH_PW', $password);
 
         return $client;

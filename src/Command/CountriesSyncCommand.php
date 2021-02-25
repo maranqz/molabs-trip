@@ -30,7 +30,7 @@ class CountriesSyncCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->sync->countries();
+        $this->sync->countries(null, ['Asia', 'Europe']);
 
         return 0;
     }

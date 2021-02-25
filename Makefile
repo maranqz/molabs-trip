@@ -87,3 +87,9 @@ doctrine.migrations.migrate:
 
 doctrine.migrations.diff:
 	$(PHP_EXEC) bin/console doctrine:migrations:diff
+
+cs-fixer:
+	vendor/bin/php-cs-fixer fix src
+
+cs-fixer.docker:
+	$(PHP_EXEC) vendor/bin/php-cs-fixer fix src
