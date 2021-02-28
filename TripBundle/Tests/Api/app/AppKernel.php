@@ -71,9 +71,4 @@ class AppKernel extends Kernel
     {
         $routes->import(__DIR__.'/../../../Resources/config/routes.yaml');
     }
-
-    public function getCacheDir()
-    {
-        return __DIR__.'/../cache/'.spl_object_hash($this);
-    }
 }
