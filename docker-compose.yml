@@ -24,6 +24,8 @@ services:
             - "9000:9001"
         volumes:
             - dicache:/var/www/symfony/var/cache
+            - bundle-test-dicache:/var/www/symfony/TripBundle/Tests/Api/cache
+            - vendor:/var/www/symfony/vendor
             - ./:/var/www/symfony:cached
             - ./var/log:/var/www/symfony/var/log:cached
         depends_on:
@@ -42,3 +44,5 @@ services:
 
 volumes:
     dicache:
+    bundle-test-dicache:
+    vendor:

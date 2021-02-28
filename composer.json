@@ -14,6 +14,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "guzzlehttp/guzzle": "^7.0",
+        "maranqz/trip-bundle": "dev-main",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "symfony/asset": "5.2.*",
@@ -86,5 +87,14 @@
         "symfony/phpunit-bridge": "^5.2",
         "symfony/web-profiler-bundle": "5.2.*",
         "zenstruck/foundry": "^1.7"
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "TripBundle",
+            "options": {
+                "symlink": true
+            }
+        }
+    ]
 }

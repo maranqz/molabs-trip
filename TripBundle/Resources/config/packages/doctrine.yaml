@@ -1,0 +1,9 @@
+doctrine:
+    orm:
+        mappings:
+            TripBundle:
+                is_bundle: true
+                type: annotation
+                dir: './Entity'
+                prefix: 'TripBundle\Entity'
+                alias: TripBundle

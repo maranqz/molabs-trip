@@ -1,0 +1,26 @@
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true
+
+    TripBundle\:
+        resource: '../../'
+        exclude:
+            - '../../{DependencyInjection,Entity,Tests,vendor}'
+
+    TripBundle\Repository\:
+        resource: '../../Repository/'
+        tags: [ 'doctrine.repository_service' ]
+
+    TripBundle\DataPersister\AccountDataPersister:
+        bind:
+            $decoratedDataPersister: '@api_platform.doctrine.orm.data_persister'
+
+    trip.open_api.factory:
+        class: TripBundle\OpenApi\OpenApiFactory
+        decorates: api_platform.openapi.factory
+
+    trip.doctrine.trip_created_by_listener:
+        class: TripBundle\Doctrine\TripSetCreatedByListener
+        tags:
+            - { name: doctrine.orm.entity_listener }

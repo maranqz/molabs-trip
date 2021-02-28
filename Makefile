@@ -22,20 +22,22 @@ env.init:
 composer.install:
 	$(PHP_EXEC) composer i -n
 
-test: test.env test.init.db test.run
-test.docker: test.env test.docker.init.db test.docker.run
+test: test.env test.init.db test.run.trip
+test.docker: test.env.docker test.docker.init.db test.docker.run.trip
 
 test.env:
 	cp .env.test .env.test.local || exit 0
 
-TEST_RUN = php -d xdebug.mode=coverage bin/phpunit tests/Api/ --coverage-text
-test.run:
-	$(TEST_RUN)
-test.docker.run:
-	$(PHP_EXEC) bash -c "$(TEST_RUN)"
+test.env.docker: test.env
+	sed -i 's/127.0.0.1:3306/db:3306/g'  .env.test.local
 
-test.docker.init: test.docker.init.db
-	$(PHP_EXEC) ln -s /var/www/symfony/vendor/bin/codecept /usr/bin/codecept
+TEST_RUN_TRIP = php -d xdebug.mode=coverage bin/phpunit TripBundle/Tests/Api/ --coverage-text \
+	--bootstrap TripBundle/Tests/bootstrap.php \
+	--configuration TripBundle/phpunit.xml
+test.run.trip:
+	$(TEST_RUN_TRIP)
+test.docker.run.trip:
+	$(PHP_EXEC) bash -c "$(TEST_RUN_TRIP)"
 
 TEST_DB_CREATE = bin/console doctrine:database:create --if-not-exists --no-interaction -e test -v
 TEST_DB_MIGRATE = bin/console doctrine:migrations:migrate --no-interaction -e test -v
