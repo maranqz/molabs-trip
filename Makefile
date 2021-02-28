@@ -27,9 +27,11 @@ test.docker: test.env.docker test.docker.init.db test.docker.run.trip
 
 test.env:
 	cp .env.test .env.test.local || exit 0
+	cp TripBundle/phpunit.xml.dist TripBundle/phpunit.xml || exit 0
 
 test.env.docker: test.env
-	sed -i 's/127.0.0.1:3306/db:3306/g'  .env.test.local
+	sed -i 's/127.0.0.1:3306/db:3306/g' .env.test.local
+	sed -i 's/127.0.0.1:3306/db:3306/g' TripBundle/phpunit.xml
 
 TEST_RUN_TRIP = php -d xdebug.mode=coverage bin/phpunit TripBundle/Tests/Api/ --coverage-text \
 	--bootstrap TripBundle/Tests/bootstrap.php \
